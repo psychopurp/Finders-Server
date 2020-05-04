@@ -1,0 +1,14 @@
+AppName: Finders
+version: 0.0.0
+
+system:
+  ip: "127.0.0.1"
+  port: 8080
+  env: "DEBUG"
+  DB: "mysql"
+
+log:
+  prefix: "[Finders-Server]"
+  logfile: true
+  stdout: "DEBUG"
+  file: "DEBUG"
