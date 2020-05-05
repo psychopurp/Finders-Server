@@ -9,6 +9,6 @@ system:
 
 log:
   prefix: "[Finders-Server]"
-  logfile: true
+  logfile: false #此选项会让日志带有文件及行号
   stdout: "DEBUG"
   file: "DEBUG"

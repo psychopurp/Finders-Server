@@ -32,6 +32,5 @@ func init() {
 	if err := v.Unmarshal(&global.CONFIG); err != nil {
 		fmt.Printf("Unmarshal err: %s\n", err)
 	}
-
 	global.VP = v
 }

@@ -11,12 +11,17 @@ logrus六种日志级别：debug, info, warn, error, fatal, panic
 
 */
 
-package main
+package core
 
 import (
+	"finders-server/config"
+	"finders-server/global"
+	"fmt"
+	"io"
 	"os"
+	"strings"
 
-	"github.com/sirupsen/logrus"
+	oplogging "github.com/op/go-logging"
 )
 
 const (
@@ -26,15 +31,60 @@ const (
 )
 
 var (
-	defaultFormatter = `%{time:2006/01/02 - 15:04:05.000} %{longfile} %{color:bold}▶ [%{level:.6s}] %{message}%{color:reset}`
+	defaultFormatter = `%{color:bold} %{time:2006/01/02 15:04:05} %{longfile} ▶ [%{level:.6s}] %{message}%{color:reset}`
 )
 
-func main() {
-	logger := logrus.New()
-	file, err := os.OpenFile("logrus.log", os.O_APPEND|os.O_WRONLY, os.ModeAppend)
-	if err != nil {
-		logger.Info("Faild to open log file")
+func init() {
+	c := global.CONFIG.Log
+	if c.Prefix == "" {
+		_ = fmt.Errorf("Logger prefix not fount")
 	}
-	logger.Out = file
-	logger.Warning("this is test")
+	logger := oplogging.MustGetLogger(module)
+	var backends []oplogging.Backend
+
+	backends = registerStdout(c, backends)
+	oplogging.SetBackend(backends...)
+
+	logger.Debug("Logger init")
+	global.LOG = logger
+
+}
+
+func registerStdout(c config.LogConfig, backends []oplogging.Backend) []oplogging.Backend {
+	if c.Stdout != "" {
+		level, err := oplogging.LogLevel(c.Stdout)
+		if err != nil {
+			fmt.Println(err)
+		}
+		backends = append(backends, createBackend(os.Stdout, c, level))
+	}
+	return backends
+}
+
+func createBackend(out io.Writer, c config.LogConfig, level oplogging.Level) oplogging.Backend {
+	backend := oplogging.NewLogBackend(out, c.Prefix, 0)
+	stdOutWriter := false
+	if out == os.Stdout {
+		stdOutWriter = true
+	}
+	format := getLogFormatter(c, stdOutWriter)
+	backendLeveled := oplogging.AddModuleLevel(oplogging.NewBackendFormatter(backend, format))
+	backendLeveled.SetLevel(level, module)
+	return backendLeveled
+
+}
+
+func getLogFormatter(c config.LogConfig, stdOutWriter bool) oplogging.Formatter {
+	pattern := defaultFormatter
+	if !stdOutWriter {
+		//color is only required for console output
+		pattern = strings.Replace(pattern, "%{color:bold}", "", -1)
+		pattern = strings.Replace(pattern, "%{color:reset}", "", -1)
+	}
+	if !c.Logfile {
+		//remove %{logfile} tag
+		pattern = strings.Replace(pattern, "%{longfile}", "", -1)
+	}
+	return oplogging.MustStringFormatter(pattern)
+
 }
