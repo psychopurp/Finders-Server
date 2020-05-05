@@ -1,4 +1,4 @@
 *.log
 .vscode/*.*
-tmp/*.*
-_debug_bin
+tmp/
+*_debug_bin
