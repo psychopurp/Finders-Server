@@ -11,11 +11,17 @@ func main() {
 
 	switch global.CONFIG.System.DB {
 	case "mysql":
-		global.LOG.Debug("in mysql")
+		initialize.MySql()
+	case "sqlite":
+		initialize.Sqlite()
 	default:
 		fmt.Println("default")
 	}
-	initialize.Routers()
+	global.LOG.Debug("连接数据库")
+	initialize.DBTables()
+
+	//程序结束前关闭数据库连接
+	defer global.DB.Close()
 
 	core.RunServer()
 }

@@ -14,11 +14,11 @@ func Logger() gin.HandlerFunc {
 		//开始时间
 		startTime := time.Now()
 
-		// global.LOG.Debug("处理Next前")
+		// global.LOG.Debug("处理Logger Next前")
 		//处理请求
 		c.Next()
 
-		// global.LOG.Debug("处理next后")
+		// global.LOG.Debug("处理Logger Next后")
 
 		endTime := time.Now()
 

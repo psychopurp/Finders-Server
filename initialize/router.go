@@ -19,15 +19,19 @@ func Routers() *gin.Engine {
 
 	Router := gin.New()
 
-	global.LOG.Debug("create gin")
+	global.LOG.Debug("Create gin Engine")
 	Router.Use(middleware.Logger())
-	global.LOG.Debug("注册 Logger 中间件")
+	global.LOG.Debug("Register Logger middleware")
 
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
-	global.LOG.Debug("register swagger handler")
+	global.LOG.Debug("Register swagger handler")
 
 	Router.GET("/hello", record)
-	Router.Run(":8550")
+	Router.GET("/", func(c *gin.Context) {
+		response.OK(c)
+
+	})
+	// Router.Run(":8550")
 	return Router
 
 }

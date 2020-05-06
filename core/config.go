@@ -11,7 +11,7 @@ import (
 const defaultConfigFile = "config.yaml"
 
 // 加载配置文件
-func init() {
+func InitConfig() {
 	v := viper.New()
 	v.SetConfigFile(defaultConfigFile)
 	err := v.ReadInConfig()

@@ -4,10 +4,11 @@ type Server struct {
 	AppName string
 	Version string
 
-	System SystemConfig
-	MySQL  MySQLConfig
-	Redis  RedisConfig
-	Log    LogConfig
+	System SystemConfig `mapstructure:"system" yaml:"system"`
+	MySQL  MySQLConfig  `mapstructure:"mysql" yaml:"mysql"`
+	Redis  RedisConfig  `mapstructure:"redis" yaml:"redis"`
+	Log    LogConfig    `mapstructure:"log" yaml:"log"`
+	SQLite SQLiteConfig `mapstructure:"sqlite" yaml:"sqlite"`
 }
 type SystemConfig struct {
 	Env  string
@@ -17,16 +18,19 @@ type SystemConfig struct {
 }
 
 type MySQLConfig struct {
-	IP       string
-	Port     int
-	User     string
-	PassWord string
-	Database string
+	Username     string `mapstructure:"username" yaml:"username"`
+	Password     string `mapstructure:"password" yaml:"password"`
+	Addr         string `mapstructure:"addr" yaml:"addr"`
+	Database     string `mapstructure:"database" yaml:"database"`
+	Config       string `mapstructure:"config" yaml:"config"`
+	MaxIdleConns int    `mapstructure:"max-idle-conns" yaml:"max-idle-conns"`
+	MaxOpenConns int    `mapstructure:"max-open-conns" yaml:"max-open-conns"`
+	LogMode      bool   `mapstructure:"log-mode" yaml:"log-mode"`
 }
 
 type RedisConfig struct {
-	IP   string
-	Port int
+	Addr     string `mapstructure:"addr" yaml:"addr"`
+	Password string `mapstructure:"password" yaml:"password"`
 }
 
 type LogConfig struct {
@@ -34,4 +38,12 @@ type LogConfig struct {
 	Logfile bool
 	Stdout  string
 	File    string
+}
+
+type SQLiteConfig struct {
+	Username string `mapstructure:"username" yaml:"username"`
+	Password string `mapstructure:"password" yaml:"password"`
+	Path     string `mapstructure:"path" yaml:"path"`
+	Config   string `mapstructure:"config" yaml:"config"`
+	LogMode  bool   `mapstructure:"log-mode" yaml:"log-mode"`
 }

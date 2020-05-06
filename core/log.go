@@ -34,7 +34,7 @@ var (
 	defaultFormatter = `%{color:bold} %{time:2006/01/02 15:04:05} %{longfile} ▶ [%{level:.6s}] %{message}%{color:reset}`
 )
 
-func init() {
+func InitLogger() {
 	c := global.CONFIG.Log
 	if c.Prefix == "" {
 		_ = fmt.Errorf("Logger prefix not fount")
@@ -44,8 +44,6 @@ func init() {
 
 	backends = registerStdout(c, backends)
 	oplogging.SetBackend(backends...)
-
-	logger.Debug("Logger init")
 	global.LOG = logger
 
 }
