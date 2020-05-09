@@ -9,6 +9,7 @@ type Server struct {
 	Redis  RedisConfig  `mapstructure:"redis" yaml:"redis"`
 	Log    LogConfig    `mapstructure:"log" yaml:"log"`
 	SQLite SQLiteConfig `mapstructure:"sqlite" yaml:"sqlite"`
+	JWT    JWTConfig    `yaml:"jwt"`
 }
 type SystemConfig struct {
 	Env  string
@@ -46,4 +47,8 @@ type SQLiteConfig struct {
 	Path     string `mapstructure:"path" yaml:"path"`
 	Config   string `mapstructure:"config" yaml:"config"`
 	LogMode  bool   `mapstructure:"log-mode" yaml:"log-mode"`
+}
+
+type JWTConfig struct {
+	SigningKey string `yaml:"signing-key"`
 }

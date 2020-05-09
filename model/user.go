@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"time"
 
+	"github.com/jinzhu/gorm"
 	uuid "github.com/satori/go.uuid"
 )
 
@@ -44,6 +45,7 @@ type User struct {
 	Avatar    string     `gorm:"column:avatar;type:VARCHAR;size:100;" json:"avatar"`                       //[ 7] avatar                                         VARCHAR[100]         null: false  primary: false  auto: false
 	UserInfo  UserInfo   `gorm:"foreignkey:UserId"`                                                        //一对一关系
 	UserName  string     `gorm:"column:username;type:varchar(50);" json:"userName"`
+	Relations []Relation `gorm:"many2many:relations"` //多对多关系
 }
 
 // TableName sets the insert table name for this struct type
@@ -52,7 +54,7 @@ func (u *User) TableName() string {
 }
 
 func (u *User) BeforeSave() error {
-	fmt.Println("before save")
+
 	return nil
 }
 
@@ -74,6 +76,22 @@ func (u *User) Validate(action Action) (err error) {
 	default:
 		return
 	}
+}
+
+// 创建用户后 创建用户信息表
+func (u *User) AfterCreate(scope *gorm.Scope) error {
+	uinfo := new(UserInfo)
+	uinfo.UserID = u.UserID
+	uinfo.TrueName = "rotob"
+	u.UserInfo = *uinfo
+
+	if err := scope.DB().Create(uinfo).Error; err != nil {
+		return err
+	} else {
+		fmt.Println("UserInfo created")
+		return nil
+	}
+
 }
 
 // func (u User) String() string {

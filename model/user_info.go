@@ -39,7 +39,7 @@ CREATE TABLE `user_infos` (
 
 // UserInfo struct is a row record of the user_infos table in the  database
 type UserInfo struct {
-	UserID        uuid.UUID  `gorm:"column:user_id;type:VARCHAR;size:50;primary_key" json:"user_id"`  //[ 0] user_id                                        VARCHAR[30]          sfalse  primary: true   auto: false
+	UserID        uuid.UUID  `gorm:"column:user_id;type:VARCHAR;size:50;primary_key;" json:"user_id"` //[ 0] user_id                                        VARCHAR[30]          sfalse  primary: true   auto: false
 	TrueName      string     `gorm:"column:truename;type:VARCHAR;size:40;" json:"truename"`           //[ 1] truename                                       VARCHAR[40]          strue   primary: false  auto: false
 	Address       string     `gorm:"column:address;type:VARCHAR;size:200;" json:"address"`            //[ 2] address                                        VARCHAR[200]         strue   primary: false  auto: false
 	Sex           string     `gorm:"column:sex;type:VARCHAR;size:4;" json:"sex"`                      //[ 3] sex                                            VARCHAR[4]           strue   primary: false  auto: false

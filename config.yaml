@@ -1,9 +1,12 @@
 AppName: Finders
 version: 0.0.0
 
+jwt:
+  signing-key: Elyar
+
 system:
   ip: "127.0.0.1"
-  port: 8550
+  port: 8660
   env: "DEBUG"
   DB: mysql
 
