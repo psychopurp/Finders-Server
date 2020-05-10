@@ -60,7 +60,8 @@ fresh
 
 ## 项目架构
 
-```Finders-Server  	  (后端文件夹)
+```
+Finders-Server        (后端文件夹)
     │─api             (API)
     │─config          (配置包)
     │─core  	      (內核)
