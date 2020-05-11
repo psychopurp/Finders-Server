@@ -84,6 +84,7 @@ Finders-Server        (后端文件夹)
     │─router          (路由)
     │─service         (服务)
     │─utils           (公共功能)
+    |—web             (前端文件夹)
 
 
 ```
