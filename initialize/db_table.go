@@ -8,6 +8,6 @@ import (
 //注册数据库表专用
 func DBTables() {
 	db := global.DB
-	db.AutoMigrate(model.User{}, model.UserInfo{})
+	db.AutoMigrate(model.User{}, model.UserInfo{}, model.Relation{})
 	global.LOG.Debug("Register tables success")
 }

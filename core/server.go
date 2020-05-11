@@ -20,6 +20,7 @@ func RunServer() {
 		MaxHeaderBytes: 1 << 20,
 	}
 	global.LOG.Debugf("%s Serve run success on http://%s:%d ", global.CONFIG.AppName, global.CONFIG.System.IP, global.CONFIG.System.Port)
+
 	global.LOG.Error(s.ListenAndServe())
 
 }

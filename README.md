@@ -21,6 +21,7 @@
 
 - golang 版本 > 1.14
 - IDE 推荐 > vscode
+- 前端 nodejs > 8
 
 ### 运行 Server
 
@@ -33,6 +34,15 @@ cd Finders-Server
 go list (go mod tidy)
 # 编译
 go run main.go
+
+```
+
+### 运行 前端
+
+```bash
+cd web
+npm install
+npm run serve
 
 ```
 

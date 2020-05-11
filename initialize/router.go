@@ -9,6 +9,7 @@ import (
 	"finders-server/global"
 	"finders-server/global/response"
 	"finders-server/middleware"
+	"finders-server/router"
 
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -18,6 +19,11 @@ import (
 func Routers() *gin.Engine {
 
 	Router := gin.New()
+	//加载静态资源
+	Router.LoadHTMLGlob("resource/*.html")
+	Router.GET("", func(c *gin.Context) {
+		c.HTML(200, "index.html", nil)
+	})
 
 	global.LOG.Debug("Create gin Engine")
 	Router.Use(middleware.Logger())
@@ -26,12 +32,10 @@ func Routers() *gin.Engine {
 	Router.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 	global.LOG.Debug("Register swagger handler")
 
-	Router.GET("/hello", record)
-	Router.GET("/", func(c *gin.Context) {
-		response.OK(c)
+	// 方便统一添加路由组前缀 多服务器上线使用
+	APIGroup := Router.Group("/api/v1")
+	router.InitBaseRouter(APIGroup) //注册基本路由 不用鉴权
 
-	})
-	// Router.Run(":8550")
 	return Router
 
 }
@@ -41,8 +45,8 @@ func Routers() *gin.Engine {
 // @Accept  json
 // @Produce json
 // @Param   some_id     path    int     true        "userId"
-// @Success 200 {string} string	"ok"
-// @Router /record/{some_id} [get]
+// @Success 200 {string} string "{"code": 0 ,"data":{} ,"msg":""}"
+// @Router /hello [get]
 func record(c *gin.Context) {
 	// response.Result(response.SUCCESS, []string{"elyar", "ablimit"}, "it is ok", c)
 	response.OK(c)
