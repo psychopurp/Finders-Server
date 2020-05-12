@@ -45,85 +45,85 @@
 </template>
 
 <script>
-import { getPageTab1 } from '@/api/table'
+import { getPageTab1 } from "@/api/table";
 export default {
   data() {
     return {
       tableData: [
         {
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
+          date: "2016-05-02",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1518 弄",
         },
         {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
+          date: "2016-05-04",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1517 弄",
         },
         {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
+          date: "2016-05-01",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1519 弄",
         },
         {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }
+          date: "2016-05-03",
+          name: "王小虎",
+          address: "上海市普陀区金沙江路 1516 弄",
+        },
       ],
       currentPage: 1,
       pageSize: 10,
       total: 0,
       pageSizes: [10, 20, 30, 40],
-      tablePage: []
-    }
+      tablePage: [],
+    };
   },
   created() {
-    this._getPageTab1(1, 10)
+    this._getPageTab1(1, 10);
   },
   filters: {
     statusText(val) {
-      if (val === undefined) return
+      if (val === undefined) return;
       if (val === 0) {
-        return '已完成'
+        return "已完成";
       } else if (val === 1) {
-        return '进行中'
+        return "进行中";
       } else {
-        return '已取消'
+        return "已取消";
       }
     },
     tagClass(val) {
-      if (val === undefined) return
+      if (val === undefined) return;
       if (val === 0) {
-        return 'success'
+        return "success";
       } else if (val === 1) {
-        return 'warning'
+        return "warning";
       } else {
-        return 'danger'
+        return "danger";
       }
-    }
+    },
   },
   methods: {
     handleSize(val) {
-      this.pageSize = val
-      this._getPageTab1(this.currentPage, val)
+      this.pageSize = val;
+      this._getPageTab1(this.currentPage, val);
     },
     handlePage(val) {
-      this.currentPage = val
-      this._getPageTab1(val, this.pageSize)
+      this.currentPage = val;
+      this._getPageTab1(val, this.pageSize);
     },
     _getPageTab1(current, size) {
       getPageTab1({ currentPage: current, pageSize: size })
-        .then(res => {
-          this.total = res.data.total
-          this.tablePage = res.data.tableList
+        .then((res) => {
+          this.total = res.data.total;
+          this.tablePage = res.data.tableList;
         })
-        .catch(error => {
-          this.$message.error(error.message)
-        })
-    }
-  }
-}
+        .catch((error) => {
+          this.$message.error(error.message);
+        });
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .fyDiv {
@@ -134,7 +134,7 @@ export default {
 <style lang="scss">
 .anoCard {
   .el-card__body:after {
-    content: '';
+    content: "";
     clear: both;
     width: 0;
     height: 0;

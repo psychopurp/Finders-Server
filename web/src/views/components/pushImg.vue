@@ -18,10 +18,10 @@
 </template>
 
 <script>
-import UploadCom from '@/components/Upload'
+import UploadCom from "@/components/Upload";
 export default {
   components: {
-    UploadCom
-  }
-}
+    UploadCom,
+  },
+};
 </script>

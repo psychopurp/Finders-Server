@@ -25,15 +25,15 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(['userName'])
+    ...mapGetters(["userName"]),
   },
   methods: {
     _loginOut() {
-      this.$store.dispatch('user/loginOut')
-    }
-  }
-}
+      this.$store.dispatch("user/loginOut");
+    },
+  },
+};
 </script>

@@ -55,82 +55,82 @@
 </template>
 
 <script>
-import SlideVerify from '@/components/SlideVerify'
+import SlideVerify from "@/components/SlideVerify";
 export default {
   data() {
     return {
       notifyObj: null,
-      text: '向右滑动',
+      text: "向右滑动",
       showSlide: false,
       ruleForm: {
-        user: 'admin',
-        password: '123456'
+        user: "admin",
+        password: "123456",
       },
       rules: {
         user: [
-          { required: true, message: '请输入用户名', trigger: 'blur' },
-          { min: 3, max: 15, message: '长度在3到5个字符', trigger: 'blur' }
+          { required: true, message: "请输入用户名", trigger: "blur" },
+          { min: 3, max: 15, message: "长度在3到5个字符", trigger: "blur" },
         ],
-        password: [{ required: true, message: '请输入密码', trigger: 'blur' }]
-      }
-    }
+        password: [{ required: true, message: "请输入密码", trigger: "blur" }],
+      },
+    };
   },
   mounted() {
-    this.shopTip()
+    this.shopTip();
   },
   methods: {
     onSuccess() {
-      this.showSlide = false
-      this._login()
+      this.showSlide = false;
+      this._login();
     },
     onFail() {
-      this.$message.error('验证失败')
+      this.$message.error("验证失败");
     },
     refresh() {
-      this.$refs.slideDiv.reset()
+      this.$refs.slideDiv.reset();
     },
     loginYz(form) {
-      this.$refs[form].validate(valid => {
+      this.$refs[form].validate((valid) => {
         if (valid) {
-          this.showSlide = true
+          this.showSlide = true;
         } else {
-          return
+          return;
         }
-      })
+      });
     },
     _login() {
       this.$store
-        .dispatch('user/_login', this.ruleForm)
-        .then(res => {
+        .dispatch("user/_login", this.ruleForm)
+        .then((res) => {
           if (!res.data.success) {
-            this.refresh()
+            this.refresh();
           } else {
-            this.$router.push(this.$route.query.redirect)
+            this.$router.push(this.$route.query.redirect);
             if (this.notifyObj) {
-              this.notifyObj.close()
+              this.notifyObj.close();
             }
-            this.notifyObj = null
+            this.notifyObj = null;
           }
         })
-        .catch(error => {
-          this.refresh()
-          this.$message.error(error)
-        })
+        .catch((error) => {
+          this.refresh();
+          this.$message.error(error);
+        });
     },
     shopTip() {
       this.notifyObj = this.$notify({
-        title: '提示',
+        title: "提示",
         message:
-          '目前有两个登陆角色，管理员和普通用户，账号分别为：admin、user,密码都为：123456',
+          "目前有两个登陆角色，管理员和普通用户，账号分别为：admin、user,密码都为：123456",
         duration: 0,
-        iconClass: 'el-icon-s-opportunity'
-      })
-    }
+        iconClass: "el-icon-s-opportunity",
+      });
+    },
   },
   components: {
-    SlideVerify
-  }
-}
+    SlideVerify,
+  },
+};
 </script>
 <style scoped lang="scss">
 .login {

@@ -8,10 +8,10 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(['opened'])
+    ...mapGetters(["opened"]),
     // toggleClass() {
     //   return {
     //     'el-icon-s-unfold': this.opened === 'true',
@@ -21,10 +21,10 @@ export default {
   },
   methods: {
     toggleOpen() {
-      this.$store.commit('app/SET_OPENED', !this.opened)
-    }
-  }
-}
+      this.$store.commit("app/SET_OPENED", !this.opened);
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .sideCollapse i {

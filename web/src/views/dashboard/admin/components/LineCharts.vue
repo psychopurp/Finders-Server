@@ -7,128 +7,131 @@
 </template>
 
 <script>
-import echarts from 'echarts'
-import resize from '@/mixins/resize'
-require('echarts/theme/macarons')
+import echarts from "echarts";
+import resize from "@/mixins/resize";
+require("echarts/theme/macarons");
 // import { getLineData } from '@/api/dashboard'
 export default {
   mixins: [resize],
   props: {
     width: {
       type: String,
-      default: '100%'
+      default: "100%",
     },
     height: {
       type: String,
-      default: '350px'
+      default: "350px",
     },
     lineChartData: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
   },
   data() {
     return {
-      mycharts: null
-    }
+      mycharts: null,
+    };
   },
   watch: {
     lineChartData: {
       deep: true,
       handler(val) {
-        this._setOption(val.inPrice, val.outPrice)
-      }
-    }
+        this._setOption(val.inPrice, val.outPrice);
+      },
+    },
   },
   mounted() {
     this.$nextTick().then(() => {
-      this.initEcharts()
-    })
+      this.initEcharts();
+    });
   },
   methods: {
     initEcharts() {
-      this.mycharts = echarts.init(this.$refs.myCharts, 'macarons')
+      this.mycharts = echarts.init(this.$refs.myCharts, "macarons");
       if (Object.keys(this.lineChartData).length > 0) {
-        this._setOption(this.lineChartData.inPrice, this.lineChartData.outPrice)
+        this._setOption(
+          this.lineChartData.inPrice,
+          this.lineChartData.outPrice,
+        );
       }
     },
     _setOption(inprice = [], outprice = []) {
       this.mycharts.setOption({
         title: {
-          text: 'Statistics',
-          left: '16'
+          text: "Statistics",
+          left: "16",
         },
         tooltip: {
-          trigger: 'axis',
+          trigger: "axis",
           axisPointer: {
-            type: 'cross',
+            type: "cross",
             label: {
-              background: '#6a7985'
-            }
-          }
+              background: "#6a7985",
+            },
+          },
         },
         legend: {
-          data: ['收入', '支出']
+          data: ["收入", "支出"],
         },
         grid: {
-          left: '20',
-          right: '20',
-          bottom: '3',
-          containLabel: true
+          left: "20",
+          right: "20",
+          bottom: "3",
+          containLabel: true,
         },
         xAxis: [
           {
-            type: 'category',
+            type: "category",
             boundaryGap: false,
-            data: ['1月', '2月', '3月', '4月', '5月', '6月']
-          }
+            data: ["1月", "2月", "3月", "4月", "5月", "6月"],
+          },
         ],
         yAxis: [
           {
-            type: 'value'
-          }
+            type: "value",
+          },
         ],
         series: [
           {
-            name: '收入',
-            type: 'line',
+            name: "收入",
+            type: "line",
             // areaStyle: {
             //   color: '#f4516c',
             //   opacity: 0.3
             // },
             itemStyle: {
-              color: '#f4516c'
+              color: "#f4516c",
             },
             lineStyle: {
-              color: '#f4516c'
+              color: "#f4516c",
             },
             smooth: true,
             data: inprice,
             animationDuration: 2800,
-            animationEasing: 'quadraticOut'
+            animationEasing: "quadraticOut",
           },
           {
-            name: '支出',
-            type: 'line',
+            name: "支出",
+            type: "line",
             // areaStyle: {
             //   color: '#55a8fd',
             //   opacity: 0.3
             // },
             itemStyle: {
-              color: '#55a8fd'
+              color: "#55a8fd",
             },
             lineStyle: {
-              color: '#55a8fd'
+              color: "#55a8fd",
             },
             smooth: true,
             data: outprice,
             animationDuration: 2800,
-            animationEasing: 'quadraticOut'
-          }
-        ]
-      })
-    }
-  }
-}
+            animationEasing: "quadraticOut",
+          },
+        ],
+      });
+    },
+  },
+};
 </script>
 <style></style>

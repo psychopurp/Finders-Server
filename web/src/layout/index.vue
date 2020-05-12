@@ -15,29 +15,29 @@
 </template>
 
 <script>
-import SideBar from './components/sideBar'
-import MHeader from './components/header'
-import NotificatBar from '@/components/NotificatBar'
-import PageMain from './components/PageMain'
-import { mapGetters } from 'vuex'
-import driver from '@/mixins/useDriver'
+import SideBar from "./components/sideBar";
+import MHeader from "./components/header";
+import NotificatBar from "@/components/NotificatBar";
+import PageMain from "./components/PageMain";
+import { mapGetters } from "vuex";
+import driver from "@/mixins/useDriver";
 export default {
-  name: 'layout',
+  name: "layout",
   mixins: [driver],
   mounted() {
-    if (this.showDriver === 'yes') {
-      this.guide()
-      this.$store.commit('app/SET_DRIVER', 'no')
+    if (this.showDriver === "yes") {
+      this.guide();
+      this.$store.commit("app/SET_DRIVER", "no");
     }
   },
   computed: {
-    ...mapGetters(['opened', 'msgIsShow', 'showDriver'])
+    ...mapGetters(["opened", "msgIsShow", "showDriver"]),
   },
   components: {
     SideBar,
     MHeader,
     NotificatBar,
-    PageMain
-  }
-}
+    PageMain,
+  },
+};
 </script>

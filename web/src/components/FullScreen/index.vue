@@ -5,19 +5,19 @@
 </template>
 
 <script>
-import screenfull from 'screenfull'
+import screenfull from "screenfull";
 export default {
   methods: {
     toggleFull() {
       if (!screenfull.enabled) {
         this.$message({
-          type: 'warning',
-          message: 'you browser can not work'
-        })
-        return false
+          type: "warning",
+          message: "you browser can not work",
+        });
+        return false;
       }
-      screenfull.toggle()
-    }
-  }
-}
+      screenfull.toggle();
+    },
+  },
+};
 </script>

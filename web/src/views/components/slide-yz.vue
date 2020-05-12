@@ -41,80 +41,80 @@
 </template>
 
 <script>
-import SlideVerify from '@/components/SlideVerify'
+import SlideVerify from "@/components/SlideVerify";
 export default {
   data() {
     return {
       showSlide: false,
-      text: '向右滑动',
+      text: "向右滑动",
       dataTab1: [
         {
-          params: 'l',
-          type: 'Number',
+          params: "l",
+          type: "Number",
           default: 42,
-          info: '滑块的边长'
+          info: "滑块的边长",
         },
         {
-          params: 'r',
-          type: 'Number',
+          params: "r",
+          type: "Number",
           default: 10,
-          info: '滑块突出圆的半径'
+          info: "滑块突出圆的半径",
         },
         {
-          params: 'w',
-          type: 'Number',
+          params: "w",
+          type: "Number",
           default: 310,
-          info: 'canvas画布的宽'
+          info: "canvas画布的宽",
         },
         {
-          params: 'h',
-          type: 'Number',
+          params: "h",
+          type: "Number",
           default: 155,
-          info: 'canvas画布的高'
+          info: "canvas画布的高",
         },
         {
-          params: 'slideText',
-          type: 'String',
-          default: 'Slide filled right',
-          info: '滑块文字'
-        }
+          params: "slideText",
+          type: "String",
+          default: "Slide filled right",
+          info: "滑块文字",
+        },
       ],
       dataTab2: [
         {
-          funcName: 'success',
-          type: 'Function',
-          info: '验证码匹配成功的回调'
+          funcName: "success",
+          type: "Function",
+          info: "验证码匹配成功的回调",
         },
         {
-          funcName: 'fail',
-          type: 'Function',
-          info: '验证码未匹配的回调'
+          funcName: "fail",
+          type: "Function",
+          info: "验证码未匹配的回调",
         },
         {
-          funcName: 'refresh',
-          type: 'Function',
-          info: '刷新验证图片的回调'
-        }
-      ]
-    }
+          funcName: "refresh",
+          type: "Function",
+          info: "刷新验证图片的回调",
+        },
+      ],
+    };
   },
   components: {
-    SlideVerify
+    SlideVerify,
   },
   methods: {
     onSuccess() {
-      this.showSlide = false
-      this.$message.success('验证成功')
-      this.refresh()
+      this.showSlide = false;
+      this.$message.success("验证成功");
+      this.refresh();
     },
     onFail() {
-      this.$message.error('验证失败')
+      this.$message.error("验证失败");
     },
     refresh() {
-      this.$refs.slideDiv.reset()
-    }
-  }
-}
+      this.$refs.slideDiv.reset();
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .slideSty {

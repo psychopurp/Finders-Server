@@ -169,14 +169,14 @@
 </template>
 
 <script>
-import { getPageTab2 } from '@/api/table'
+import { getPageTab2 } from "@/api/table";
 export default {
   data() {
     return {
       tableData: [],
       allList: [],
       schArr: [],
-      sch_order: '',
+      sch_order: "",
       sch_status: null,
       sch_date: null,
       currentPage: 1,
@@ -185,12 +185,12 @@ export default {
       pageSizes: [10, 20, 30, 40],
       diaIsShow: false,
       formData: {},
-      editType: '',
+      editType: "",
       options: [
-        { label: '待审核', value: 1 },
-        { label: '配送中', value: 2 },
-        { label: '已完成', value: 0 },
-        { label: '已取消', value: 3 }
+        { label: "待审核", value: 1 },
+        { label: "配送中", value: 2 },
+        { label: "已完成", value: 0 },
+        { label: "已取消", value: 3 },
       ],
       rowIndex: 0,
       rules: {
@@ -199,181 +199,181 @@ export default {
           {
             // type: 'datetime',
             required: true,
-            message: '请输入时间',
-            trigger: 'change'
-          }
+            message: "请输入时间",
+            trigger: "change",
+          },
         ],
-        address: [{ required: true, message: '请输入地址', trigger: 'blur' }],
-        phone: [{ required: true, message: '请输入联系方式', trigger: 'blur' }],
-        name: [{ required: true, message: '请输入姓名', trigger: 'blur' }],
+        address: [{ required: true, message: "请输入地址", trigger: "blur" }],
+        phone: [{ required: true, message: "请输入联系方式", trigger: "blur" }],
+        name: [{ required: true, message: "请输入姓名", trigger: "blur" }],
         status: [
-          { required: true, message: '请选择订单状态', trigger: 'change' }
-        ]
-      }
-    }
+          { required: true, message: "请选择订单状态", trigger: "change" },
+        ],
+      },
+    };
   },
   created() {
-    this._getPageTab2()
+    this._getPageTab2();
   },
   filters: {
     statusText(val) {
-      if (val === undefined) return
+      if (val === undefined) return;
       if (val === 0) {
-        return '已完成'
+        return "已完成";
       } else if (val === 1) {
-        return '待审核'
+        return "待审核";
       } else if (val === 2) {
-        return '配送中'
+        return "配送中";
       } else {
-        return '已取消'
+        return "已取消";
       }
     },
     tagClass(val) {
-      if (val === undefined) return
+      if (val === undefined) return;
       if (val === 0) {
-        return 'success'
+        return "success";
       } else if (val === 1) {
-        return 'info'
+        return "info";
       } else if (val === 2) {
-        return 'warning'
+        return "warning";
       } else {
-        return 'danger'
+        return "danger";
       }
-    }
+    },
   },
   methods: {
     handleSize(val) {
-      this.pageSize = val
-      this.getPageData()
+      this.pageSize = val;
+      this.getPageData();
     },
     handlePage(val) {
-      this.currentPage = val
-      this.getPageData()
+      this.currentPage = val;
+      this.getPageData();
     },
     _getPageTab2() {
       getPageTab2()
-        .then(res => {
-          this.allList = res.data.tableList
-          this.schArr = this.allList
-          this.getPageData()
-          this.total = res.data.total
+        .then((res) => {
+          this.allList = res.data.tableList;
+          this.schArr = this.allList;
+          this.getPageData();
+          this.total = res.data.total;
         })
-        .catch(error => {
-          this.$message.error(error.message)
-        })
+        .catch((error) => {
+          this.$message.error(error.message);
+        });
     },
     getPageData() {
-      let start = (this.currentPage - 1) * this.pageSize
-      let end = start + this.pageSize
-      this.tableData = this.schArr.slice(start, end)
+      let start = (this.currentPage - 1) * this.pageSize;
+      let end = start + this.pageSize;
+      this.tableData = this.schArr.slice(start, end);
     },
     // 查找
     searchTab() {
-      let arrList = []
+      let arrList = [];
       for (let item of this.allList) {
         if (
-          this.sch_order.trim() === '' &&
+          this.sch_order.trim() === "" &&
           this.sch_status === null &&
           this.sch_date === null
         ) {
-          arrList = this.allList
-          break
+          arrList = this.allList;
+          break;
         } else if (
           item.order.startsWith(this.sch_order) &&
           (this.sch_status !== null ? item.status === this.sch_status : true) &&
           (this.sch_date !== null ? item.time.startsWith(this.sch_date) : true)
         ) {
-          let obj = Object.assign({}, item)
-          arrList.push(obj)
+          let obj = Object.assign({}, item);
+          arrList.push(obj);
         }
       }
-      this.schArr = arrList
-      this.total = arrList.length
-      this.currentPage = 1
-      this.pageSize = 10
-      this.getPageData()
+      this.schArr = arrList;
+      this.total = arrList.length;
+      this.currentPage = 1;
+      this.pageSize = 10;
+      this.getPageData();
     },
     // add
     addTab() {
-      this.formData = {}
-      this.diaIsShow = true
-      this.formData.order = (Math.random() * 10e18).toString()
-      this.formData.id = this.allList.length + 1
-      this.editType = 'add'
+      this.formData = {};
+      this.diaIsShow = true;
+      this.formData.order = (Math.random() * 10e18).toString();
+      this.formData.id = this.allList.length + 1;
+      this.editType = "add";
       this.$nextTick(() => {
-        this.$refs.diaForm.clearValidate()
-      })
+        this.$refs.diaForm.clearValidate();
+      });
     },
     // 审核
     toConfirm(row) {
-      row.status = 2
+      row.status = 2;
       this.$notify({
-        title: '成功',
-        message: '审核提交成功',
-        type: 'success'
-      })
+        title: "成功",
+        message: "审核提交成功",
+        type: "success",
+      });
     },
     // 完成
     toSuccess(row) {
-      row.status = 0
+      row.status = 0;
       this.$notify({
-        title: '成功',
-        message: '该订单已完成配送',
-        type: 'success'
-      })
+        title: "成功",
+        message: "该订单已完成配送",
+        type: "success",
+      });
     },
     // 取消
     toDelete(row) {
-      row.status = 3
+      row.status = 3;
       this.$notify({
-        title: '成功',
-        message: '已取消该订单',
-        type: 'success'
-      })
+        title: "成功",
+        message: "已取消该订单",
+        type: "success",
+      });
     },
     // 编辑
     editTable(index, row) {
-      this.formData = Object.assign({}, row)
-      this.editType = 'update'
-      this.diaIsShow = true
+      this.formData = Object.assign({}, row);
+      this.editType = "update";
+      this.diaIsShow = true;
       this.$nextTick(() => {
-        this.$refs.diaForm.clearValidate()
-      })
-      this.rowIndex = index
+        this.$refs.diaForm.clearValidate();
+      });
+      this.rowIndex = index;
     },
     changeTab(form, type) {
-      this.$refs[form].validate(valid => {
+      this.$refs[form].validate((valid) => {
         if (valid) {
-          if (type === 'update') {
+          if (type === "update") {
             // 改变整个表格数据
-            let start = (this.currentPage - 1) * this.pageSize
+            let start = (this.currentPage - 1) * this.pageSize;
             this.allList[start + this.rowIndex] = Object.assign(
               {},
-              this.formData
-            )
+              this.formData,
+            );
             // 解决数组不能通过索引响应数据变化
             this.$set(
               this.tableData,
               this.rowIndex,
-              Object.assign({}, this.formData)
-            )
+              Object.assign({}, this.formData),
+            );
             this.$notify({
-              title: '成功',
-              message: '订单已修改成功',
-              type: 'success'
-            })
+              title: "成功",
+              message: "订单已修改成功",
+              type: "success",
+            });
           } else {
-            this.tableData.unshift(Object.assign({}, this.formData))
-            this.allList.push(Object.assign({}, this.formData))
+            this.tableData.unshift(Object.assign({}, this.formData));
+            this.allList.push(Object.assign({}, this.formData));
           }
-          this.diaIsShow = false
+          this.diaIsShow = false;
         } else {
-          return
+          return;
         }
-      })
-    }
-  }
-}
+      });
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .fyDiv {
@@ -404,7 +404,7 @@ export default {
 <style lang="scss">
 .anoCard {
   .el-card__body:after {
-    content: '';
+    content: "";
     clear: both;
     width: 0;
     height: 0;
@@ -415,7 +415,7 @@ export default {
 .diaForm .el-form-item__label {
   padding-right: 20px;
 }
-.searchDiv [class^='el-icon'] {
+.searchDiv [class^="el-icon"] {
   color: #fff;
 }
 </style>

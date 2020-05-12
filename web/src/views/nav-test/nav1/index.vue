@@ -4,7 +4,7 @@
 
 <script>
 export default {
-  name: 'Nav1'
-}
+  name: "Nav1",
+};
 </script>
 <style lang="scss" scoped></style>

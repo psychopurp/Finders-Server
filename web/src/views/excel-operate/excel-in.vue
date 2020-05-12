@@ -23,23 +23,23 @@
 </template>
 
 <script>
-import UploadExcel from '@/components/UploadExcel'
+import UploadExcel from "@/components/UploadExcel";
 export default {
   data() {
     return {
       tabList: [],
-      tabHeader: []
-    }
+      tabHeader: [],
+    };
   },
   methods: {
     generateData({ header, results }) {
-      this.tabHeader = header
-      this.tabList = results
-    }
+      this.tabHeader = header;
+      this.tabList = results;
+    },
   },
   components: {
-    UploadExcel
-  }
-}
+    UploadExcel,
+  },
+};
 </script>
 <style></style>

@@ -88,17 +88,17 @@
 </template>
 
 <script>
-import CountTo from 'vue-count-to'
-import LineCharts from './components/LineCharts'
-import PieCharts from './components/PieCharts'
-import TableShow from './components/TableShow'
-import BarCharts from './components/BarCharts'
+import CountTo from "vue-count-to";
+import LineCharts from "./components/LineCharts";
+import PieCharts from "./components/PieCharts";
+import TableShow from "./components/TableShow";
+import BarCharts from "./components/BarCharts";
 import {
   getCardsData,
   getTableData,
   getLineData,
-  getBarData
-} from '@/api/dashboard'
+  getBarData,
+} from "@/api/dashboard";
 export default {
   data() {
     return {
@@ -109,18 +109,18 @@ export default {
       profit: 0,
       tableData: [],
       lineChartData: {},
-      barData: {}
-    }
+      barData: {},
+    };
   },
   created() {
-    this._getAllData()
+    this._getAllData();
   },
   components: {
     CountTo,
     LineCharts,
     PieCharts,
     TableShow,
-    BarCharts
+    BarCharts,
   },
   methods: {
     _getAllData() {
@@ -128,18 +128,18 @@ export default {
         .all([getCardsData(), getLineData(), getTableData(), getBarData()])
         .then(
           this.$http.spread((cardData, lineData, tabData, barData) => {
-            this.vistors = cardData.data.vistors
-            this.message = cardData.data.message
-            this.order = cardData.data.order
-            this.profit = cardData.data.profit
-            this.lineChartData = lineData.data
-            ;(this.tableData = tabData.data.tableList),
-              (this.barData = barData.data)
-          })
-        )
-    }
-  }
-}
+            this.vistors = cardData.data.vistors;
+            this.message = cardData.data.message;
+            this.order = cardData.data.order;
+            this.profit = cardData.data.profit;
+            this.lineChartData = lineData.data;
+            (this.tableData = tabData.data.tableList),
+              (this.barData = barData.data);
+          }),
+        );
+    },
+  },
+};
 </script>
 <style scoped lang="scss">
 $mgTop: 30px;

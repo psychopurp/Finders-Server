@@ -59,12 +59,12 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex'
+import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(['userName', 'introduce'])
-  }
-}
+    ...mapGetters(["userName", "introduce"]),
+  },
+};
 </script>
 <style lang="scss" scoped>
 .personal_h {

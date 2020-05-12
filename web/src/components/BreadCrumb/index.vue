@@ -15,27 +15,27 @@
 export default {
   data() {
     return {
-      breadList: []
-    }
+      breadList: [],
+    };
   },
   watch: {
     $route: {
       handler(route) {
-        let allList = route.matched.filter(item => {
+        let allList = route.matched.filter((item) => {
           if (item.meta && item.meta.title) {
             if (item.redirect) {
-              item.path = ''
+              item.path = "";
             }
-            return true
+            return true;
           }
-        })
-        if (allList[0].path !== '/' && allList[0].path !== '/dashbord') {
-          allList.unshift({ path: '/', meta: { title: '首页' } })
+        });
+        if (allList[0].path !== "/" && allList[0].path !== "/dashbord") {
+          allList.unshift({ path: "/", meta: { title: "首页" } });
         }
-        this.breadList = allList
+        this.breadList = allList;
       },
-      immediate: true
-    }
-  }
-}
+      immediate: true,
+    },
+  },
+};
 </script>

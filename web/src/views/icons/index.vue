@@ -46,18 +46,18 @@
 </template>
 
 <script>
-import { elIcons } from './element-icons'
-import { alIcons } from './iconfont'
+import { elIcons } from "./element-icons";
+import { alIcons } from "./iconfont";
 export default {
   data() {
     return {
       elIcons,
       alIcons,
       expText1: '<i class="el-icon-platform-eleme"></i>',
-      expText2: '<i class="el-icon-weixin iconfont"></i>'
-    }
-  }
-}
+      expText2: '<i class="el-icon-weixin iconfont"></i>',
+    };
+  },
+};
 </script>
 <style lang="scss" scoped>
 .driver_p0 {

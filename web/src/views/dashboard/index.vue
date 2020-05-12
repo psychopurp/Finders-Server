@@ -5,23 +5,23 @@
 </template>
 
 <script>
-import adminComponent from './admin'
-import userComponent from './user'
-import { mapGetters } from 'vuex'
+import adminComponent from "./admin";
+import userComponent from "./user";
+import { mapGetters } from "vuex";
 export default {
   computed: {
-    ...mapGetters(['userName']),
+    ...mapGetters(["userName"]),
     componentOn() {
-      if (this.userName === 'admin') {
-        return 'adminComponent'
+      if (this.userName === "admin") {
+        return "adminComponent";
       } else {
-        return 'userComponent'
+        return "userComponent";
       }
-    }
+    },
   },
   components: {
     adminComponent,
-    userComponent
-  }
-}
+    userComponent,
+  },
+};
 </script>

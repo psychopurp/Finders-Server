@@ -71,179 +71,179 @@
 </template>
 
 <script>
-import { getAllRolse } from '@/api/roles'
-import { asyncRoutes, currencyRoutes } from '@/router'
+import { getAllRolse } from "@/api/roles";
+import { asyncRoutes, currencyRoutes } from "@/router";
 export default {
   data() {
     return {
       rolesTab: [],
       diaIsShow: false,
       formData: {},
-      editType: 'update',
+      editType: "update",
       rules: {
         key: [
           {
             required: true,
-            message: '请输入要添加的身份类别',
-            trigger: 'blur'
-          }
+            message: "请输入要添加的身份类别",
+            trigger: "blur",
+          },
         ],
         description: [
           {
             required: true,
-            message: '请输入相关说明',
-            trigger: 'blur'
-          }
-        ]
+            message: "请输入相关说明",
+            trigger: "blur",
+          },
+        ],
       },
       editIndex: 0,
       allRoute: [...currencyRoutes, ...asyncRoutes],
       treeData: [],
       defaultProps: {
-        label: 'label',
-        children: 'children'
-      }
-    }
+        label: "label",
+        children: "children",
+      },
+    };
   },
   created() {
-    this._getAllRolse()
-    this.treeData = this.getTreeData(this.allRoute)
+    this._getAllRolse();
+    this.treeData = this.getTreeData(this.allRoute);
   },
   methods: {
     _getAllRolse() {
       getAllRolse()
-        .then(res => {
-          this.rolesTab = res.data.allRoles
+        .then((res) => {
+          this.rolesTab = res.data.allRoles;
         })
-        .catch(error => {
-          this.$message.error(error)
-        })
+        .catch((error) => {
+          this.$message.error(error);
+        });
     },
     isAdmin(row) {
-      if (row.key === 'admin' || row.key === 'user') return true
-      else return false
+      if (row.key === "admin" || row.key === "user") return true;
+      else return false;
     },
     deleteRoles(index) {
-      this.$confirm('此操作将永久删除相关数据, 是否继续?', '提示', {
-        confirmButtonText: '确定',
-        cancelButtonText: '取消',
-        type: 'warning'
+      this.$confirm("此操作将永久删除相关数据, 是否继续?", "提示", {
+        confirmButtonText: "确定",
+        cancelButtonText: "取消",
+        type: "warning",
       })
         .then(() => {
-          this.rolesTab.splice(index, 1)
+          this.rolesTab.splice(index, 1);
           this.$message({
-            type: 'success',
-            message: '删除成功!'
-          })
+            type: "success",
+            message: "删除成功!",
+          });
         })
         .catch(() => {
           this.$message({
-            type: 'info',
-            message: '已取消删除'
-          })
-        })
+            type: "info",
+            message: "已取消删除",
+          });
+        });
     },
     addRolesTab() {
-      this.diaIsShow = true
-      this.editType = 'add'
-      this.formData = {}
+      this.diaIsShow = true;
+      this.editType = "add";
+      this.formData = {};
       this.$nextTick(() => {
-        this.$refs.rolesForm.clearValidate()
-        this.$refs.tree.setCheckedKeys([])
-      })
+        this.$refs.rolesForm.clearValidate();
+        this.$refs.tree.setCheckedKeys([]);
+      });
     },
     editRoles(index, row) {
-      this.diaIsShow = true
-      this.editIndex = index
-      this.editType = 'update'
+      this.diaIsShow = true;
+      this.editIndex = index;
+      this.editType = "update";
       this.formData = Object.assign({}, this.formData, {
         key: row.key,
-        description: row.description
-      })
+        description: row.description,
+      });
       this.$nextTick(() => {
-        this.$refs.rolesForm.clearValidate()
-        this.$refs.tree.setCheckedKeys(row.pages)
-      })
+        this.$refs.rolesForm.clearValidate();
+        this.$refs.tree.setCheckedKeys(row.pages);
+      });
     },
     changeRoles(form, type) {
-      this.$refs[form].validate(valid => {
+      this.$refs[form].validate((valid) => {
         if (valid) {
-          let treeKeys = this.$refs.tree.getCheckedKeys()
-          if (type === 'update') {
-            let index = this.editIndex
-            this.rolesTab[index].key = this.formData.key
-            this.rolesTab[index].description = this.formData.description
-            this.rolesTab[index].pages = treeKeys
+          let treeKeys = this.$refs.tree.getCheckedKeys();
+          if (type === "update") {
+            let index = this.editIndex;
+            this.rolesTab[index].key = this.formData.key;
+            this.rolesTab[index].description = this.formData.description;
+            this.rolesTab[index].pages = treeKeys;
             this.$notify({
-              title: '成功',
-              message: '权限修改成功',
-              type: 'success'
-            })
-          } else if (type === 'add') {
-            let newTab = {}
-            newTab.key = this.formData.key
-            newTab.description = this.formData.description
-            newTab.pages = treeKeys
-            this.rolesTab.push(newTab)
+              title: "成功",
+              message: "权限修改成功",
+              type: "success",
+            });
+          } else if (type === "add") {
+            let newTab = {};
+            newTab.key = this.formData.key;
+            newTab.description = this.formData.description;
+            newTab.pages = treeKeys;
+            this.rolesTab.push(newTab);
             this.$notify({
-              title: '成功',
-              message: '权限添加成功',
-              type: 'success'
-            })
+              title: "成功",
+              message: "权限添加成功",
+              type: "success",
+            });
           }
-          this.diaIsShow = false
-        } else return
-      })
+          this.diaIsShow = false;
+        } else return;
+      });
     },
     getTreeData(route) {
-      let arrBox = []
+      let arrBox = [];
       for (let item of route) {
-        if (item.hidden) continue
-        let onlyChild = this.hasOnlyChild(item.children, item)
+        if (item.hidden) continue;
+        let onlyChild = this.hasOnlyChild(item.children, item);
         if (onlyChild && !onlyChild.children) {
-          item = onlyChild
+          item = onlyChild;
         }
         let data = {
           label: item.meta.title,
-          name: item.name
-        }
+          name: item.name,
+        };
         if (item.children) {
-          data.children = this.getTreeData(item.children)
+          data.children = this.getTreeData(item.children);
         }
-        arrBox.push(data)
+        arrBox.push(data);
       }
-      return arrBox
+      return arrBox;
     },
     hasOnlyChild(children = [], item) {
-      let newChildren = children.filter(item => {
+      let newChildren = children.filter((item) => {
         if (item.hidden) {
-          return false
+          return false;
         } else {
-          return true
+          return true;
         }
-      })
+      });
       if (newChildren.length === 1 && !item.meta) {
-        return newChildren[0]
+        return newChildren[0];
       } else if (newChildren.length === 0) {
-        return item
+        return item;
       }
-      return false
+      return false;
     },
     forSearchArr(route, roles) {
-      let arrNew = []
+      let arrNew = [];
       for (let item of route) {
-        let itemNew = { ...item } //解决浅拷贝共享同一内存地址
+        let itemNew = { ...item }; //解决浅拷贝共享同一内存地址
         if (roles.includes(itemNew.name)) {
           if (itemNew.children) {
-            itemNew.children = this.forSearchArr(itemNew.children, roles)
+            itemNew.children = this.forSearchArr(itemNew.children, roles);
           }
-          arrNew.push(itemNew)
+          arrNew.push(itemNew);
         }
       }
-      return arrNew
-    }
-  }
-}
+      return arrNew;
+    },
+  },
+};
 </script>
 <style scoped lang="scss">
 .rolesControl .mtop30 .el-button {

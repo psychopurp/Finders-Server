@@ -26,33 +26,33 @@ export default {
     return {
       msgList: [
         {
-          id: '1',
-          content: '优惠券到期提醒',
-          link: '',
-          time: '2019-06-01'
+          id: "1",
+          content: "优惠券到期提醒",
+          link: "",
+          time: "2019-06-01",
         },
         {
-          id: '2',
-          content: '618大促，请查看活动具体信息',
-          link: '',
-          time: '2019-06-02'
+          id: "2",
+          content: "618大促，请查看活动具体信息",
+          link: "",
+          time: "2019-06-02",
         },
         {
-          id: '3',
-          content: '充值成功',
-          link: '',
-          time: '2019-07-02'
+          id: "3",
+          content: "充值成功",
+          link: "",
+          time: "2019-07-02",
         },
         {
-          id: '4',
-          content: '密码充值成功！',
-          link: '',
-          time: '2019-07-02'
-        }
-      ]
-    }
-  }
-}
+          id: "4",
+          content: "密码充值成功！",
+          link: "",
+          time: "2019-07-02",
+        },
+      ],
+    };
+  },
+};
 </script>
 <style lang="scss">
 .cardBox {

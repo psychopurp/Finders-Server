@@ -25,30 +25,30 @@ export default {
   props: {
     tableData: {
       type: Array,
-      required: true
-    }
+      required: true,
+    },
   },
   filters: {
     statusText(val) {
-      if (val === undefined) return
+      if (val === undefined) return;
       if (val === 0) {
-        return '已完成'
+        return "已完成";
       } else if (val === 1) {
-        return '进行中'
+        return "进行中";
       } else {
-        return '已取消'
+        return "已取消";
       }
     },
     tagClass(val) {
-      if (val === undefined) return
+      if (val === undefined) return;
       if (val === 0) {
-        return 'success'
+        return "success";
       } else if (val === 1) {
-        return 'warning'
+        return "warning";
       } else {
-        return 'danger'
+        return "danger";
       }
-    }
-  }
-}
+    },
+  },
+};
 </script>

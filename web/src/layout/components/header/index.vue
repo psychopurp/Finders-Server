@@ -30,21 +30,21 @@
 </template>
 
 <script>
-import SideCollapse from '@/components/SideCollapse'
-import BreadCrumb from '@/components/BreadCrumb'
-import UserDropdown from '@/components/UserDropdown'
-import FullScreen from '@/components/FullScreen'
+import SideCollapse from "@/components/SideCollapse";
+import BreadCrumb from "@/components/BreadCrumb";
+import UserDropdown from "@/components/UserDropdown";
+import FullScreen from "@/components/FullScreen";
 export default {
   components: {
     SideCollapse,
     BreadCrumb,
     UserDropdown,
-    FullScreen
+    FullScreen,
   },
   methods: {
     toggleMsgShow() {
-      this.$store.commit('app/SET_MSGISOPEN')
-    }
-  }
-}
+      this.$store.commit("app/SET_MSGISOPEN");
+    },
+  },
+};
 </script>

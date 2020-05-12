@@ -10,10 +10,10 @@
 </template>
 
 <script>
-import driver from '@/mixins/useDriver'
+import driver from "@/mixins/useDriver";
 export default {
-  mixins: [driver]
-}
+  mixins: [driver],
+};
 </script>
 <style lang="scss" scoped>
 .driver_p0 {

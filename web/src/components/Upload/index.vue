@@ -17,42 +17,42 @@ export default {
   props: {
     accept: {
       type: String,
-      default: 'image/jpg,image/jpeg,image/png,image/gif'
-    }
+      default: "image/jpg,image/jpeg,image/png,image/gif",
+    },
   },
   data() {
     return {
       imgShow: false,
-      imgSrc: ''
-    }
+      imgSrc: "",
+    };
   },
   methods: {
     createUrl(file) {
       if (window.URL) {
-        return window.URL.createObjectURL(file)
+        return window.URL.createObjectURL(file);
       } else if (window.webkitURL) {
-        return window.webkitURL.createObjectURL(file)
+        return window.webkitURL.createObjectURL(file);
       } else {
-        return null
+        return null;
       }
     },
     uploadImg() {
-      let file = this.$refs.fileLoad.files[0]
-      let size = file.size / 1024 / 1024
+      let file = this.$refs.fileLoad.files[0];
+      let size = file.size / 1024 / 1024;
       if (!this.accept.includes(file.type.toLowerCase())) {
-        this.$message.error('图片格式不正确!')
-        return false
+        this.$message.error("图片格式不正确!");
+        return false;
       }
       if (size > 2) {
-        this.$message.error('图片大小不能超过2MB!')
-        return false
+        this.$message.error("图片大小不能超过2MB!");
+        return false;
       }
-      this.imgSrc = this.createUrl(file)
-      this.imgShow = true
-      this.$message.success('上传成功！')
-    }
-  }
-}
+      this.imgSrc = this.createUrl(file);
+      this.imgShow = true;
+      this.$message.success("上传成功！");
+    },
+  },
+};
 </script>
 <style lang="scss" scoped>
 .uploadImg {
