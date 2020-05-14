@@ -4,31 +4,22 @@ import (
 	"finders-server/core"
 	"finders-server/global"
 	"finders-server/initialize"
-	"finders-server/model"
 	"fmt"
 )
 
 var (
-	_ = core.InitConfig
+	_ = core.InitLogger
 	_ = global.LOG
 	_ = initialize.MySql
 )
 
 func test() {
-	db := global.DB
-	u := model.User{}
-	// u.Phone = "52"
-	// u.UserName = "obott90"
-	err := db.Model(&u).First(&u).Error
-	// u, err := service.Register(u)
-	if err != nil {
-		fmt.Println("check :", err)
-	}
-	fmt.Println(u.UserInfo, u.Relations)
+	fmt.Println(global.CONFIG)
 
 }
 
 func main() {
+	// test()
 
 	switch global.CONFIG.System.DB {
 	case "mysql":
@@ -44,6 +35,5 @@ func main() {
 	//程序结束前关闭数据库连接
 	defer global.DB.Close()
 
-	// test()
 	core.RunServer()
 }

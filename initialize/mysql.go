@@ -9,8 +9,8 @@ import (
 
 func MySql() {
 	admin := global.CONFIG.MySQL
-	connect_str := admin.Username + ":" + admin.Password + "@(" + admin.Addr + ")/" + admin.Database + "?" + admin.Config
-	if db, err := gorm.Open("mysql", connect_str); err != nil {
+	connectStr := admin.Username + ":" + admin.Password + "@(" + admin.Addr + ")/" + admin.Database + "?" + admin.Config
+	if db, err := gorm.Open("mysql", connectStr); err != nil {
 		global.LOG.Fatalf("MySQl连接异常 ERROR: %s", err)
 	} else {
 		db.DB().SetMaxIdleConns(admin.MaxIdleConns)

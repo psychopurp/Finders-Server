@@ -15,7 +15,6 @@ package core
 
 import (
 	"finders-server/config"
-	"finders-server/global"
 	"fmt"
 	"io"
 	"os"
@@ -34,8 +33,8 @@ var (
 	defaultFormatter = `%{color:bold} %{time:2006/01/02 15:04:05} %{longfile} ▶ [%{level:.6s}] %{message}%{color:reset}`
 )
 
-func InitLogger() {
-	c := global.CONFIG.Log
+func InitLogger(config config.LogConfig) *oplogging.Logger {
+	c := config
 	if c.Prefix == "" {
 		_ = fmt.Errorf("Logger prefix not fount")
 	}
@@ -44,7 +43,7 @@ func InitLogger() {
 
 	backends = registerStdout(c, backends)
 	oplogging.SetBackend(backends...)
-	global.LOG = logger
+	return logger
 
 }
 
