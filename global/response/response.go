@@ -17,7 +17,7 @@ type Response struct {
 }
 
 const (
-	ERROR   = 7
+	ERROR   = -1
 	SUCCESS = 0 //定义当前的操作是成功的
 )
 

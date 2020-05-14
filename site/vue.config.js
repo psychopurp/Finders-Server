@@ -4,7 +4,7 @@ const resolve = function(dir) {
 };
 
 module.exports = {
-  publicPath: process.env.NODE_ENV === "production" ? "/finders-admin/" : "/",
+  publicPath: process.env.NODE_ENV === "production" ? "/admin/" : "/",
   outputDir: "dist",
   assetsDir: "static",
   lintOnSave: true, // 是否开启eslint保存检测

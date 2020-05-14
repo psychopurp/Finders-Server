@@ -1,6 +1,6 @@
-const title = "vue-admin-webapp";
+const title = "Finders-Admin";
 const getTitle = function(til) {
-  let allTitle = til + "-" + title;
+  let allTitle = til + " | " + title;
   return allTitle;
 };
 export default getTitle;

@@ -19,7 +19,7 @@
       </transition>
     </div>
     <div class="loginBox">
-      <h2 class="loginH2"><strong>Vue</strong> 后台管理系统</h2>
+      <h2 class="loginH2"><strong>Finders</strong> 后台管理系统</h2>
       <div class="loginCon">
         <div class="titleDiv">
           <h3>Sign up now</h3>
@@ -57,6 +57,7 @@
 <script>
 import SlideVerify from "@/components/SlideVerify";
 export default {
+  name: "Login",
   data() {
     return {
       notifyObj: null,
@@ -69,7 +70,7 @@ export default {
       rules: {
         user: [
           { required: true, message: "请输入用户名", trigger: "blur" },
-          { min: 3, max: 15, message: "长度在3到5个字符", trigger: "blur" },
+          { min: 3, max: 15, message: "长度在3到15个字符", trigger: "blur" },
         ],
         password: [{ required: true, message: "请输入密码", trigger: "blur" }],
       },
