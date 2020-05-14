@@ -1,7 +1,7 @@
 *.log
 .vscode/*.*
 tmp/
-*_debug_bin
+*_debug_*
 *.db
 **.pptx
 .DS_Store
