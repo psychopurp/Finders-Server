@@ -8,7 +8,7 @@ system:
   ip: "127.0.0.1"
   port: 8660
   env: "DEBUG"
-  DB: sqlite
+  DB: mysql
 
 log:
   prefix: "[Finders-Server]"

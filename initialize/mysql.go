@@ -15,6 +15,7 @@ func MySql() {
 	} else {
 		db.DB().SetMaxIdleConns(admin.MaxIdleConns)
 		db.DB().SetMaxOpenConns(admin.MaxOpenConns)
+		// db.LogMode(global.CONFIG.MySQL.LogMode)
 		global.DB = db
 	}
 

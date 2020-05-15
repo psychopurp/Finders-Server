@@ -35,16 +35,16 @@ CREATE TABLE `users` (
 
 // User struct is a row record of the users table in the  database
 type User struct {
-	UserID    uuid.UUID  `gorm:"column:user_id;type:VARCHAR;size:50;primary_key" json:"user_id"`           //[ 0] user_id                                        VARCHAR[30]          null: false  primary: true   auto: false
-	Phone     string     `gorm:"column:phone;type:VARCHAR;size:30;unique_index:unique_phone" json:"phone"` //[ 1] phone                                          VARCHAR[30]          null: false  primary: false  auto: false
-	Password  string     `gorm:"column:password;type:VARCHAR;size:100;" json:"password"`                   //[ 2] password                                       VARCHAR[30]          null: false  primary: false  auto: false
-	Nickname  string     `gorm:"column:nickname;type:VARCHAR;size:30;" json:"nickname"`                    //[ 3] nickname                                       VARCHAR[30]          null: false  primary: false  auto: false
-	CreatedAt time.Time  `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                       //[ 4] created_at                                     DATETIME             null: false  primary: false  auto: false
-	Status    int        `gorm:"column:status;type:INT;" json:"status"`                                    //[ 5] status                                         INT                  null: false  primary: false  auto: false
-	DeletedAt *time.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                       //[ 6] deleted_at                                     DATETIME             null: true   primary: false  auto: false
-	Avatar    string     `gorm:"column:avatar;type:VARCHAR;size:100;" json:"avatar"`                       //[ 7] avatar                                         VARCHAR[100]         null: false  primary: false  auto: false
-	UserInfo  UserInfo   `gorm:"foreignkey:UserId"`                                                        //一对一关系
-	UserName  string     `gorm:"column:username;type:varchar(50);" json:"userName"`
+	UserID    uuid.UUID  `gorm:"column:user_id;type:varchar(50);primary_key" json:"user_id"`           //[ 0] user_id                                        VARCHAR[30]          null: false  primary: true   auto: false
+	Phone     string     `gorm:"column:phone;type:varchar(30);unique_index:unique_phone" json:"phone"` //[ 1] phone                                          VARCHAR[30]          null: false  primary: false  auto: false
+	Password  string     `gorm:"column:password;type:varchar(100);" json:"password"`                   //[ 2] password                                       VARCHAR[30]          null: false  primary: false  auto: false
+	Nickname  string     `gorm:"column:nickname;type:varchar(30);" json:"nickname"`                    //[ 3] nickname                                       VARCHAR[30]          null: false  primary: false  auto: false
+	CreatedAt time.Time  `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                   //[ 4] created_at                                     DATETIME             null: false  primary: false  auto: false
+	Status    int        `gorm:"column:status;type:INT;" json:"status"`                                //[ 5] status                                         INT                  null: false  primary: false  auto: false
+	DeletedAt *time.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                   //[ 6] deleted_at                                     DATETIME             null: true   primary: false  auto: false
+	Avatar    string     `gorm:"column:avatar;type:varchar(100);" json:"avatar"`                       //[ 7] avatar                                         VARCHAR[100]         null: false  primary: false  auto: false
+	UserInfo  UserInfo   `gorm:"foreignkey:UserId"`                                                    //一对一关系
+	UserName  string     `gorm:"column:username;type:varchar(50);unique_index:unique_username" json:"userName"`
 	Relations []Relation `gorm:"many2many:relations"` //多对多关系
 }
 

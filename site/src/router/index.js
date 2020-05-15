@@ -261,6 +261,7 @@ export const asyncRoutes = [
 ];
 const creatRouter = () => {
   return new Router({
+    mode: "history",
     routes: currencyRoutes,
     scrollBehavior() {
       return { x: 0, y: 0 };

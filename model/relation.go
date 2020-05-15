@@ -31,9 +31,9 @@ CREATE TABLE `relations` (
 type Relation struct {
 	RelationID    int       `gorm:"AUTO_INCREMENT;column:relation_id;type:INT;primary_key" json:"relation_id"` //[ 0] relation_id                                    INT                  null: false  primary: true   auto: true
 	RelationType  int       `gorm:"column:relation_type;type:INT;" json:"relation_type"`                       //[ 1] relation_type                                  INT                  null: false  primary: false  auto: false
-	RelationGroup string    `gorm:"column:relation_group;type:VARCHAR;size:20;" json:"relation_group"`         //[ 2] relation_group                                 VARCHAR[20]          null: false  primary: false  auto: false
-	FromUID       uuid.UUID `gorm:"column:from_uid;type:VARCHAR;size:50;" json:"from_uid"`                     //[ 3] from_uid                                       VARCHAR[30]          null: false  primary: false  auto: false
-	ToUID         uuid.UUID `gorm:"column:to_uid;type:VARCHAR;size:50;" json:"to_uid"`                         //[ 4] to_uid                                         VARCHAR[30]          null: false  primary: false  auto: false
+	RelationGroup string    `gorm:"column:relation_group;type:varchar(20);" json:"relation_group"`             //[ 2] relation_group                                 VARCHAR[20]          null: false  primary: false  auto: false
+	FromUID       uuid.UUID `gorm:"column:from_uid;type:varchar(50);" json:"from_uid"`                         //[ 3] from_uid                                       VARCHAR[30]          null: false  primary: false  auto: false
+	ToUID         uuid.UUID `gorm:"column:to_uid;type:varchar(50);" json:"to_uid"`                             //[ 4] to_uid                                         VARCHAR[30]          null: false  primary: false  auto: false
 	CreatedAt     time.Time `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                        //[ 5] created_at                                     DATETIME             null: false  primary: false  auto: false
 	UpdatedAt     time.Time `gorm:"column:updated_at;type:DATETIME;" json:"updated_at"`                        //[ 6] updated_at                                     DATETIME             null: true   primary: false  auto: false
 

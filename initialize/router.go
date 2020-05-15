@@ -25,7 +25,6 @@ func Routers() *gin.Engine {
 		c.HTML(200, "index.html", nil)
 	})
 
-	global.LOG.Debug("Create gin Engine")
 	Router.Use(middleware.Logger())
 	global.LOG.Debug("Register Logger middleware")
 

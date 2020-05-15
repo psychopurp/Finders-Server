@@ -106,6 +106,8 @@ export default {
           if (!res.data.success) {
             this.refresh();
           } else {
+            console.log(this.$route.query);
+            console.log(this.$route);
             this.$router.push(this.$route.query.redirect);
             if (this.notifyObj) {
               this.notifyObj.close();
