@@ -124,6 +124,12 @@ export const asyncRoutes = [
     },
     children: [
       {
+        page: "user-table",
+        name: "UserTable",
+        component: () => import("@/views/table/user_table"),
+        meta: { title: "用户信息表" },
+      },
+      {
         path: "base-table",
         name: "BaseTable",
         component: () => import("@/views/table/common-table"),

@@ -25,3 +25,16 @@ export default {
   },
 };
 </script>
+
+<style lang="scss" scoped>
+.homeBox {
+  background-color: #ffc107;
+  font-size: 14px;
+  margin-bottom: 20px;
+  i {
+    margin-right: 5px;
+    color: #ffc107;
+    font-size: 18px;
+  }
+}
+</style>

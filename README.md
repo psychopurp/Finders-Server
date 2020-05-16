@@ -40,7 +40,7 @@ go run main.go
 ### 运行 前端
 
 ```bash
-cd web
+cd site
 npm install
 npm run serve
 
