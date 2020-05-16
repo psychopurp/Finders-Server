@@ -40,7 +40,7 @@ go run main.go
 ### 运行 前端
 
 ```bash
-cd site
+cd web
 npm install
 npm run serve
 
@@ -84,7 +84,7 @@ Finders-Server        (后端文件夹)
     │─router          (路由)
     │─service         (服务)
     │─utils           (公共功能)
-    |—site            (前端文件夹)
+    |—web             (前端文件夹)
 
 
 ```
