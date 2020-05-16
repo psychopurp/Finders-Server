@@ -1,0 +1,719 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "contact": {},
+        "license": {}
+    },
+    "paths": {
+        "/hello": {
+            "get": {
+                "description": "get record by ID",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "userId",
+                        "name": "some_id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "{\"code\": 0 ,\"data\":{} ,\"msg\":\"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/userinfos": {
+            "get": {
+                "description": "GetAllUserInfo is a handler to get a slice of record(s) from user_infos table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UserInfo"
+                ],
+                "summary": "Get list of UserInfo",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "page requested (defaults to 0)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "number of records in a page  (defaults to 20)",
+                        "name": "pagesize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "db sort order column",
+                        "name": "order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.PagedResults"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "add to add a single record to user_infos table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UserInfo"
+                ],
+                "summary": "Add an record to user_infos table",
+                "parameters": [
+                    {
+                        "description": "Add UserInfo",
+                        "name": "UserInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.UserInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/userinfos/{id}": {
+            "get": {
+                "description": "GetUserInfo is a function to get a single record to user_infos table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UserInfo"
+                ],
+                "summary": "Get record from table UserInfo by id",
+                "operationId": "record id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "record id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.UserInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "NotFound, db record for id not found - returns NotFound HTTP 404 not found error",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single record from user_infos table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UserInfo"
+                ],
+                "summary": "Delete a record from user_infos",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/model.UserInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update a single record from user_infos table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "UserInfo"
+                ],
+                "summary": "Update an record in table user_infos",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update UserInfo record",
+                        "name": "UserInfo",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.UserInfo"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.UserInfo"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users": {
+            "get": {
+                "description": "GetAllUser is a handler to get a slice of record(s) from users table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get list of User",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "page requested (defaults to 0)",
+                        "name": "page",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "description": "number of records in a page  (defaults to 20)",
+                        "name": "pagesize",
+                        "in": "query"
+                    },
+                    {
+                        "type": "string",
+                        "description": "db sort order column",
+                        "name": "order",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/api.PagedResults"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            },
+            "post": {
+                "description": "add to add a single record to users table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Add an record to users table",
+                "parameters": [
+                    {
+                        "description": "Add User",
+                        "name": "User",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            }
+        },
+        "/users/{id}": {
+            "get": {
+                "description": "GetUser is a function to get a single record to users table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Get record from table User by id",
+                "operationId": "record id",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "record id",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "NotFound, db record for id not found - returns NotFound HTTP 404 not found error",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Delete a single record from users table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Delete a record from users",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "format": "int64",
+                        "description": "ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "500": {
+                        "description": "Internal Server Error",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Update a single record from users table in the employees database",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "User"
+                ],
+                "summary": "Update an record in table users",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "description": "Account ID",
+                        "name": "id",
+                        "in": "path",
+                        "required": true
+                    },
+                    {
+                        "description": "Update User record",
+                        "name": "User",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/model.User"
+                        }
+                    },
+                    "400": {
+                        "description": "Bad Request",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    },
+                    "404": {
+                        "description": "Not Found",
+                        "schema": {
+                            "$ref": "#/definitions/api.HTTPError"
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "definitions": {
+        "api.HTTPError": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "integer",
+                    "example": 400
+                },
+                "message": {
+                    "type": "string",
+                    "example": "status bad request"
+                }
+            }
+        },
+        "api.PagedResults": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "object"
+                },
+                "page": {
+                    "type": "integer"
+                },
+                "page_size": {
+                    "type": "integer"
+                },
+                "total_records": {
+                    "type": "integer"
+                }
+            }
+        },
+        "model.Relation": {
+            "type": "object",
+            "properties": {
+                "created_at": {
+                    "description": "[ 5] created_at                                     DATETIME             null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "from_uid": {
+                    "description": "[ 3] from_uid                                       VARCHAR[30]          null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "relation_group": {
+                    "description": "[ 2] relation_group                                 VARCHAR[20]          null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "relation_id": {
+                    "description": "[ 0] relation_id                                    INT                  null: false  primary: true   auto: true",
+                    "type": "integer"
+                },
+                "relation_type": {
+                    "description": "[ 1] relation_type                                  INT                  null: false  primary: false  auto: false",
+                    "type": "integer"
+                },
+                "to_uid": {
+                    "description": "[ 4] to_uid                                         VARCHAR[30]          null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "[ 6] updated_at                                     DATETIME             null: true   primary: false  auto: false",
+                    "type": "string"
+                }
+            }
+        },
+        "model.User": {
+            "type": "object",
+            "properties": {
+                "avatar": {
+                    "description": "[ 7] avatar                                         VARCHAR[100]         null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "[ 4] created_at                                     DATETIME             null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "deleted_at": {
+                    "description": "[ 6] deleted_at                                     DATETIME             null: true   primary: false  auto: false",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "[ 3] nickname                                       VARCHAR[30]          null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "[ 2] password                                       VARCHAR[30]          null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "phone": {
+                    "description": "[ 1] phone                                          VARCHAR[30]          null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "relations": {
+                    "description": "多对多关系",
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/model.Relation"
+                    }
+                },
+                "status": {
+                    "description": "[ 5] status                                         INT                  null: false  primary: false  auto: false",
+                    "type": "integer"
+                },
+                "userInfo": {
+                    "description": "一对一关系",
+                    "type": "object",
+                    "$ref": "#/definitions/model.UserInfo"
+                },
+                "userName": {
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "[ 0] user_id                                        VARCHAR[30]          null: false  primary: true   auto: false",
+                    "type": "string"
+                }
+            }
+        },
+        "model.UserInfo": {
+            "type": "object",
+            "properties": {
+                "address": {
+                    "description": "[ 2] address                                        VARCHAR[200]         strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "age": {
+                    "description": "[20] age",
+                    "type": "integer"
+                },
+                "birthday": {
+                    "description": "[ 6] birthday                                       VARCHAR[20]          strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "blood_type": {
+                    "description": "[ 8] blood_type                                     VARCHAR[8]           strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "constellation": {
+                    "description": "[14] constellation                                  VARCHAR[40]          strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "created_at": {
+                    "description": "[15] created_at                                     DATETIME             sfalse  primary: false  auto: false",
+                    "type": "string"
+                },
+                "credit": {
+                    "description": "[17] credit                                         INT                  sfalse  primary: false  auto: false",
+                    "type": "integer"
+                },
+                "deleted_at": {
+                    "description": "[19] deleted_at                                     DATETIME             strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "eamil": {
+                    "description": "[ 9] eamil                                          VARCHAR[60]          strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "feeling": {
+                    "description": "[ 5] feeling                                        VARCHAR[20]          strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "introduction": {
+                    "description": "[ 7] introduction                                   VARCHAR[400]         strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "profession": {
+                    "description": "[12] profession                                     VARCHAR[60]          strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "qq": {
+                    "description": "[10] qq                                             VARCHAR[30]          strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "school": {
+                    "description": "[13] school                                         VARCHAR[30]          strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "sex": {
+                    "description": "[ 3] sex                                            VARCHAR[4]           strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "sexual": {
+                    "description": "[ 4] sexual                                         VARCHAR[8]           strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "truename": {
+                    "description": "[ 1] truename                                       VARCHAR[40]          strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "updated_at": {
+                    "description": "[16] updated_at                                     DATETIME             strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "user_id": {
+                    "description": "[ 0] user_id                                        VARCHAR[30]          sfalse  primary: true   auto: false",
+                    "type": "string"
+                },
+                "user_tag": {
+                    "description": "[18] user_tag                                       TEXT[65535]          strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "wechat": {
+                    "description": "[11] wechat                                         VARCHAR[30]          strue   primary: false  auto: false",
+                    "type": "string"
+                }
+            }
+        }
+    }
+}
