@@ -4,6 +4,8 @@
 
 > 兴趣社交平台 Finders 的服务端
 
+[接口文档](docs/api.md)
+
 ## 技术选型
 
 - 后台管理系统：用基于`vue`的`Element-UI`构建基础页面。
@@ -70,7 +72,7 @@ fresh
 
 ## 项目架构
 
-```
+```bash
 Finders-Server        (后端文件夹)
     │─api             (API)
     │─config          (配置包)
