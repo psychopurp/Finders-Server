@@ -6,9 +6,10 @@ const (
 
 const baseIndex = 1
 
-const(
+const (
 	Valid = baseIndex + iota
 	TypeError
+	UpdateTokenFail
 
 	TokenOutOfDate
 	TokenError
@@ -17,4 +18,9 @@ const(
 	UserNameNotExistOrPasswordWrong
 	PhoneNotExist
 	InfoError
+
+	ImageFormatOrSizeError
+
+	UploadCheckFileError
+	UploadSaveFileError
 )

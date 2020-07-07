@@ -81,7 +81,6 @@ func UpdateProfile(c *gin.Context) {
 		response.FailWithMsg(err.Error(), c)
 		return
 	}
-	originUserName := user.UserName
 
 	// 获取body中的更新数据
 	form, err = userService.GetUpdateForm(c)
@@ -97,10 +96,6 @@ func UpdateProfile(c *gin.Context) {
 		return
 	}
 
-	if form.UserName != "" && originUserName != form.UserName {
-		response.FailWithMsg(e.TOKEN_OUT_OF_DATE, c)
-		return
-	}
 	response.OkWithData("", c)
 }
 

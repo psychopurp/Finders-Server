@@ -64,5 +64,8 @@ type AppConfig struct {
 	ImageSavePath   string   `mapstructure:"imagesavepath" yaml:"imagesavepath"`
 	ImageMaxSize    int      `mapstructure:"imagemaxsize" yaml:"imagemaxsize"`
 	ImageAllowExts  []string `mapstructure:"imageallowexts" yaml:"imageallowexts"`
+	VideoSavePath   string   `mapstructure:"videosavepath" yaml:"videosavepath"`
+	VideoMaxSize    int      `mapstructure:"videomaxsize" yaml:"videomaxsize"`
+	VideoAllowExts  []string `mapstructure:"videoallowexts" yaml:"videoallowexts"`
 	RuntimeRootPath string   `mapstructure:"runtimerootpath" yaml:"runtimerootpath"`
 }

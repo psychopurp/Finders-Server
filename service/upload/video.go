@@ -13,13 +13,13 @@ import (
 	"time"
 )
 
-// GetImageFullUrl：获取图片完整访问URL
-func GetImageFullUrl(name string) string {
-	return global.CONFIG.AppSetting.PrefixUrl + "/" + GetImagePath() + name
+// GetVideoFullUrl：获取视屏完整访问URL
+func GetVideoFullUrl(name string) string {
+	return global.CONFIG.AppSetting.PrefixUrl + "/" + GetVideoPath() + name
 }
 
-// GetImageName：获取图片名称
-func GetImageName(name string) string {
+// GetVideoName：获取视屏名称
+func GetVideoName(name string) string {
 	ext := path.Ext(name)
 	timeStamp := time.Now().Unix()
 	timeFileName := strconv.FormatInt(timeStamp, 10)
@@ -27,36 +27,32 @@ func GetImageName(name string) string {
 	return timeFileName + ext
 }
 
-// GetImagePath：获取图片路径
-func GetImagePath() string {
+// GetVideoPath：获取视屏路径
+func GetVideoPath() string {
 	// imagesavepath: upload/images/
-	return global.CONFIG.AppSetting.ImageSavePath + GetTimePath()
+	return global.CONFIG.AppSetting.VideoSavePath + GetTimePath()
 }
 
-func GetTimePath() string {
-	return time.Now().Format("2006/01/02/")
-}
-
-// GetImageFullPath：获取图片完整路径
-func GetImageFullPath() string {
+// GetVideoFullPath：获取视屏完整路径
+func GetVideoFullPath() string {
 	// runtimerootpath: runtime/
 	// imagesavepath: upload/images/
-	prefix := global.CONFIG.AppSetting.RuntimeRootPath + global.CONFIG.AppSetting.ImageSavePath
+	prefix := global.CONFIG.AppSetting.RuntimeRootPath + global.CONFIG.AppSetting.VideoSavePath
 	return prefix
 }
 
-func GetImageFullPathAndMKDir() string {
+func GetVideoFullPathAndMKDir() string {
 	// runtimerootpath: runtime/
 	// imagesavepath: upload/images/
-	prefix := global.CONFIG.AppSetting.RuntimeRootPath + GetImagePath()
+	prefix := global.CONFIG.AppSetting.RuntimeRootPath + GetVideoPath()
 	_ = file.MkDirByYearMonthDay(prefix)
 	return prefix
 }
 
-// CheckImageExt：检查图片后缀
-func CheckImageExt(fileName string) bool {
+// CheckVideoExt：检查视屏后缀
+func CheckVideoExt(fileName string) bool {
 	ext := file.GetExt(fileName)
-	for _, allowExt := range global.CONFIG.AppSetting.ImageAllowExts {
+	for _, allowExt := range global.CONFIG.AppSetting.VideoAllowExts {
 		if strings.ToUpper(allowExt) == strings.ToUpper(ext) {
 			return true
 		}
@@ -65,19 +61,19 @@ func CheckImageExt(fileName string) bool {
 	return false
 }
 
-// CheckImageSize：检查图片大小
-func CheckImageSize(f multipart.File) bool {
+// CheckVideoSize：检查视屏大小
+func CheckVideoSize(f multipart.File) bool {
 	size, err := file.GetSize(f)
 	if err != nil {
 		log.Println(err)
 		global.LOG.Warning(err)
 		return false
 	}
-	return size <= float64(global.CONFIG.AppSetting.ImageMaxSize)
+	return size <= float64(global.CONFIG.AppSetting.VideoMaxSize)
 }
 
-// CheckImage：检查图片
-func CheckImage(src string) error {
+// CheckVideo：检查视屏
+func CheckVideo(src string) error {
 	dir, err := os.Getwd()
 	if err != nil {
 		return fmt.Errorf("os.Getwd err: %v", err)

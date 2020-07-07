@@ -33,7 +33,6 @@ type Tag struct {
 	TagName   string    `gorm:"column:tag_name;type:VARCHAR;size:50;" json:"tag_name"` //[ 1] tag_name                                       VARCHAR[50]          null: false  primary: false  auto: false
 	CreatedAt time.Time `gorm:"column:created_at;type:DATETIME;" json:"created_at"`    //[ 2] created_at                                     DATETIME             null: false  primary: false  auto: false
 	TagType   null.Int  `gorm:"column:tag_type;type:INT;" json:"tag_type"`             //[ 3] tag_type                                       INT                  null: true   primary: false  auto: false
-
 }
 
 // TableName sets the insert table name for this struct type

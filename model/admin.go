@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"finders-server/global"
 	"time"
 
 	"github.com/guregu/null"
@@ -31,13 +32,14 @@ CREATE TABLE `admins` (
 
 // Admin struct is a row record of the admins table in the employees database
 type Admin struct {
-	AdminID       string    `gorm:"column:admin_id;type:VARCHAR;size:30;primary_key" json:"admin_id"`  //[ 0] admin_id                                       VARCHAR[30]          null: false  primary: true   auto: false
-	AdminName     string    `gorm:"column:admin_name;type:VARCHAR;size:30;" json:"admin_name"`         //[ 1] admin_name                                     VARCHAR[30]          null: false  primary: false  auto: false
-	AdminPassword string    `gorm:"column:admin_password;type:VARCHAR;size:30;" json:"admin_password"` //[ 2] admin_password                                 VARCHAR[30]          null: false  primary: false  auto: false
-	Permission    int       `gorm:"column:permission;type:INT;" json:"permission"`                     //[ 3] permission                                     INT                  null: false  primary: false  auto: false
-	CreatedAt     time.Time `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                //[ 4] created_at                                     DATETIME             null: false  primary: false  auto: false
-	DeletedAt     null.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                //[ 5] deleted_at                                     DATETIME             null: true   primary: false  auto: false
-
+	AdminID       string     `gorm:"column:admin_id;type:varchar(50);primary_key" json:"admin_id"`                           //[ 0] admin_id                                       VARCHAR[30]          null: false  primary: true   auto: false
+	AdminName     string     `gorm:"column:admin_name;type:varchar(30);" json:"admin_name"`                                  //[ 1] admin_name                                     VARCHAR[30]          null: false  primary: false  auto: false
+	AdminPassword string     `gorm:"column:admin_password;type:varchar(30);" json:"admin_password"`                          //[ 2] admin_password                                 VARCHAR[30]          null: false  primary: false  auto: false
+	AdminPhone    string     `gorm:"column:admin_phone;type:varchar(30);unique_index:unique_admin_phone" json:"admin_phone"` //[ 2] admin_password                                 VARCHAR[30]          null: false  primary: false  auto: false
+	Permission    int        `gorm:"column:permission;type:INT;" json:"permission"`                                          //[ 3] permission                                     INT                  null: false  primary: false  auto: false
+	CreatedAt     time.Time  `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                                     //[ 4] created_at                                     DATETIME             null: false  primary: false  auto: false
+	UpdatedAt     time.Time  `gorm:"column:updated_at;type:DATETIME;" json:"updated_at"`                                     //[16] updated_at                                     DATETIME             strue   primary: false  auto: false
+	DeletedAt     *time.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                                     //[ 5] deleted_at                                     DATETIME             null: true   primary: false  auto: false
 }
 
 // TableName sets the insert table name for this struct type
@@ -55,4 +57,45 @@ func (a *Admin) Prepare() {
 func (a *Admin) Validate(action Action) error {
 
 	return nil
+}
+
+const (
+	SUPER  = 1
+	NORMAL = 2
+)
+
+func GetAdminByAdminName(adminName string) (admin Admin, err error) {
+	db := global.DB
+	err = db.Where("admin_name = ?", adminName).First(&admin).Error
+	return
+}
+
+func ExistAdminByAdminNameAndPassword(name, password string) (admin Admin, isExist bool) {
+	db := global.DB
+	data := make(map[string]interface{})
+	data["admin_name"] = name
+	data["admin_password"] = password
+	isExist = !db.Where(data).First(&admin).RecordNotFound()
+	return
+}
+
+func ExistAdminByPhone(phone string) (admin Admin, isExist bool) {
+	db := global.DB
+	data := make(map[string]interface{})
+	data["admin_phone"] = phone
+	isExist = !db.Where(data).First(&admin).RecordNotFound()
+	return
+}
+
+func AddAdmin(admin *Admin) (err error) {
+	db := global.DB
+	err = db.Create(admin).Error
+	return
+}
+
+func UpdateAdminByUserID(adminID string, fieldName string, it interface{}) (err error) {
+	var admin Admin
+	db := global.DB
+	err = db.Model(&admin).Where("admin_id = ?", adminID).Update(fieldName, it).Error
+	return err
 }

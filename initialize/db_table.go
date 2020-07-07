@@ -10,5 +10,7 @@ func DBTables() {
 	db := global.DB
 	db.AutoMigrate(&model.User{}, &model.UserInfo{}, &model.Relation{})
 	db.AutoMigrate(&model.Login{})
+	db.AutoMigrate(&model.Admin{})
+	db.AutoMigrate(&model.Media{})
 	global.LOG.Debug("Register tables success")
 }
