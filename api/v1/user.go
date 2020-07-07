@@ -75,8 +75,8 @@ func UpdateProfile(c *gin.Context) {
 		form userService.UpdateForm
 	)
 	// 从header获取token
-	token := c.GetHeader("token")
-	user, err = userService.GetUserFromAuth(token)
+	userName := c.GetHeader("username")
+	user, err = model.GetUserByUserName(userName)
 	if err != nil {
 		response.FailWithMsg(err.Error(), c)
 		return
@@ -109,8 +109,8 @@ func Follow(c *gin.Context) {
 		err              error
 		fromUser, toUser model.User
 	)
-	token := c.GetHeader("token")
-	fromUser, err = userService.GetUserFromAuth(token)
+	userName := c.GetHeader("username")
+	fromUser, err = model.GetUserByUserName(userName)
 	// 解析token错误
 	if err != nil {
 		response.FailWithMsg(err.Error(), c)
@@ -136,8 +136,8 @@ func UnFollow(c *gin.Context) {
 		err              error
 		fromUser, toUser model.User
 	)
-	token := c.GetHeader("token")
-	fromUser, err = userService.GetUserFromAuth(token)
+	userName := c.GetHeader("username")
+	fromUser, err = model.GetUserByUserName(userName)
 	// 解析token错误
 	if err != nil {
 		response.FailWithMsg(err.Error(), c)
@@ -164,8 +164,8 @@ func AddDenyList(c *gin.Context) {
 		fromUser, toUser model.User
 	)
 
-	token := c.GetHeader("token")
-	fromUser, err = userService.GetUserFromAuth(token)
+	userName := c.GetHeader("username")
+	fromUser, err = model.GetUserByUserName(userName)
 	// 解析token错误
 	if err != nil {
 		response.FailWithMsg(err.Error(), c)
@@ -191,8 +191,8 @@ func RemoveDenyList(c *gin.Context) {
 		err              error
 		fromUser, toUser model.User
 	)
-	token := c.GetHeader("token")
-	fromUser, err = userService.GetUserFromAuth(token)
+	userName := c.GetHeader("username")
+	fromUser, err = model.GetUserByUserName(userName)
 	// 解析token错误
 	if err != nil {
 		response.FailWithMsg(err.Error(), c)
@@ -219,8 +219,8 @@ func GetDenyList(c *gin.Context) {
 		fromUser        model.User
 		simpleUserInfos []userService.SimpleUserInfo
 	)
-	token := c.GetHeader("token")
-	fromUser, err = userService.GetUserFromAuth(token)
+	userName := c.GetHeader("username")
+	fromUser, err = model.GetUserByUserName(userName)
 	// 解析token错误
 	if err != nil {
 		response.FailWithMsg(err.Error(), c)
