@@ -381,7 +381,7 @@ func GetSimpleUserInfoListByUserID(fromID uuid.UUID, relationType int, loc int) 
 		isExist   bool
 		relations []model.Relation
 		users     []model.User
-		userInfo  model.UserInfo
+		//userInfo  model.UserInfo
 	)
 	data := make(map[string]interface{})
 	data["relation_type"] = relationType
@@ -412,15 +412,16 @@ func GetSimpleUserInfoListByUserID(fromID uuid.UUID, relationType int, loc int) 
 	}
 	users, err = model.GetUsersByUserIDs(userIDs)
 	for _, user := range users {
-		userInfo, err = model.GetUserInfoByUserID(user.UserID.String())
+		//userInfo, err = model.GetUserInfoByUserID(user.UserID.String())
 		if err != nil {
 			return simpleUserInfo, errors.New(e.MYSQL_ERROR)
 		}
 		simpleUserInfo = append(simpleUserInfo, SimpleUserInfo{
-			UserId:       user.UserID,
-			Avatar:       user.Avatar,
-			NickName:     user.Nickname,
-			Introduction: userInfo.Introduction,
+			UserId:   user.UserID,
+			Avatar:   user.Avatar,
+			NickName: user.Nickname,
+			//Introduction: userInfo.Introduction,
+			Introduction: user.UserInfo.Introduction,
 		})
 	}
 	return

@@ -40,10 +40,10 @@ type User struct {
 	Phone     string     `gorm:"column:phone;type:varchar(30);unique_index:unique_phone" json:"phone"` //[ 1] phone                                          VARCHAR[30]          null: false  primary: false  auto: false
 	Password  string     `gorm:"column:password;type:varchar(100);" json:"password"`                   //[ 2] password                                       VARCHAR[30]          null: false  primary: false  auto: false
 	Nickname  string     `gorm:"column:nickname;type:varchar(30);" json:"nickname"`                    //[ 3] nickname                                       VARCHAR[30]          null: false  primary: false  auto: false
-	CreatedAt time.Time  `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                   //[ 4] created_at                                     DATETIME             null: false  primary: false  auto: false
 	Status    int        `gorm:"column:status;type:INT;" json:"status"`                                //[ 5] status                                         INT                  null: false  primary: false  auto: false
-	DeletedAt *time.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                   //[ 6] deleted_at                                     DATETIME             null: true   primary: false  auto: false
+	CreatedAt time.Time  `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                   //[ 4] created_at                                     DATETIME             null: false  primary: false  auto: false
 	UpdatedAt time.Time  `gorm:"column:updated_at;type:DATETIME;" json:"updated_at"`                   //[16] updated_at                                     DATETIME             strue   primary: false  auto: false
+	DeletedAt *time.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                   //[ 6] deleted_at                                     DATETIME             null: true   primary: false  auto: false
 	Avatar    string     `gorm:"column:avatar;type:varchar(100);" json:"avatar"`                       //[ 7] avatar                                         VARCHAR[100]         null: false  primary: false  auto: false
 	UserInfo  UserInfo   `gorm:"foreignkey:UserId"`                                                    //一对一关系
 	UserName  string     `gorm:"column:username;type:varchar(50);unique_index:unique_username" json:"userName"`
@@ -129,18 +129,33 @@ func ExistUserByPhone(phone string) (user User, isExist bool) {
 func GetUserByUserName(userName string) (user User, err error) {
 	db := global.DB
 	err = db.Where("username = ?", userName).First(&user).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return user, err
+	}
+	err = db.Model(&user).Related(&user.UserInfo).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return user, err
+	}
 	return
 }
 
 func GetUserByUserID(userID string) (user User, err error) {
 	db := global.DB
 	err = db.Where("user_id = ?", userID).First(&user).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return user, err
+	}
+	err = db.Model(&user).Related(&user.UserInfo).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return user, err
+	}
 	return
 }
 
 func GetUsersByUserIDs(userIDs []string) (users []User, err error) {
 	db := global.DB
-	err = db.Where("user_id IN (?)", userIDs).Find(&users).Error
+	//err = db.Where("user_id IN (?)", userIDs).Find(&users).Error
+	err = db.Preload("UserInfo").Where("user_id IN (?)", userIDs).Find(&users).Error
 	return
 }
 
@@ -149,10 +164,4 @@ func UpdateUserByUserID(userID string, fieldName string, it interface{}) (err er
 	db := global.DB
 	err = db.Model(&user).Where("user_id = ?", userID).Update(fieldName, it).Error
 	return err
-}
-
-func UpdateUserByUser(user User) (err error) {
-	db := global.DB
-	err = db.Save(&user).Error
-	return
 }
