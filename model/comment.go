@@ -42,10 +42,10 @@ type Comment struct {
 	ActivityType null.String `gorm:"column:activity_type;type:VARCHAR;size:100;" json:"activity_type"` //[ 2] activity_type                                  VARCHAR[100]         null: true   primary: false  auto: false
 	Content      null.String `gorm:"column:content;type:TEXT;size:65535;" json:"content"`              //[ 3] content                                        TEXT[65535]          null: true   primary: false  auto: false
 	FromUID      null.String `gorm:"column:from_uid;type:VARCHAR;size:30;" json:"from_uid"`            //[ 4] from_uid                                       VARCHAR[30]          null: true   primary: false  auto: false
-	CreatedAt    time.Time   `gorm:"column:created_at;type:DATETIME;" json:"created_at"`               //[ 5] created_at                                     DATETIME             null: false  primary: false  auto: false
 	Status       null.Int    `gorm:"column:status;type:INT;" json:"status"`                            //[ 6] status                                         INT                  null: true   primary: false  auto: false
-	DeletedAt    null.Time   `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`               //[ 7] deleted_at                                     DATETIME             null: true   primary: false  auto: false
-
+	//CreatedAt    time.Time   `gorm:"column:created_at;type:DATETIME;" json:"created_at"`               //[ 5] created_at                                     DATETIME             null: false  primary: false  auto: false
+	//DeletedAt    null.Time   `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`               //[ 7] deleted_at                                     DATETIME             null: true   primary: false  auto: false
+	TimeModel
 }
 
 // TableName sets the insert table name for this struct type

@@ -265,7 +265,7 @@ func UpdateUserInfoByStruct(user model.User, it interface{}) (err error) {
 				}
 			}
 		case reflect.Int:
-			if tagVal.Int() == 0 {
+			if tagVal.Int() != 0 {
 				err = model.UpdateUserInfoByUserID(user.UserID.String(), tagName, tagVal.Int())
 				if err != nil {
 					return

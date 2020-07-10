@@ -40,8 +40,8 @@ type AtUser struct {
 	AcitvityID null.String `gorm:"column:acitvity_id;type:VARCHAR;size:30;" json:"acitvity_id"` //[ 1] acitvity_id                                    VARCHAR[30]          null: true   primary: false  auto: false
 	FromUID    null.String `gorm:"column:from_uid;type:VARCHAR;size:30;" json:"from_uid"`       //[ 2] from_uid                                       VARCHAR[30]          null: true   primary: false  auto: false
 	ToUID      null.String `gorm:"column:to_uid;type:VARCHAR;size:30;" json:"to_uid"`           //[ 3] to_uid                                         VARCHAR[30]          null: true   primary: false  auto: false
-	CreatedAt  null.Time   `gorm:"column:created_at;type:DATETIME;" json:"created_at"`          //[ 4] created_at                                     DATETIME             null: true   primary: false  auto: false
-
+	//CreatedAt  null.Time   `gorm:"column:created_at;type:DATETIME;" json:"created_at"`          //[ 4] created_at                                     DATETIME             null: true   primary: false  auto: false
+	TimeModel
 }
 
 // TableName sets the insert table name for this struct type

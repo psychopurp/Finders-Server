@@ -39,7 +39,7 @@ type CommunityManager struct {
 	ManagerID   null.String `gorm:"column:manager_id;type:VARCHAR;size:30;" json:"manager_id"` //[ 2] manager_id                                     VARCHAR[30]          null: true   primary: false  auto: false
 	Permission  null.Int    `gorm:"column:permission;type:INT;" json:"permission"`             //[ 3] permission                                     INT                  null: true   primary: false  auto: false
 	Status      int         `gorm:"column:status;type:INT;" json:"status"`                     //[ 4] status                                         INT                  null: false  primary: false  auto: false
-
+	TimeModel
 }
 
 // TableName sets the insert table name for this struct type
