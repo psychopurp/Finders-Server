@@ -1,6 +1,10 @@
 package model
 
 import (
+<<<<<<< HEAD
+=======
+	"finders-server/global"
+>>>>>>> test
 	"fmt"
 	"time"
 
@@ -42,10 +46,19 @@ type User struct {
 	CreatedAt time.Time  `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                   //[ 4] created_at                                     DATETIME             null: false  primary: false  auto: false
 	Status    int        `gorm:"column:status;type:INT;" json:"status"`                                //[ 5] status                                         INT                  null: false  primary: false  auto: false
 	DeletedAt *time.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                   //[ 6] deleted_at                                     DATETIME             null: true   primary: false  auto: false
+<<<<<<< HEAD
 	Avatar    string     `gorm:"column:avatar;type:varchar(100);" json:"avatar"`                       //[ 7] avatar                                         VARCHAR[100]         null: false  primary: false  auto: false
 	UserInfo  UserInfo   `gorm:"foreignkey:UserId"`                                                    //一对一关系
 	UserName  string     `gorm:"column:username;type:varchar(50);unique_index:unique_username" json:"userName"`
 	Relations []Relation `gorm:"many2many:relations"` //多对多关系
+=======
+	UpdatedAt time.Time  `gorm:"column:updated_at;type:DATETIME;" json:"updated_at"`                   //[16] updated_at                                     DATETIME             strue   primary: false  auto: false
+	Avatar    string     `gorm:"column:avatar;type:varchar(100);" json:"avatar"`                       //[ 7] avatar                                         VARCHAR[100]         null: false  primary: false  auto: false
+	UserInfo  UserInfo   `gorm:"foreignkey:UserId"`                                                    //一对一关系
+	UserName  string     `gorm:"column:username;type:varchar(50);unique_index:unique_username" json:"userName"`
+	//Relations []Relation `gorm:"many2many:relations;foreignkey:from_uid;association_jointable_foreignkey:relation_id"` //多对多关系
+	Relations []Relation `gorm:"many2many:relations;"` //多对多关系
+>>>>>>> test
 }
 
 // TableName sets the insert table name for this struct type
@@ -97,3 +110,62 @@ func (u *User) AfterCreate(scope *gorm.Scope) error {
 // func (u User) String() string {
 // 	return "this is test"
 // }
+<<<<<<< HEAD
+=======
+
+func AddUser(user *User) (err error) {
+	db := global.DB
+	err = db.Create(user).Error
+	return
+}
+
+func ExistUserByUserNameAndPassword(name, password string) (user User, isExist bool) {
+	db := global.DB
+	data := make(map[string]interface{})
+	data["username"] = name
+	data["password"] = password
+	data["status"] = Normal
+	isExist = !db.Where(data).First(&user).RecordNotFound()
+	return
+}
+
+func ExistUserByPhone(phone string) (user User, isExist bool) {
+	db := global.DB
+	data := make(map[string]interface{})
+	data["phone"] = phone
+	data["status"] = Normal
+	isExist = !db.Where(data).First(&user).RecordNotFound()
+	return
+}
+
+func GetUserByUserName(userName string) (user User, err error) {
+	db := global.DB
+	err = db.Where("username = ?", userName).First(&user).Error
+	return
+}
+
+func GetUserByUserID(userID string) (user User, err error) {
+	db := global.DB
+	err = db.Where("user_id = ?", userID).First(&user).Error
+	return
+}
+
+func GetUsersByUserIDs(userIDs []string) (users []User, err error) {
+	db := global.DB
+	err = db.Where("user_id IN (?)", userIDs).Find(&users).Error
+	return
+}
+
+func UpdateUserByUserID(userID string, fieldName string, it interface{}) (err error) {
+	var user User
+	db := global.DB
+	err = db.Model(&user).Where("user_id = ?", userID).Update(fieldName, it).Error
+	return err
+}
+
+func UpdateUserByUser(user User) (err error) {
+	db := global.DB
+	err = db.Save(&user).Error
+	return
+}
+>>>>>>> test

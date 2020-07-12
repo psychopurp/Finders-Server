@@ -2,6 +2,10 @@ package global
 
 import (
 	"finders-server/config"
+<<<<<<< HEAD
+=======
+	"github.com/gomodule/redigo/redis"
+>>>>>>> test
 
 	"github.com/jinzhu/gorm"
 	oplogging "github.com/op/go-logging"
@@ -13,4 +17,8 @@ var (
 	CONFIG *config.Server
 	LOG    *oplogging.Logger
 	DB     *gorm.DB
+<<<<<<< HEAD
+=======
+	RedisConn *redis.Pool
+>>>>>>> test
 )

@@ -34,7 +34,11 @@ func Routers() *gin.Engine {
 	// 方便统一添加路由组前缀 多服务器上线使用
 	APIGroup := Router.Group("/api/v1")
 	router.InitBaseRouter(APIGroup) //注册基本路由 不用鉴权
+<<<<<<< HEAD
 
+=======
+	router.InitUserRouter(APIGroup)
+>>>>>>> test
 	return Router
 
 }

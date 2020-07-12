@@ -1,9 +1,17 @@
 package model
 
 import (
+<<<<<<< HEAD
 	"time"
 
 	uuid "github.com/satori/go.uuid"
+=======
+	"errors"
+	"finders-server/global"
+	"finders-server/pkg/e"
+	uuid "github.com/satori/go.uuid"
+	"time"
+>>>>>>> test
 )
 
 /*
@@ -36,7 +44,30 @@ type Relation struct {
 	ToUID         uuid.UUID `gorm:"column:to_uid;type:varchar(50);" json:"to_uid"`                             //[ 4] to_uid                                         VARCHAR[30]          null: false  primary: false  auto: false
 	CreatedAt     time.Time `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                        //[ 5] created_at                                     DATETIME             null: false  primary: false  auto: false
 	UpdatedAt     time.Time `gorm:"column:updated_at;type:DATETIME;" json:"updated_at"`                        //[ 6] updated_at                                     DATETIME             null: true   primary: false  auto: false
+<<<<<<< HEAD
 
+=======
+	//DeletedAt     *time.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                        //[ 6] deleted_at                                     DATETIME             null: true   primary: false  auto: false
+}
+
+const baseIndex = 1
+
+// RelationType
+const (
+	FOLLOW = baseIndex + iota
+	DENY
+)
+
+// RelationGroup
+const (
+	FOLLOW_RELATION_GROUP = "followRelation"
+	DENY_RELATION_GROUP   = "denyRelation"
+)
+
+var relationGroupByIndex = map[int]string{
+	FOLLOW: FOLLOW_RELATION_GROUP,
+	DENY:   DENY_RELATION_GROUP,
+>>>>>>> test
 }
 
 // TableName sets the insert table name for this struct type
@@ -55,3 +86,99 @@ func (r *Relation) Validate(action Action) error {
 
 	return nil
 }
+<<<<<<< HEAD
+=======
+
+func ExistRelation(fromUID, toUID uuid.UUID, relationType int) (isExist bool, err error) {
+	db := global.DB
+	if relationGroupByIndex[relationType] == "" {
+		return false, errors.New(e.TYPE_ERROR)
+	}
+	data := make(map[string]interface{})
+	data["from_uid"] = fromUID.String()
+	if !uuid.Equal(toUID, uuid.Nil){
+		data["to_uid"] = toUID.String()
+	}
+
+	data["relation_type"] = relationType
+	var relation Relation
+	isExist = !db.Where(data).First(&relation).RecordNotFound()
+	return
+}
+
+func ExistRelationByData(data map[string]interface{}) (isExist bool, err error){
+	db := global.DB
+	if data["relation_type"] != "" && relationGroupByIndex[data["relation_type"].(int)] == ""{
+		return false, errors.New(e.TYPE_ERROR)
+	}
+	if data["relation_group"] != "" {
+		delete(data, "relation_group")
+	}
+	var relation Relation
+	isExist = !db.Where(data).First(&relation).RecordNotFound()
+	return
+}
+
+func AddRelation(fromUID, toUID uuid.UUID, relationType int) (relation Relation, err error) {
+	db := global.DB
+	if relationGroupByIndex[relationType] == "" {
+		return relation, errors.New(e.TYPE_ERROR)
+	}
+	relation.FromUID = fromUID
+	relation.ToUID = toUID
+	relation.RelationType = relationType
+	relation.RelationGroup = relationGroupByIndex[relationType]
+	err = db.Create(&relation).Error
+	return
+}
+
+func DeleteRelation(fromUID, toUID uuid.UUID, relationType int) (relation Relation, err error) {
+	db := global.DB
+	if relationGroupByIndex[relationType] == "" {
+		return relation, errors.New(e.TYPE_ERROR)
+	}
+	data := make(map[string]interface{})
+	data["from_uid"] = fromUID.String()
+	data["to_uid"] = toUID.String()
+	data["relation_type"] = relationType
+	err = db.Where(data).Delete(&relation).Error
+	return
+}
+
+func GetRelations(fromUID uuid.UUID, relationType int) (relations []Relation, err error) {
+	db := global.DB
+	if relationGroupByIndex[relationType] == "" {
+		return relations, errors.New(e.TYPE_ERROR)
+	}
+	data := make(map[string]interface{})
+	data["from_uid"] = fromUID.String()
+	data["relation_type"] = relationType
+	err = db.Where(data).Find(&relations).Error
+	return
+}
+
+func GetRelationsByData(data map[string]interface{}) (relations []Relation, err error){
+	db := global.DB
+	if data["relation_type"] != "" && relationGroupByIndex[data["relation_type"].(int)] == ""{
+		return relations, errors.New(e.TYPE_ERROR)
+	}
+	if data["relation_group"] != "" {
+		delete(data, "relation_group")
+	}
+	err = db.Model(&Relation{}).Where(data).Find(&relations).Error
+	return
+}
+
+func UpdateRelationType(data map[string]interface{}, relationType int) (relation Relation, err error) {
+	db := global.DB
+	if relationGroupByIndex[relationType] == "" {
+		return relation, errors.New(e.TYPE_ERROR)
+	}
+	relation.RelationType = relationType
+	relation.RelationGroup = relationGroupByIndex[relationType]
+	err = db.Model(&Relation{}).Where(data).
+		Updates(&relation).
+		Error
+	return
+}
+>>>>>>> test

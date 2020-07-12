@@ -6,6 +6,10 @@ CREATE TABLE `users` (
 `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '注册时间',
 `status` int NOT NULL COMMENT '用户状态',
 `deleted_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
+<<<<<<< HEAD
+=======
+`updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+>>>>>>> test
 `avatar` varchar(100) NOT NULL COMMENT '用户头像',
 PRIMARY KEY (`user_id`) ,
 UNIQUE INDEX `unique_phone` (`phone` ASC)
@@ -47,10 +51,18 @@ CREATE TABLE `relations` (
 `relation_id` int NOT NULL AUTO_INCREMENT COMMENT '用户关系ID',
 `relation_type` int NOT NULL COMMENT '关系类型',
 `relation_group` varchar(20) NOT NULL COMMENT '关系组名',
+<<<<<<< HEAD
 `from_uid` varchar(30) NOT NULL COMMENT '用户ID',
 `to_uid` varchar(30) NOT NULL COMMENT '被关注用户ID',
 `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '关系建立时间',
 `updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '关系更新时间',
+=======
+`from_uid` varchar(50) NOT NULL COMMENT '用户ID',
+`to_uid` varchar(50) NOT NULL COMMENT '被关注用户ID',
+`created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '关系建立时间',
+`updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '关系更新时间',
+`deleted_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
+>>>>>>> test
 PRIMARY KEY (`relation_id`) ,
 UNIQUE INDEX `unique_user_user` (`from_uid` ASC, `to_uid` ASC) USING BTREE
 );
@@ -67,8 +79,13 @@ PRIMARY KEY (`message_id`)
 );
 CREATE TABLE `logins` (
 `login_id` int  NOT NULL COMMENT '登陆ID',
+<<<<<<< HEAD
 `user_id` varchar(30) NOT NULL COMMENT '用户ID',
 `access_token` varchar(200) NOT NULL COMMENT 'api token',
+=======
+`user_id` varchar(50) NOT NULL COMMENT '用户ID',
+`access_token` varchar(250) NOT NULL COMMENT 'api token',
+>>>>>>> test
 `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '登陆时间',
 `expired_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '过期时间',
 PRIMARY KEY (`login_id`) 

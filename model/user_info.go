@@ -1,6 +1,10 @@
 package model
 
 import (
+<<<<<<< HEAD
+=======
+	"finders-server/global"
+>>>>>>> test
 	"time"
 
 	uuid "github.com/satori/go.uuid"
@@ -78,3 +82,31 @@ func (u *UserInfo) Validate(action Action) error {
 
 	return nil
 }
+<<<<<<< HEAD
+=======
+
+func AddUserInfo(userInfo *UserInfo) (err error){
+	db := global.DB
+	err = db.Create(userInfo).Error
+	return
+}
+
+func GetUserInfoByUserID(userID string)(userInfo UserInfo, err error){
+	db := global.DB
+	err = db.Where("user_id = ?", userID).First(&userInfo).Error
+	return
+}
+
+func UpdateUserInfoByUserID(userID string, fieldName string, it interface{})(err error){
+	var userInfo UserInfo
+	db := global.DB
+	err = db.Model(&userInfo).Where("user_id = ?", userID).Update(fieldName, it).Error
+	return err
+}
+
+func UpdateUserInfoByUserInfo(userInfo UserInfo) (err error){
+	db := global.DB
+	err = db.Save(&userInfo).Error
+	return
+}
+>>>>>>> test

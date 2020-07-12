@@ -16,9 +16,23 @@ type Response struct {
 	Msg  string      `json:"msg"`
 }
 
+<<<<<<< HEAD
 const (
 	ERROR   = -1
 	SUCCESS = 0 //定义当前的操作是成功的
+=======
+type WithToken struct {
+	Code  int         `json:"code"`
+	Data  interface{} `json:"data"`
+	Msg   string      `json:"msg"`
+	Token string      `json:"token"`
+}
+
+const (
+	ERROR                    = -1
+	SUCCESS                  = 0 //定义当前的操作是成功的
+	TOKEN_UPDATE_AND_SUCCESS = 1
+>>>>>>> test
 )
 
 func Result(code int, data interface{}, msg string, c *gin.Context) {
@@ -44,6 +58,18 @@ func OkWithMsg(message string, c *gin.Context) {
 func OkWithData(data interface{}, c *gin.Context) {
 	Result(SUCCESS, data, "操作成功", c)
 }
+<<<<<<< HEAD
+=======
+// OK 附加token
+func OKWithToken(token string, c *gin.Context) {
+	c.JSON(http.StatusOK, WithToken{
+		Code:  SUCCESS,
+		Data:  "",
+		Msg:   "操作成功",
+		Token: token,
+	})
+}
+>>>>>>> test
 
 //Fail 操作失败
 func Fail(c *gin.Context) {
