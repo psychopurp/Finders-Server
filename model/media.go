@@ -32,7 +32,7 @@ CREATE TABLE `pictures` (
 
 */
 
-// Picture struct is a row record of the pictures table in the employees database
+// Picture struct is a row record of the pictures teble in the employees database
 type Media struct {
 	MediaID   string     `gorm:"column:media_id;type:varchar(50);primary_key" json:"media_id"` //[ 0] picture_id                                     VARCHAR[30]          null: false  primary: true   auto: false
 	MediaURL  string     `gorm:"column:media_url;type:varchar(200)" json:"media_url"`          //[ 1] picture_url                                    VARCHAR[200]         null: true   primary: false  auto: false

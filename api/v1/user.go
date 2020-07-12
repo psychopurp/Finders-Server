@@ -36,6 +36,14 @@ func Register(user *model.User) (err error) {
 	return
 }
 
+// @Summary 登录或注册
+// @Description 登录或注册
+// @Tags 登录或注册
+// @Accept json
+// @Produce json
+// @Param data body userService.loginByUserNameOrPhone true "手机号 可选择手机号和验证码登录 或用户名和密码"
+// @Success 200 {string} string "success: {"code": 0, data:"", "msg": "", token: "token"}; failure: {"code": -1, data:"", "msg": "error msg", token: ""}"
+// @Router /v1/user/login [post]
 func Login(c *gin.Context) {
 	var (
 		user  model.User
@@ -68,6 +76,14 @@ func Login(c *gin.Context) {
 	response.OKWithToken(token, c)
 }
 
+// @Summary 更新用户信息
+// @Description 更新用户信息
+// @Tags 更新用户信息
+// @Accept json
+// @Produce json
+// @Param data body userService.UpdateForm true "任意字段都可更新，可一次更新多个字段"
+// @Success 200 {string} string "success: {"code": 0, data:"", "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/update_profile [post]
 func UpdateProfile(c *gin.Context) {
 	var (
 		user model.User
@@ -99,6 +115,14 @@ func UpdateProfile(c *gin.Context) {
 	response.OkWithData("", c)
 }
 
+// @Summary 关注
+// @Description 关注
+// @Tags 关注
+// @Accept json
+// @Produce json
+// @Param data body userService.FollowForm true "需要关注的人的ID"
+// @Success 200 {string} string "success: {"code": 0, data:"", "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/follow [post]
 func Follow(c *gin.Context) {
 	var (
 		err              error
@@ -126,6 +150,14 @@ func Follow(c *gin.Context) {
 	response.OkWithData("", c)
 }
 
+// @Summary 取消关注
+// @Description 取消关注
+// @Tags 取消关注
+// @Accept json
+// @Produce json
+// @Param data body userService.FollowForm true "需要取消关注的人的ID"
+// @Success 200 {string} string "success: {"code": 0, data:"", "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/unfollow [post]
 func UnFollow(c *gin.Context) {
 	var (
 		err              error
@@ -153,6 +185,14 @@ func UnFollow(c *gin.Context) {
 	response.OkWithData("", c)
 }
 
+// @Summary 拉入黑名单
+// @Description 拉入黑名单
+// @Tags 拉入黑名单
+// @Accept json
+// @Produce json
+// @Param data body userService.FollowForm true "需要拉入黑名单的人的ID"
+// @Success 200 {string} string "success: {"code": 0, data:"", "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/add_denylist [post]
 func AddDenyList(c *gin.Context) {
 	var (
 		err              error
@@ -181,6 +221,14 @@ func AddDenyList(c *gin.Context) {
 	response.OkWithData("", c)
 }
 
+// @Summary 将一个人从黑名单中移除
+// @Description 将一个人从黑名单中移除
+// @Tags 将一个人从黑名单中移除
+// @Accept json
+// @Produce json
+// @Param data body userService.FollowForm true "需要取消黑名单的人的ID"
+// @Success 200 {string} string "success: {"code": 0, data:"", "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/remove_denylist [post]
 func RemoveDenyList(c *gin.Context) {
 	var (
 		err              error
@@ -208,6 +256,13 @@ func RemoveDenyList(c *gin.Context) {
 	response.OkWithData("", c)
 }
 
+// @Summary 获取本用户的黑名单列表
+// @Description 获取本用户的黑名单列表
+// @Tags 获取本用户的黑名单列表
+// @Accept json
+// @Produce json
+// @Success 200 {string} string "success: {"code": 0, data: {userId:"",avatar:"url",nickName:"",introduction:""}, "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/get_denylist [get]
 func GetDenyList(c *gin.Context) {
 	var (
 		err             error
@@ -230,6 +285,14 @@ func GetDenyList(c *gin.Context) {
 	response.OkWithData(simpleUserInfos, c)
 }
 
+// @Summary 获取一个用户的粉丝列表
+// @Description 获取一个用户的粉丝列表
+// @Tags 获取一个用户的粉丝列表
+// @Accept json
+// @Produce json
+// @Param data body userService.FollowForm true "需要获取粉丝列表的人的ID"
+// @Success 200 {string} string "success: {"code": 0, data: {"code": 0, data: {userId:"",avatar:"url",nickName:"",introduction:""}, "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/get_fans [get]
 func GetFans(c *gin.Context) {
 	var (
 		err             error
@@ -255,6 +318,14 @@ func GetFans(c *gin.Context) {
 	response.OkWithData(simpleUserInfos, c)
 }
 
+// @Summary 获取一个用户的关注列表
+// @Description 获取一个用户的关注列表
+// @Tags 获取一个用户的关注列表
+// @Accept json
+// @Produce json
+// @Param data body userService.FollowForm true "需要获取关注列表名单的人的ID"
+// @Success 200 {string} string "success: {"code": 0, data: {"code": 0, data: {userId:"",avatar:"url",nickName:"",introduction:""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/get_follow [get]
 func GetFollow(c *gin.Context) {
 	var (
 		err             error

@@ -9,6 +9,14 @@ import (
 	"mime/multipart"
 )
 
+// @Summary 上传图片
+// @Description 上传图片
+// @Tags 上传图片
+// @Accept mpfd
+// @Produce json
+// @Param image formData file true "图片"
+// @Success 200 {string} string "success: {"code": 0, data:{image_url:""}, "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/upload_image [post]
 func UploadImage(c *gin.Context) {
 	var (
 		file  multipart.File
@@ -70,6 +78,14 @@ func UploadImage(c *gin.Context) {
 	response.OkWithData(data, c)
 }
 
+// @Summary 上传视屏
+// @Description 上传视屏
+// @Tags 上传视屏
+// @Accept mpfd
+// @Produce json
+// @Param video formData file true "视屏"
+// @Success 200 {string} string "success: {"code": 0, data:{video_url:""}, "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
+// @Router /v1/user/upload_video [post]
 func UploadVideo(c *gin.Context) {
 	var (
 		file  multipart.File

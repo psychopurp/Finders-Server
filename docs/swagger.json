@@ -33,62 +33,9 @@
                 }
             }
         },
-        "/userinfos": {
-            "get": {
-                "description": "GetAllUserInfo is a handler to get a slice of record(s) from user_infos table in the employees database",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "UserInfo"
-                ],
-                "summary": "Get list of UserInfo",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "page requested (defaults to 0)",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "number of records in a page  (defaults to 20)",
-                        "name": "pagesize",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "db sort order column",
-                        "name": "order",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.PagedResults"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    }
-                }
-            },
+        "/v1/user/add_denylist": {
             "post": {
-                "description": "add to add a single record to user_infos table in the employees database",
+                "description": "拉入黑名单",
                 "consumes": [
                     "application/json"
                 ],
@@ -96,237 +43,33 @@
                     "application/json"
                 ],
                 "tags": [
-                    "UserInfo"
+                    "拉入黑名单"
                 ],
-                "summary": "Add an record to user_infos table",
+                "summary": "拉入黑名单",
                 "parameters": [
                     {
-                        "description": "Add UserInfo",
-                        "name": "UserInfo",
+                        "description": "需要拉入黑名单的人的ID",
+                        "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.UserInfo"
+                            "$ref": "#/definitions/userService.FollowForm"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "success: {\"code\": 0, data:\"\", \"msg\": \"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
                         "schema": {
-                            "$ref": "#/definitions/model.UserInfo"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
+                            "type": "string"
                         }
                     }
                 }
             }
         },
-        "/userinfos/{id}": {
-            "get": {
-                "description": "GetUserInfo is a function to get a single record to user_infos table in the employees database",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "UserInfo"
-                ],
-                "summary": "Get record from table UserInfo by id",
-                "operationId": "record id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "record id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.UserInfo"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    },
-                    "404": {
-                        "description": "NotFound, db record for id not found - returns NotFound HTTP 404 not found error",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete a single record from user_infos table in the employees database",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "UserInfo"
-                ],
-                "summary": "Delete a record from user_infos",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "format": "int64",
-                        "description": "ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content",
-                        "schema": {
-                            "$ref": "#/definitions/model.UserInfo"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "description": "Update a single record from user_infos table in the employees database",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "UserInfo"
-                ],
-                "summary": "Update an record in table user_infos",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Update UserInfo record",
-                        "name": "UserInfo",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "$ref": "#/definitions/model.UserInfo"
-                        }
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/model.UserInfo"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    }
-                }
-            }
-        },
-        "/users": {
-            "get": {
-                "description": "GetAllUser is a handler to get a slice of record(s) from users table in the employees database",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Get list of User",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "page requested (defaults to 0)",
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "description": "number of records in a page  (defaults to 20)",
-                        "name": "pagesize",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "description": "db sort order column",
-                        "name": "order",
-                        "in": "query"
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "$ref": "#/definitions/api.PagedResults"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    }
-                }
-            },
+        "/v1/user/follow": {
             "post": {
-                "description": "add to add a single record to users table in the employees database",
+                "description": "关注",
                 "consumes": [
                     "application/json"
                 ],
@@ -334,45 +77,33 @@
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "关注"
                 ],
-                "summary": "Add an record to users table",
+                "summary": "关注",
                 "parameters": [
                     {
-                        "description": "Add User",
-                        "name": "User",
+                        "description": "需要关注的人的ID",
+                        "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/userService.FollowForm"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "success: {\"code\": 0, data:\"\", \"msg\": \"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
                         "schema": {
-                            "$ref": "#/definitions/model.User"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    },
-                    "404": {
-                        "description": "Not Found",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
+                            "type": "string"
                         }
                     }
                 }
             }
         },
-        "/users/{id}": {
+        "/v1/user/get_denylist": {
             "get": {
-                "description": "GetUser is a function to get a single record to users table in the employees database",
+                "description": "获取本用户的黑名单列表",
                 "consumes": [
                     "application/json"
                 ],
@@ -380,42 +111,22 @@
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "获取本用户的黑名单列表"
                 ],
-                "summary": "Get record from table User by id",
-                "operationId": "record id",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "record id",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
+                "summary": "获取本用户的黑名单列表",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "success: {\"code\": 0, data: {userId:\"\",avatar:\"url\",nickName:\"\",introduction:\"\"}, \"msg\": \"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
                         "schema": {
-                            "$ref": "#/definitions/model.User"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    },
-                    "404": {
-                        "description": "NotFound, db record for id not found - returns NotFound HTTP 404 not found error",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
+                            "type": "string"
                         }
                     }
                 }
-            },
-            "delete": {
-                "description": "Delete a single record from users table in the employees database",
+            }
+        },
+        "/v1/user/get_fans": {
+            "get": {
+                "description": "获取一个用户的粉丝列表",
                 "consumes": [
                     "application/json"
                 ],
@@ -423,87 +134,259 @@
                     "application/json"
                 ],
                 "tags": [
-                    "User"
+                    "获取一个用户的粉丝列表"
                 ],
-                "summary": "Delete a record from users",
+                "summary": "获取一个用户的粉丝列表",
                 "parameters": [
                     {
-                        "type": "integer",
-                        "format": "int64",
-                        "description": "ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "No Content",
-                        "schema": {
-                            "$ref": "#/definitions/model.User"
-                        }
-                    },
-                    "400": {
-                        "description": "Bad Request",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal Server Error",
-                        "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
-                        }
-                    }
-                }
-            },
-            "patch": {
-                "description": "Update a single record from users table in the employees database",
-                "consumes": [
-                    "application/json"
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "User"
-                ],
-                "summary": "Update an record in table users",
-                "parameters": [
-                    {
-                        "type": "integer",
-                        "description": "Account ID",
-                        "name": "id",
-                        "in": "path",
-                        "required": true
-                    },
-                    {
-                        "description": "Update User record",
-                        "name": "User",
+                        "description": "需要获取粉丝列表的人的ID",
+                        "name": "data",
                         "in": "body",
                         "required": true,
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "$ref": "#/definitions/userService.FollowForm"
                         }
                     }
                 ],
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "success: {\"code\": 0, data: {\"code\": 0, data: {userId:\"\",avatar:\"url\",nickName:\"\",introduction:\"\"}, \"msg\": \"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
                         "schema": {
-                            "$ref": "#/definitions/model.User"
+                            "type": "string"
                         }
-                    },
-                    "400": {
-                        "description": "Bad Request",
+                    }
+                }
+            }
+        },
+        "/v1/user/get_follow": {
+            "get": {
+                "description": "获取一个用户的关注列表",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "获取一个用户的关注列表"
+                ],
+                "summary": "获取一个用户的关注列表",
+                "parameters": [
+                    {
+                        "description": "需要获取关注列表名单的人的ID",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
                         "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
+                            "$ref": "#/definitions/userService.FollowForm"
                         }
-                    },
-                    "404": {
-                        "description": "Not Found",
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success: {\"code\": 0, data: {\"code\": 0, data: {userId:\"\",avatar:\"url\",nickName:\"\",introduction:\"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
                         "schema": {
-                            "$ref": "#/definitions/api.HTTPError"
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/login": {
+            "post": {
+                "description": "登录或注册",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "登录或注册"
+                ],
+                "summary": "登录或注册",
+                "parameters": [
+                    {
+                        "description": "手机号 可选择手机号和验证码登录 或用户名和密码",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userService.loginByUserNameOrPhone"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success: {\"code\": 0, data:\"\", \"msg\": \"\", token: \"token\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\", token: \"\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/remove_denylist": {
+            "post": {
+                "description": "将一个人从黑名单中移除",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "将一个人从黑名单中移除"
+                ],
+                "summary": "将一个人从黑名单中移除",
+                "parameters": [
+                    {
+                        "description": "需要取消黑名单的人的ID",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userService.FollowForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success: {\"code\": 0, data:\"\", \"msg\": \"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/unfollow": {
+            "post": {
+                "description": "取消关注",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "取消关注"
+                ],
+                "summary": "取消关注",
+                "parameters": [
+                    {
+                        "description": "需要取消关注的人的ID",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userService.FollowForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success: {\"code\": 0, data:\"\", \"msg\": \"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/update_profile": {
+            "post": {
+                "description": "更新用户信息",
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "更新用户信息"
+                ],
+                "summary": "更新用户信息",
+                "parameters": [
+                    {
+                        "description": "任意字段都可更新，可一次更新多个字段",
+                        "name": "data",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/userService.UpdateForm"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success: {\"code\": 0, data:\"\", \"msg\": \"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/upload_image": {
+            "post": {
+                "description": "上传图片",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "上传图片"
+                ],
+                "summary": "上传图片",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "图片",
+                        "name": "image",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success: {\"code\": 0, data:{image_url:\"\"}, \"msg\": \"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/user/upload_video": {
+            "post": {
+                "description": "上传视屏",
+                "consumes": [
+                    "multipart/form-data"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "上传视屏"
+                ],
+                "summary": "上传视屏",
+                "parameters": [
+                    {
+                        "type": "file",
+                        "description": "视屏",
+                        "name": "video",
+                        "in": "formData",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "success: {\"code\": 0, data:{video_url:\"\"}, \"msg\": \"\"}; failure: {\"code\": -1, data:\"\", \"msg\": \"error msg\"}",
+                        "schema": {
+                            "type": "string"
                         }
                     }
                 }
@@ -511,122 +394,15 @@
         }
     },
     "definitions": {
-        "api.HTTPError": {
+        "userService.FollowForm": {
             "type": "object",
             "properties": {
-                "code": {
-                    "type": "integer",
-                    "example": 400
-                },
-                "message": {
-                    "type": "string",
-                    "example": "status bad request"
-                }
-            }
-        },
-        "api.PagedResults": {
-            "type": "object",
-            "properties": {
-                "data": {
-                    "type": "object"
-                },
-                "page": {
-                    "type": "integer"
-                },
-                "page_size": {
-                    "type": "integer"
-                },
-                "total_records": {
-                    "type": "integer"
-                }
-            }
-        },
-        "model.Relation": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "description": "[ 5] created_at                                     DATETIME             null: false  primary: false  auto: false",
-                    "type": "string"
-                },
-                "from_uid": {
-                    "description": "[ 3] from_uid                                       VARCHAR[30]          null: false  primary: false  auto: false",
-                    "type": "string"
-                },
-                "relation_group": {
-                    "description": "[ 2] relation_group                                 VARCHAR[20]          null: false  primary: false  auto: false",
-                    "type": "string"
-                },
-                "relation_id": {
-                    "description": "[ 0] relation_id                                    INT                  null: false  primary: true   auto: true",
-                    "type": "integer"
-                },
-                "relation_type": {
-                    "description": "[ 1] relation_type                                  INT                  null: false  primary: false  auto: false",
-                    "type": "integer"
-                },
-                "to_uid": {
-                    "description": "[ 4] to_uid                                         VARCHAR[30]          null: false  primary: false  auto: false",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "[ 6] updated_at                                     DATETIME             null: true   primary: false  auto: false",
+                "userID": {
                     "type": "string"
                 }
             }
         },
-        "model.User": {
-            "type": "object",
-            "properties": {
-                "avatar": {
-                    "description": "[ 7] avatar                                         VARCHAR[100]         null: false  primary: false  auto: false",
-                    "type": "string"
-                },
-                "created_at": {
-                    "description": "[ 4] created_at                                     DATETIME             null: false  primary: false  auto: false",
-                    "type": "string"
-                },
-                "deleted_at": {
-                    "description": "[ 6] deleted_at                                     DATETIME             null: true   primary: false  auto: false",
-                    "type": "string"
-                },
-                "nickname": {
-                    "description": "[ 3] nickname                                       VARCHAR[30]          null: false  primary: false  auto: false",
-                    "type": "string"
-                },
-                "password": {
-                    "description": "[ 2] password                                       VARCHAR[30]          null: false  primary: false  auto: false",
-                    "type": "string"
-                },
-                "phone": {
-                    "description": "[ 1] phone                                          VARCHAR[30]          null: false  primary: false  auto: false",
-                    "type": "string"
-                },
-                "relations": {
-                    "description": "多对多关系",
-                    "type": "array",
-                    "items": {
-                        "$ref": "#/definitions/model.Relation"
-                    }
-                },
-                "status": {
-                    "description": "[ 5] status                                         INT                  null: false  primary: false  auto: false",
-                    "type": "integer"
-                },
-                "userInfo": {
-                    "description": "一对一关系",
-                    "type": "object",
-                    "$ref": "#/definitions/model.UserInfo"
-                },
-                "userName": {
-                    "type": "string"
-                },
-                "user_id": {
-                    "description": "[ 0] user_id                                        VARCHAR[30]          null: false  primary: true   auto: false",
-                    "type": "string"
-                }
-            }
-        },
-        "model.UserInfo": {
+        "userService.UpdateForm": {
             "type": "object",
             "properties": {
                 "address": {
@@ -634,7 +410,6 @@
                     "type": "string"
                 },
                 "age": {
-                    "description": "[20] age",
                     "type": "integer"
                 },
                 "birthday": {
@@ -649,17 +424,9 @@
                     "description": "[14] constellation                                  VARCHAR[40]          strue   primary: false  auto: false",
                     "type": "string"
                 },
-                "created_at": {
-                    "description": "[15] created_at                                     DATETIME             sfalse  primary: false  auto: false",
-                    "type": "string"
-                },
                 "credit": {
                     "description": "[17] credit                                         INT                  sfalse  primary: false  auto: false",
                     "type": "integer"
-                },
-                "deleted_at": {
-                    "description": "[19] deleted_at                                     DATETIME             strue   primary: false  auto: false",
-                    "type": "string"
                 },
                 "eamil": {
                     "description": "[ 9] eamil                                          VARCHAR[60]          strue   primary: false  auto: false",
@@ -671,6 +438,14 @@
                 },
                 "introduction": {
                     "description": "[ 7] introduction                                   VARCHAR[400]         strue   primary: false  auto: false",
+                    "type": "string"
+                },
+                "nickname": {
+                    "description": "[ 3] nickname                                       VARCHAR[30]          null: false  primary: false  auto: false",
+                    "type": "string"
+                },
+                "password": {
+                    "description": "[ 2] password                                       VARCHAR[30]          null: false  primary: false  auto: false",
                     "type": "string"
                 },
                 "profession": {
@@ -697,20 +472,32 @@
                     "description": "[ 1] truename                                       VARCHAR[40]          strue   primary: false  auto: false",
                     "type": "string"
                 },
-                "updated_at": {
-                    "description": "[16] updated_at                                     DATETIME             strue   primary: false  auto: false",
-                    "type": "string"
-                },
-                "user_id": {
-                    "description": "[ 0] user_id                                        VARCHAR[30]          sfalse  primary: true   auto: false",
-                    "type": "string"
-                },
                 "user_tag": {
                     "description": "[18] user_tag                                       TEXT[65535]          strue   primary: false  auto: false",
                     "type": "string"
                 },
+                "username": {
+                    "type": "string"
+                },
                 "wechat": {
                     "description": "[11] wechat                                         VARCHAR[30]          strue   primary: false  auto: false",
+                    "type": "string"
+                }
+            }
+        },
+        "userService.loginByUserNameOrPhone": {
+            "type": "object",
+            "properties": {
+                "code": {
+                    "type": "string"
+                },
+                "password": {
+                    "type": "string"
+                },
+                "phone": {
+                    "type": "string"
+                },
+                "userName": {
                     "type": "string"
                 }
             }
