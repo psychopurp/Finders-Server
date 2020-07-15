@@ -37,16 +37,12 @@ CREATE TABLE `communities` (
 
 // Community struct is a row record of the communities table in the employees database
 type Community struct {
-	CommunityID          int         `gorm:"column:community_id;type:INT;primary_key" json:"community_id"`                    //[ 0] community_id                                   INT                  null: false  primary: true   auto: false
-	CommunityCreator     string      `gorm:"column:community_creator;type:VARCHAR;size:30;" json:"community_creator"`         //[ 1] community_creator                              VARCHAR[30]          null: false  primary: false  auto: false
-	CommunityName        string      `gorm:"column:community_name;type:VARCHAR;size:100;" json:"community_name"`              //[ 3] community_name                                 VARCHAR[100]         null: false  primary: false  auto: false
-	CommunityDescription null.String `gorm:"column:community_description;type:TEXT;size:65535;" json:"community_description"` //[ 4] community_description                          TEXT[65535]          null: true   primary: false  auto: false
-	CommunityStatus      int         `gorm:"column:community_status;type:INT;" json:"community_status"`                       //[ 5] community_status                               INT                  null: false  primary: false  auto: false
-	Background           null.String `gorm:"column:background;type:VARCHAR;size:200;" json:"background"`                      //[ 7] background                                     VARCHAR[200]         null: true   primary: false  auto: false
-	Board                null.String `gorm:"column:board;type:TEXT;size:65535;" json:"board"`                                 //[ 8] board                                          TEXT[65535]          null: true   primary: false  auto: false
-	//CreatedAt            time.Time   `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                              //[ 2] created_at                                     DATETIME             null: false  primary: false  auto: false
-	//UpdatedAt            null.Time   `gorm:"column:updated_at;type:DATETIME;" json:"updated_at"`                              //[ 6] updated_at                                     DATETIME             null: true   primary: false  auto: false
-	//DeletedAt            null.Time   `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                              //[ 9] deleted_at                                     DATETIME             null: true   primary: false  auto: false
+	CommunityID          int    `gorm:"column:community_id;type:INT;primary_key" json:"community_id"`                    //[ 0] community_id                                   INT                  null: false  primary: true   auto: false
+	CommunityCreator     string `gorm:"column:community_creator;varchar(50);" json:"community_creator"`                  //[ 1] community_creator                              VARCHAR[30]          null: false  primary: false  auto: false
+	CommunityName        string `gorm:"column:community_name;type:varchar(100);" json:"community_name"`                  //[ 3] community_name                                 VARCHAR[100]         null: false  primary: false  auto: false
+	CommunityDescription string `gorm:"column:community_description;type:TEXT;size:65535;" json:"community_description"` //[ 4] community_description                          TEXT[65535]          null: true   primary: false  auto: false
+	CommunityStatus      int    `gorm:"column:community_status;type:INT;" json:"community_status"`                       //[ 5] community_status                               INT                  null: false  primary: false  auto: false
+	Background           string `gorm:"column:background;type:varchar(200);" json:"background"`                          //[ 7] background                                     VARCHAR[200]         null: true   primary: false  auto: false
 	TimeModel
 }
 

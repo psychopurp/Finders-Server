@@ -26,26 +26,25 @@ func MySql() {
 
 }
 
-
-func updateTimeStampForCreateCallback(scope *gorm.Scope){
-	if !scope.HasError(){
-		nowTime := time.Now().Unix()
-		if createTimeField, ok := scope.FieldByName("CreatedAt"); ok{
-			if createTimeField.IsBlank{
+func updateTimeStampForCreateCallback(scope *gorm.Scope) {
+	if !scope.HasError() {
+		nowTime := time.Now()
+		if createTimeField, ok := scope.FieldByName("CreatedAt"); ok {
+			if createTimeField.IsBlank {
 				createTimeField.Set(nowTime)
 			}
 		}
 
-		if updateTimeField, ok := scope.FieldByName("UpdatedAt"); ok{
-			if updateTimeField.IsBlank{
+		if updateTimeField, ok := scope.FieldByName("UpdatedAt"); ok {
+			if updateTimeField.IsBlank {
 				updateTimeField.Set(nowTime)
 			}
 		}
 	}
 }
 
-func updateTimeStampForUpdateCallback(scope *gorm.Scope){
-	if _, ok := scope.Get("gorm:update_column"); !ok{
-		scope.SetColumn("UpdatedAt", time.Now().Unix())
+func updateTimeStampForUpdateCallback(scope *gorm.Scope) {
+	if _, ok := scope.Get("gorm:update_column"); !ok {
+		scope.SetColumn("UpdatedAt", time.Now())
 	}
 }

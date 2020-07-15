@@ -8,6 +8,7 @@ const baseIndex = 1
 
 const (
 	Valid = baseIndex + iota
+	Ok
 	TypeError
 	UpdateTokenFail
 
@@ -23,4 +24,11 @@ const (
 
 	UploadCheckFileError
 	UploadSaveFileError
+
+	RoutingNotExist
+
+	AppError
+	OperatingError
+	NotLogin
+	ServerError
 )

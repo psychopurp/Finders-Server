@@ -25,40 +25,53 @@
 > - 评论帖子
 > - 获取帖子评论
 
-#### 用户登陆和注册
+#### 创建圈子
 
-```js
-// 使用用户名+密码或者手机号+验证码等方式登陆
-// 如果手机号不存在则注册
-url: /user/login
+在创建圈子的时候就创建 圈子管理员，默认为token对应的用户，并将圈子的状态设置为"申请中"，
+
+审核通过可以用其他接口完成(比如admin)，审核成功前圈子管理员权限为无权限(-1)，成功后修改圈子管理员权限为正常权限，若审核失败则删除圈子和圈子管理员
+
+```json
+url: /community/craete_community
 method: POST
+header:{
+    token:str
+}
 data:
 {
-    userName | phone : str
-    password | 验证码 : str  //加密后的密码串
+    "community_name": str,
+    "community_description": str,
+    "Background": url
 }
 return:
 {
     code: int
     msg: str
     data: {
-        token: str
-    }
+    	"community_id": str
+	}
 }
 ```
 
-#### 用户信息更新
+#### 圈子的信息更新
 
-```js
+管理员可以进行圈子信息的更新
+
+可以修改的字段是圈子名字和圈子简介
+
+data中需要带community_id
+
+```json
 // 用户注册并返回登陆后的token
-url: /user/update_profile
+url: /community/update_profile
 method: POST
 header:{
     token:str
 }
 data:
 {
-    //用户基本信息和详细信息里的任何字段
+    community_id: str,
+    //圈子基本信息里的任何字段
 }
 return:
 {
@@ -68,95 +81,362 @@ return:
 }
 ```
 
-#### 关注和取消关注用户
+#### 获取圈子内的帖子 【不需要登陆】
 
-```js
-url: /user/follow  | /user/unfollow
-method: POST
-header:{
-    token:str
-}
-data:
-{
-    userId: str
-}
-return:
-{
-    code: int
-    msg: str
-    data: {}
-}
-```
+默认page为1，第一页
 
-#### 添加和移除黑名单
-
-```js
-url: /user/add_denylist  | /user/remove_denylist
-method: POST
-header:{
-    token:str
-}
-data:
-{
-    userId: str
-}
-return:
-{
-    code: int
-    msg: str
-    data: {}
-}
-```
-
-#### 查看黑名单列表
-
-```js
-url: /user/get_denylist
-method: GET
-header:{
-    token:str
-}
-queryparam:{}
-return:
-{
-    code: int
-    msg: str
-    data: [
-        {
-            userId: str,
-            avatar: str,
-            nickName: str,
-            introduction: str
-        },
-        {
-            //...
-        }
-    ]
-}
-```
-
-#### 查看用户的关注和粉丝列表 【不需要登陆】
-
-```js
-url: /user/get_fans  |  /user/get_follow
+```json
+url: /community/get_activities
 method: GET
 queryparam:{
-    userId: str
+    community_id: str, // 就不需要带引号的那种 /?community_id=1&page=1
+    page: str
 }
 return:
 {
     code: int
     msg: str
-    data: [
-        {
-            userId: str,
-            avatar: str,
-            nickName: str,
-            introduction: str
-        },
-        {
-            //...
-        }
-    ]
+    data: {
+    	total_activity_cnt: int,
+    	total_activity_page: int,
+    	activity_page: int, // 当前
+    	activity_cnt: int,
+    	activities:{
+    		{
+    			activity_id: str,
+    			activity_info: str,
+    			collect_num: int,
+    			comment_num: int,
+    			read_num: int,
+    			tags:{
+    				tag_name,
+    				tag_name,
+    				
+					...
+				},
+				media_url: url,
+				media_type: str, //picture or video
+				nick_name: str, // 创建人的昵称
+                user_id: str, // 创建人id 
+                avatar: url, // 创建人头像
+				user_type: str, // manager or normal
+				created_at: str
+			},
+			...
+		}
+	}
 }
 ```
+
+#### 收藏圈子和取消收藏
+
+```js
+url: /community/follow  | /community/unfollow
+method: POST
+header:{
+    token:str
+}
+data:
+{
+    community_id: str
+}
+return:
+{
+    code: int
+    msg: str
+    data: {}
+}
+```
+
+#### 查看收藏的圈子列表
+
+```json
+url: /community/get_follow
+method: GET
+header:{
+    token:str
+}
+data:
+{
+   
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	total_community_cnt: int,
+    	total_community_page: int,
+    	community_page: int, // 当前
+    	community_cnt: int,
+    	communities:{
+    		{
+    			community_id: int,
+    			community_creator: str,
+    			community_name: str,
+    			community_description: str,
+    			backgroud: url,
+			},
+			...
+		}
+	}
+}
+```
+
+
+
+#### 创建帖子
+
+```json
+url: /activity/add_activity
+method: POST
+header:{
+    token:str
+}
+data:
+{
+    community_id: int,
+    activity_info: str,
+    media_id: str,
+    media_type: str // pircture or video
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	activity_id: str
+	}
+}
+```
+
+
+
+#### 查看帖子详情【不需要登陆】
+
+？ 所有字段都需要吗
+
+```json
+url: /activity/get_activity_info
+method: GET
+queryparam:{
+    activity_id: str
+}
+data:
+{
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	activity_info: str,
+    	collect_num: int,
+    	comment_num: int,
+    	read_num: int,
+    	media_url: url,
+    	media_type: str, // picture or video
+    	nick_name: str, // 创建人的昵称
+    	user_id: str, // 创建人id 
+    	user_type: str, // manager or normal
+    	avatar: url, // 创建人头像
+    	created_at: str,
+	}
+}
+```
+
+
+
+#### 收藏和取消收藏 帖子
+
+```json
+url: /activity/follow | /activity/unfollow
+method: POST
+header:{
+    token: str
+}
+data:
+{
+    activity_id: str
+}
+return:
+{
+    code: int
+    msg: str
+    data: {}
+}
+```
+
+
+
+#### 查看收藏的帖子列表
+
+? 字段都需要吗
+
+```json
+url: /activity/get_follow
+method: GET
+header:{
+    token: str
+}
+data:
+{
+    
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	total_activity_cnt: int,
+    	total_activity_page: int,
+    	activity_page: int, // 当前
+    	activity_cnt: int,
+    	activities:{
+    		{
+    			activity_id: str,
+    			activity_info: str,
+    			collect_num: int,
+    			comment_num: int,
+    			read_num: int,
+    			tags:{
+    				tag_name,
+    				tag_name,
+    				
+					...
+				},
+				media_url: url,
+				media_type: str, //picture or video
+				nick_name: str, // 创建人的昵称
+                user_id: str, // 创建人id 
+				user_type: str, // manager or normal
+                avatar: url, // 创建人头像
+				created_at: str
+			},
+			...
+		}
+	}
+}
+```
+
+
+
+#### 获取帖子点赞
+
+? 要不要登录呢
+
+```json
+url: /activity/get_activity_like
+method: GET
+header:{
+    token: str
+}
+queryparam:{
+    activity_id: str
+}
+data:
+{
+    
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	total_like_cnt: int,
+    	total_like_page: int,
+    	like_page: int, // 当前
+    	like_cnt: int,
+    	likes:{
+    		{
+    			nick_name: str, // 创建人的昵称
+                user_id: str // 创建人id 
+                avatar: url // 创建人头像
+			},
+			...
+		}
+	}
+}
+```
+
+
+
+#### 点赞和取消点赞 帖子
+
+```json
+url: /activity/like_activity | /activity/dislike_activity
+method: POST
+header:{
+    token: str
+}
+data:
+{
+    activity_id: str
+}
+return:
+{
+    code: int
+    msg: str
+    data: {}
+}
+```
+
+
+
+#### 评论帖子
+
+```json
+url: /activity/comment
+method: POST
+header:{
+    token: str
+}
+data:
+{
+    activity_id: str,
+    content: str
+}
+return:
+{
+    code: int
+    msg: str
+    data: {}
+}
+```
+
+
+
+#### 获取帖子评论 【不需要登陆】
+
+```json
+url: /activity/get_activity_comment
+method: GET
+queryparam:{
+    activity_id: str
+}
+data:
+{
+    
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	total_comment_cnt: int,
+    	total_comment_page: int,
+    	comment_page: int, // 当前
+    	comment_cnt: int,
+    	comments:{
+    		{
+    			content: str,
+    			nick_name: str, // 创建人的昵称
+                user_id: str // 创建人id 
+                avatar: url // 创建人头像
+			},
+			...
+		}
+	}
+}
+```
+

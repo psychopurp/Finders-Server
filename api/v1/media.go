@@ -23,6 +23,7 @@ func UploadImage(c *gin.Context) {
 		image *multipart.FileHeader
 		err   error
 		user  model.User
+		media model.Media
 	)
 	// 获取用户名
 	userName := c.GetHeader("username")
@@ -70,11 +71,12 @@ func UploadImage(c *gin.Context) {
 	imageUrl := upload.GetImagePath() + imageName
 	data["image_url"] = imageUrl
 	// 加入照片的存放记录
-	_, err = model.AddMedia(imageUrl, user.UserID.String(), model.PICTURE)
+	media, err = model.AddMedia(imageUrl, user.UserID.String(), model.PICTURE)
 	if err != nil {
 		response.FailWithMsg(e.MYSQL_ERROR, c)
 		return
 	}
+	data["image_id"] = media.MediaID
 	response.OkWithData(data, c)
 }
 
@@ -92,6 +94,7 @@ func UploadVideo(c *gin.Context) {
 		video *multipart.FileHeader
 		err   error
 		user  model.User
+		media model.Media
 	)
 	// 获取用户名
 	userName := c.GetHeader("username")
@@ -138,10 +141,11 @@ func UploadVideo(c *gin.Context) {
 	videoURL := upload.GetVideoPath() + videoName
 	data["video_url"] = videoURL
 	// 增加视屏存放记录
-	_, err = model.AddMedia(videoURL, user.UserID.String(), model.VIDEO)
+	media, err = model.AddMedia(videoURL, user.UserID.String(), model.VIDEO)
 	if err != nil {
 		response.FailWithMsg(e.MYSQL_ERROR, c)
 		return
 	}
+	data["video_id"] = media.MediaID
 	response.OkWithData(data, c)
 }

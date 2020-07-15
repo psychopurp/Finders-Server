@@ -7,7 +7,7 @@ import (
 	"finders-server/model"
 	"finders-server/pkg/e"
 	"finders-server/service/cache_service"
-	"finders-server/service/redis"
+	"finders-server/service/gredis"
 	"finders-server/utils"
 	"finders-server/utils/reg"
 	"github.com/gin-gonic/gin"
@@ -119,6 +119,26 @@ func GetUserFromAuth(token string) (user model.User, err error) {
 	return user, nil
 }
 
+func GetUserIDByToken(token string) (userID string, err error) {
+	var user model.User
+	jwt := utils.NewJWT()
+	// 解析token
+	jwtClaims, err := jwt.ParseToken(token)
+	if err != nil || jwtClaims == nil {
+		return "", errors.New(e.TOKEN_ERROR)
+	}
+	// 检测是否超时
+	if jwtClaims.ExpiredAt < time.Now().Unix() {
+		return "", errors.New(e.TOKEN_OUT_OF_DATE)
+	}
+	// 根据用户名获取user
+	user, err = model.GetUserByUserName(jwtClaims.UserName)
+	if err != nil {
+		return "", errors.New(e.MYSQL_ERROR)
+	}
+	return user.UserID.String(), nil
+}
+
 func SendCode(phone string) (string, error) {
 	var (
 		code string
@@ -132,7 +152,7 @@ func SendCode(phone string) (string, error) {
 	cache := cache_service.Phone{Phone: phone}
 	key := cache.GetPhoneCodeKey()
 
-	if err = redis.Set(key, code, 600); err != nil {
+	if err = gredis.Set(key, code, 600); err != nil {
 		global.LOG.Warning("cache set fail", err.Error())
 	}
 	return code, err
@@ -141,11 +161,11 @@ func SendCode(phone string) (string, error) {
 func GetCacheCode(phone string) string {
 	cache := cache_service.Phone{Phone: phone}
 	key := cache.GetPhoneCodeKey()
-	if !redis.Exists(key) {
+	if !gredis.Exists(key) {
 		return ""
 	}
 	var code string
-	data, err := redis.Get(key)
+	data, err := gredis.Get(key)
 	if err != nil {
 		global.LOG.Warning("cache get fail", err.Error())
 		return ""

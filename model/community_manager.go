@@ -34,11 +34,11 @@ CREATE TABLE `community_managers` (
 
 // CommunityManager struct is a row record of the community_managers table in the employees database
 type CommunityManager struct {
-	CommunityID int         `gorm:"column:community_id;type:INT;" json:"community_id"`         //[ 0] community_id                                   INT                  null: false  primary: false  auto: false
-	ID          int         `gorm:"column:id;type:INT;primary_key" json:"id"`                  //[ 1] id                                             INT                  null: false  primary: true   auto: false
-	ManagerID   null.String `gorm:"column:manager_id;type:VARCHAR;size:30;" json:"manager_id"` //[ 2] manager_id                                     VARCHAR[30]          null: true   primary: false  auto: false
-	Permission  null.Int    `gorm:"column:permission;type:INT;" json:"permission"`             //[ 3] permission                                     INT                  null: true   primary: false  auto: false
-	Status      int         `gorm:"column:status;type:INT;" json:"status"`                     //[ 4] status                                         INT                  null: false  primary: false  auto: false
+	CommunityID int    `gorm:"column:community_id;type:INT;" json:"community_id"`     //[ 0] community_id                                   INT                  null: false  primary: false  auto: false
+	ID          int    `gorm:"column:id;type:INT;primary_key" json:"id"`              //[ 1] id                                             INT                  null: false  primary: true   auto: false
+	ManagerID   string `gorm:"column:manager_id;type:varchar(50);" json:"manager_id"` //[ 2] manager_id                                     VARCHAR[30]          null: true   primary: false  auto: false
+	Permission  int    `gorm:"column:permission;type:INT;" json:"permission"`         //[ 3] permission                                     INT                  null: true   primary: false  auto: false
+	Status      int    `gorm:"column:status;type:INT;" json:"status"`                 //[ 4] status                                         INT                  null: false  primary: false  auto: false
 	TimeModel
 }
 

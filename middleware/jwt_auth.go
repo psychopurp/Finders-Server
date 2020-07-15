@@ -48,6 +48,7 @@ func JWT() gin.HandlerFunc {
 			return
 		}
 		c.Request.Header.Set("username", user.UserName)
+		c.Request.Header.Set("user_id", user.UserID.String())
 		c.Next()
 	}
 }

@@ -33,9 +33,9 @@ CREATE TABLE `activity_likes` (
 
 // ActivityLike struct is a row record of the activity_likes table in the employees database
 type ActivityLike struct {
-	ActivityID string `gorm:"column:activity_id;type:VARCHAR;size:30;" json:"activity_id"` //[ 0] activity_id                                    VARCHAR[30]          null: false  primary: false  auto: false
-	UserID     string `gorm:"column:user_id;type:VARCHAR;size:30;" json:"user_id"`         //[ 1] user_id                                        VARCHAR[30]          null: false  primary: false  auto: false
-	ID         int    `gorm:"column:id;type:INT;primary_key" json:"id"`                    //[ 2] id                                             INT                  null: false  primary: true   auto: false
+	ActivityID string `gorm:"column:activity_id;type:varchar(50);" json:"activity_id"` //[ 0] activity_id                                    VARCHAR[30]          null: false  primary: false  auto: false
+	UserID     string `gorm:"column:user_id;type:varchar(50);" json:"user_id"`         //[ 1] user_id                                        VARCHAR[30]          null: false  primary: false  auto: false
+	ID         int    `gorm:"column:id;type:INT;primary_key" json:"id"`                //[ 2] id                                             INT                  null: false  primary: true   auto: false
 	//CreatedAt  time.Time `gorm:"column:created_at;type:DATETIME;" json:"created_at"`          //[ 3] created_at                                     DATETIME             null: false  primary: false  auto: false
 	TimeModel
 }

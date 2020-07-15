@@ -50,7 +50,7 @@ const (
 
 // TableName sets the insert table name for this struct type
 func (p *Media) TableName() string {
-	return "media_files"
+	return "medias"
 }
 
 func (p *Media) BeforeSave() error {
