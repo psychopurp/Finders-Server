@@ -525,7 +525,7 @@ return:
     			nick_name: str, // 创建人的昵称
                 user_id: str // 创建人id 
                 avatar: url // 创建人头像
-    			reply_num: int,
+    			reply_num: int, //字段会返回一直是0 可以忽略
     			created_at: str
 			},
 			...

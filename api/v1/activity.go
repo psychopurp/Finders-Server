@@ -24,7 +24,9 @@ func GetActivities(c *gin.Context) {
 		page        int
 		form        responseForm.ActivitiesResponseForm
 	)
+	// 获取社区id
 	communityID = com.StrTo(c.Query("community_id")).MustInt()
+	// 获取需要的页
 	pageNum, page = utils.GetPage(c)
 	activityStruct := activityService.ActivityStruct{
 		CommunityID: communityID,
@@ -32,6 +34,7 @@ func GetActivities(c *gin.Context) {
 		PageSize:    global.CONFIG.AppSetting.PageSize,
 		Page:        page,
 	}
+	// 获取返回的表单 方法与community的类似
 	form, err = activityStruct.GetActivitiesPageResponse()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetActivities1")
@@ -62,6 +65,7 @@ func AddActivity(c *gin.Context) {
 		return
 	}
 	userID = c.GetHeader("user_id")
+	// 若上传的media_type 不合法则直接返回错误
 	mediaType, ok := model.GetMediaTypeByString(form.MediaType)
 	if !ok {
 		response.FailWithMsg(e.INFO_ERROR, c)
@@ -74,10 +78,12 @@ func AddActivity(c *gin.Context) {
 		UserID:       userID,
 		CommunityID:  form.CommunityID,
 	}
+	// 若重复则返回错误
 	if activityStruct.Exist() {
 		response.FailWithMsg(e.REPEAT_SUBMIT, c)
 		return
 	}
+	// 添加帖子
 	activity, err = activityStruct.Add()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "AddActivity3")
@@ -95,7 +101,9 @@ func GetActivityInfo(c *gin.Context) {
 		activityInfoForm responseForm.ActivityInfoForm
 		activityID       string
 	)
+	// 获取activity_id
 	activityID = c.Query("activity_id")
+	// 若为空则返回错误
 	if activityID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
@@ -107,11 +115,13 @@ func GetActivityInfo(c *gin.Context) {
 		response.FailWithMsg(e.INFO_NOT_EXIST, c)
 		return
 	}
+	// 先添加一次阅读数 因为已经访问了一次页面
 	err = activityStruct.AddReadNum()
 	if err != nil {
 		response.FailWithMsg(e.MYSQL_ERROR, c)
 		return
 	}
+	// 获取activity的数据表单
 	activityInfoForm, err = activityStruct.GetActivityInfoResponse()
 	if err != nil {
 		response.FailWithMsg(e.MYSQL_ERROR, c)
@@ -150,12 +160,14 @@ func CollectActivity(c *gin.Context) {
 		response.FailWithMsg(e.REPEAT_SUBMIT, c)
 		return
 	}
+	// 添加收藏
 	_, err = collectionStruct.AddCollection()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "CollectActivity3")
 		response.FailWithMsg(err.Error(), c)
 		return
 	}
+	// 添加帖子的收藏数量
 	err = collectionStruct.AddCollectNum()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "CollectActivity4")
@@ -194,12 +206,14 @@ func UnCollectActivity(c *gin.Context) {
 		response.FailWithMsg(e.REPEAT_SUBMIT, c)
 		return
 	}
+	// 移除收藏
 	err = collectionStruct.RemoveCollection()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "UnCollectActivity3")
 		response.FailWithMsg(err.Error(), c)
 		return
 	}
+	// 减少帖子的收藏数量
 	err = collectionStruct.CutCollectNum()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "UnCollectActivity4")
@@ -225,6 +239,7 @@ func GetCollectActivities(c *gin.Context) {
 		PageSize:       global.CONFIG.AppSetting.PageSize,
 		Page:           page,
 	}
+	// 获取收藏的帖子
 	form, err = collectionStruct.GetActivityCollectionResponse()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetCollectActivities 1")
@@ -249,6 +264,7 @@ func GetActivityLike(c *gin.Context) {
 		PageSize: global.CONFIG.AppSetting.PageSize,
 		Page:     page,
 	}
+	// 获取喜欢的帖子
 	form, err = activityStruct.GetActivityLikesResponse()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetActivityLike")
@@ -286,6 +302,7 @@ func LikeActivity(c *gin.Context) {
 		response.FailWithMsg(e.REPEAT_SUBMIT, c)
 		return
 	}
+	// 喜欢帖子
 	_, err = activityStruct.Like()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "LikeActivity3")
@@ -323,6 +340,7 @@ func DisLikeActivity(c *gin.Context) {
 		response.FailWithMsg(e.REPEAT_SUBMIT, c)
 		return
 	}
+	// 不喜欢帖子
 	err = activityStruct.DisLike()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "DisLikeActivity3")
@@ -363,6 +381,7 @@ func AddComment(c *gin.Context) {
 		response.FailWithMsg(e.REPEAT_SUBMIT, c)
 		return
 	}
+	// 添加评论
 	comment, err = commentStruct.AddComment()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "AddComment3")
@@ -411,6 +430,7 @@ func AddReply(c *gin.Context) {
 		response.FailWithMsg(e.REPEAT_SUBMIT, c)
 		return
 	}
+	// 对评论添加回复
 	comment, err = commentStruct.AddReply()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "AddReply3")
@@ -442,6 +462,7 @@ func GetActivityComments(c *gin.Context) {
 		PageSize: global.CONFIG.AppSetting.PageSize,
 		Page:     page,
 	}
+	// 获取一个帖子的评论
 	form, err = commentStruct.GetCommentsResponse()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetActivityComments1")
@@ -471,6 +492,7 @@ func GetCommentReplies(c *gin.Context) {
 		PageSize: global.CONFIG.AppSetting.PageSize,
 		Page:     page,
 	}
+	// 获取评论的回复
 	form, err = commentStruct.GetCommentsResponse()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetCommentReplies1")

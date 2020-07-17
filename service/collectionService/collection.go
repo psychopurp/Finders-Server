@@ -92,18 +92,24 @@ func (collectionStruct *CollectionStruct) GetCommunitiesCollectionResponse() (fo
 		totalCommunityCNT int
 		communitiesForms  []responseForm.CommunitiesForm
 	)
+	// 设置返回第几页
 	form.Page = collectionStruct.Page
+	// 获取所有收藏
 	totalCommunityCNT, _ = model.GetCollectionTotal(collectionStruct.UserID, model.CollectionCommunity)
 	form.TotalCNT = totalCommunityCNT
+	// 若没有数据直接返回
 	if totalCommunityCNT == 0 {
 		return
 	}
+	// 计算总页数
 	form.TotalPage = int(math.Ceil(float64(totalCommunityCNT) / float64(collectionStruct.PageSize)))
+	// 根据分页获取一定数量的community
 	communities, err = collectionStruct.GetAllCommunities()
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetCommunitiesCollectionResponse 1")
 		return
 	}
+	// 返回的个数
 	form.CNT = len(communities)
 	for _, community := range communities {
 		var user model.User

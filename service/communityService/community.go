@@ -43,6 +43,7 @@ func (communityStruct *CommunityStruct) ExistByID() (isExist bool, err error) {
 }
 
 func (communityStruct *CommunityStruct) Edit() (err error) {
+	// 需要使用 结构体修改数据 否则会修改所有字段 用结构体修改则会自动省去空字段
 	community := model.Community{
 		CommunityName:        communityStruct.CommunityName,
 		CommunityDescription: communityStruct.CommunityDescription,
