@@ -48,6 +48,15 @@ const (
 	VIDEO
 )
 
+func GetMediaTypeByString(str string) (mediaType int, ok bool) {
+	data := map[string]int{
+		"picture": PICTURE,
+		"video":   VIDEO,
+	}
+	mediaType, ok = data[str]
+	return
+}
+
 // TableName sets the insert table name for this struct type
 func (p *Media) TableName() string {
 	return "medias"

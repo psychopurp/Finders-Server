@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"finders-server/global"
 	"time"
 
 	"github.com/guregu/null"
@@ -51,4 +52,32 @@ func (t *Tag) Prepare() {
 func (t *Tag) Validate(action Action) error {
 
 	return nil
+}
+
+// type
+const (
+	TagSystem = baseIndex + iota
+	TagDIY
+)
+
+func GetTagType(tagType int) (typeName string, ok bool) {
+	data := map[int]string{
+		TagSystem: "system",
+		TagDIY:    "diy",
+	}
+	typeName, ok = data[tagType]
+	return
+}
+
+func GetTagsByActivityID(activityID string) (tags []*Tag, err error) {
+	var (
+		ids []int
+	)
+	db := global.DB
+	ids, err = GetTagsIDOnTagMap(activityID, TagActivityType)
+	if err != nil {
+		return
+	}
+	err = db.Where("tag_id IN (?)", ids).Find(&tags).Error
+	return
 }

@@ -68,4 +68,5 @@ type AppConfig struct {
 	VideoMaxSize    int      `mapstructure:"videomaxsize" yaml:"videomaxsize"`
 	VideoAllowExts  []string `mapstructure:"videoallowexts" yaml:"videoallowexts"`
 	RuntimeRootPath string   `mapstructure:"runtimerootpath" yaml:"runtimerootpath"`
+	PageSize        int      `mapstructure:"pagesize" yaml:"pagesize"`
 }

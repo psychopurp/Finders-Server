@@ -23,7 +23,9 @@
 > - 获取帖子点赞
 > - 点赞和取消点赞 帖子
 > - 评论帖子
+> - 回复评论
 > - 获取帖子评论
+> - 获取评论的回复
 
 #### 创建圈子
 
@@ -32,7 +34,7 @@
 审核通过可以用其他接口完成(比如admin)，审核成功前圈子管理员权限为无权限(-1)，成功后修改圈子管理员权限为正常权限，若审核失败则删除圈子和圈子管理员
 
 ```json
-url: /community/craete_community
+url: /community/create_community
 method: POST
 header:{
     token:str
@@ -41,14 +43,14 @@ data:
 {
     "community_name": str,
     "community_description": str,
-    "Background": url
+    "background": url
 }
 return:
 {
     code: int
     msg: str
     data: {
-    	"community_id": str
+    	"community_id": int
 	}
 }
 ```
@@ -70,7 +72,7 @@ header:{
 }
 data:
 {
-    community_id: str,
+    community_id: int,
     //圈子基本信息里的任何字段
 }
 return:
@@ -86,7 +88,7 @@ return:
 默认page为1，第一页
 
 ```json
-url: /community/get_activities
+url: /activity/get_activities
 method: GET
 queryparam:{
     community_id: str, // 就不需要带引号的那种 /?community_id=1&page=1
@@ -97,10 +99,10 @@ return:
     code: int
     msg: str
     data: {
-    	total_activity_cnt: int,
-    	total_activity_page: int,
-    	activity_page: int, // 当前
-    	activity_cnt: int,
+    	total_cnt: int,
+    	total_page: int,
+    	page: int, // 当前
+    	cnt: int,
     	activities:{
     		{
     			activity_id: str,
@@ -109,9 +111,10 @@ return:
     			comment_num: int,
     			read_num: int,
     			tags:{
-    				tag_name,
-    				tag_name,
-    				
+                    {
+                        tag_name,
+                        tag_type
+                    },
 					...
 				},
 				media_url: url,
@@ -131,14 +134,14 @@ return:
 #### 收藏圈子和取消收藏
 
 ```js
-url: /community/follow  | /community/unfollow
+url: /community/collect  | /community/uncollect
 method: POST
 header:{
     token:str
 }
 data:
 {
-    community_id: str
+    community_id: int
 }
 return:
 {
@@ -150,11 +153,16 @@ return:
 
 #### 查看收藏的圈子列表
 
+默认第一页page=1
+
 ```json
-url: /community/get_follow
+url: /community/get_collect
 method: GET
 header:{
     token:str
+}
+queryparam:{
+    page: str
 }
 data:
 {
@@ -165,14 +173,16 @@ return:
     code: int
     msg: str
     data: {
-    	total_community_cnt: int,
-    	total_community_page: int,
-    	community_page: int, // 当前
-    	community_cnt: int,
+    	total_cnt: int,
+    	total_page: int,
+    	page: int, // 当前
+    	cnt: int,
     	communities:{
     		{
     			community_id: int,
-    			community_creator: str,
+    			community_creator: str, // user_id
+    			nick_name: str,
+    			avatar: url,
     			community_name: str,
     			community_description: str,
     			backgroud: url,
@@ -234,6 +244,13 @@ return:
     	collect_num: int,
     	comment_num: int,
     	read_num: int,
+        tags:{
+    		{
+    			tag_name,
+    			tag_type
+			},
+			...
+		},
     	media_url: url,
     	media_type: str, // picture or video
     	nick_name: str, // 创建人的昵称
@@ -250,7 +267,7 @@ return:
 #### 收藏和取消收藏 帖子
 
 ```json
-url: /activity/follow | /activity/unfollow
+url: /activity/collect | /activity/uncollect
 method: POST
 header:{
     token: str
@@ -271,13 +288,16 @@ return:
 
 #### 查看收藏的帖子列表
 
-? 字段都需要吗
+默认第一页
 
 ```json
-url: /activity/get_follow
+url: /activity/get_collect
 method: GET
 header:{
     token: str
+}
+queryparam:{
+    page: str
 }
 data:
 {
@@ -288,10 +308,10 @@ return:
     code: int
     msg: str
     data: {
-    	total_activity_cnt: int,
-    	total_activity_page: int,
-    	activity_page: int, // 当前
-    	activity_cnt: int,
+    	total_cnt: int,
+    	total_page: int,
+    	page: int, // 当前
+    	cnt: int,
     	activities:{
     		{
     			activity_id: str,
@@ -300,9 +320,10 @@ return:
     			comment_num: int,
     			read_num: int,
     			tags:{
-    				tag_name,
-    				tag_name,
-    				
+                    {
+                        tag_name: str,
+                        tag_type: int
+                    },
 					...
 				},
 				media_url: url,
@@ -343,10 +364,10 @@ return:
     code: int
     msg: str
     data: {
-    	total_like_cnt: int,
-    	total_like_page: int,
-    	like_page: int, // 当前
-    	like_cnt: int,
+    	total_cnt: int,
+    	total_page: int,
+    	page: int, // 当前
+    	cnt: int,
     	likes:{
     		{
     			nick_name: str, // 创建人的昵称
@@ -393,16 +414,45 @@ header:{
 }
 data:
 {
-    activity_id: str,
+    item_id: str, // activity_id
     content: str
 }
 return:
 {
     code: int
     msg: str
-    data: {}
+    data: {
+    	"comment_id": int
+	}
 }
 ```
+
+
+
+#### 回复评论
+
+```json
+url: /activity/reply
+method: POST
+header:{
+    token: str
+}
+data:
+{
+    item_id: str, // 放comment_id
+    content: str
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	"comment_id": int
+	}
+}
+```
+
+
 
 
 
@@ -413,6 +463,7 @@ url: /activity/get_activity_comment
 method: GET
 queryparam:{
     activity_id: str
+    page: str
 }
 data:
 {
@@ -423,20 +474,67 @@ return:
     code: int
     msg: str
     data: {
-    	total_comment_cnt: int,
-    	total_comment_page: int,
-    	comment_page: int, // 当前
-    	comment_cnt: int,
+    	total_cnt: int,
+    	total_page: int,
+    	page: int, // 当前
+    	cnt: int,
     	comments:{
     		{
+    			comment_id: int,
     			content: str,
     			nick_name: str, // 创建人的昵称
                 user_id: str // 创建人id 
                 avatar: url // 创建人头像
+    			reply_num: int,
+    			created_at: str
 			},
 			...
 		}
 	}
 }
 ```
+
+
+
+#### 获取评论的回复 【不需要登陆】
+
+```json
+url: /activity/get_comment_reply
+method: GET
+queryparam:{
+    comment_id: str
+    page: str
+}
+data:
+{
+    
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	total_cnt: int,
+    	total_page: int,
+    	page: int, // 当前
+    	cnt: int,
+    	comments:{
+    		{
+    			comment_id: int,
+    			content: str,
+    			nick_name: str, // 创建人的昵称
+                user_id: str // 创建人id 
+                avatar: url // 创建人头像
+    			reply_num: int,
+    			created_at: str
+			},
+			...
+		}
+	}
+}
+```
+
+
+
+
 

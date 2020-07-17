@@ -41,6 +41,8 @@ func Routers() *gin.Engine {
 	router.InitUserRouter(APIGroup)
 	router.InitAdminRouter(APIGroup)
 	router.InitMediaRouter(APIGroup)
+	router.InitCommunityRouter(APIGroup)
+	router.InitActivityRouter(APIGroup)
 	return Router
 
 }

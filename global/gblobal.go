@@ -10,9 +10,9 @@ import (
 )
 
 var (
-	VP     *viper.Viper
-	CONFIG *config.Server
-	LOG    *oplogging.Logger
-	DB     *gorm.DB
+	VP        *viper.Viper
+	CONFIG    *config.Server
+	LOG       *oplogging.Logger
+	DB        *gorm.DB
 	RedisConn *redis.Pool
 )

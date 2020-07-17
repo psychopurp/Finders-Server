@@ -25,8 +25,13 @@ const (
 	UploadCheckFileError
 	UploadSaveFileError
 
+	CommunityIDNotExist
+	PermissionDeny
 	RoutingNotExist
 
+	InfoNotExist
+
+	RepeatSubmit
 	AppError
 	OperatingError
 	NotLogin

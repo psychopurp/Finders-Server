@@ -2,6 +2,8 @@ package model
 
 import (
 	"database/sql"
+	"finders-server/global"
+	"github.com/jinzhu/gorm"
 	"time"
 
 	"github.com/guregu/null"
@@ -57,4 +59,32 @@ func (c *CommunityManager) Prepare() {
 func (c *CommunityManager) Validate(action Action) error {
 
 	return nil
+}
+
+// permission
+const (
+	ManagerNoPermission = baseIndex + iota
+	ManagerPermission
+)
+
+// status
+const (
+	ManagerWaitForCheck = baseIndex + iota
+	IsManager
+)
+
+func IsManagerByUserID(userID string) (bool, error) {
+	var communityManager CommunityManager
+	db := global.DB
+	err := db.Where("manager_id = ?", userID).First(&communityManager).Error
+	if err != nil && err == gorm.ErrRecordNotFound {
+		return false, nil
+	}
+	if err != nil {
+		return false, err
+	}
+	if communityManager.Permission == ManagerPermission {
+		return true, nil
+	}
+	return false, nil
 }

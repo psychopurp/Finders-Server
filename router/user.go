@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//基本路由
+// user路由
 func InitUserRouter(Router *gin.RouterGroup) {
 
 	UserRouter := Router.Group("user")

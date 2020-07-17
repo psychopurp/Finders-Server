@@ -2,6 +2,8 @@ package model
 
 import (
 	"database/sql"
+	"finders-server/global"
+	"github.com/jinzhu/gorm"
 	"time"
 
 	"github.com/guregu/null"
@@ -46,6 +48,26 @@ type Community struct {
 	TimeModel
 }
 
+func (c *Community) AfterCreate(scope *gorm.Scope) error {
+	manager := new(CommunityManager)
+	manager.CommunityID = c.CommunityID
+	manager.ManagerID = c.CommunityCreator
+	manager.Permission = ManagerNoPermission
+	manager.Status = ManagerWaitForCheck
+
+	if err := scope.DB().Create(manager).Error; err != nil {
+		return err
+	}
+	communityUser := new(CommunityUser)
+	communityUser.CommunityID = c.CommunityID
+	communityUser.Status = CommunityUserWaitForCheck
+	communityUser.UserID = c.CommunityCreator
+	if err := scope.DB().Create(communityUser).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
 // TableName sets the insert table name for this struct type
 func (c *Community) TableName() string {
 	return "communities"
@@ -61,4 +83,69 @@ func (c *Community) Prepare() {
 func (c *Community) Validate(action Action) error {
 
 	return nil
+}
+
+const (
+	CommunityWaitForCheck = baseIndex + iota
+	CommunityNormal
+)
+
+func GetCommunityStatusByString(status string) (int, bool) {
+	data := map[string]int{
+		"waitForCheck": CommunityUserWaitForCheck,
+		"normal":       CommunityNormal,
+	}
+	value, ok := data[status]
+	return value, ok
+}
+
+func AddCommunityByMap(data map[string]interface{}) (community Community, err error) {
+	db := global.DB
+	community = Community{
+		CommunityCreator:     data["community_creator"].(string),
+		CommunityName:        data["community_name"].(string),
+		CommunityDescription: data["community_description"].(string),
+		CommunityStatus:      CommunityWaitForCheck,
+		Background:           data["background"].(string),
+	}
+	err = db.Create(&community).Error
+	return
+}
+
+func ExistCommunityByMap(data map[string]interface{}) bool {
+	db := global.DB
+	var community Community
+	err := db.Where(data).First(&community).Error
+	return !gorm.IsRecordNotFoundError(err)
+}
+
+func ExistCommunityByID(id int) (bool, error) {
+	db := global.DB
+	var community Community
+	err := db.Where("community_id = ?", id).First(&community).Error
+	if err != nil && err != gorm.ErrRecordNotFound {
+		return false, err
+	}
+	return true, nil
+}
+
+func UpdateCommunityByCommunity(ID int, community Community) (err error) {
+	db := global.DB
+	err = db.Model(&Community{}).Where("community_id = ?", ID).Updates(community).Error
+	return
+}
+
+func GetCommunities(pageNum, pageSize int, communityIDs []string) (communities []*Community, err error) {
+	db := global.DB
+	err = db.Where("community_id IN (?)", communityIDs).Offset(pageNum).Limit(pageSize).Find(&communities).Error
+	return
+}
+
+func GetCommunityTotal(communityID int) (cnt int, err error) {
+	db := global.DB
+	err = db.Model(&Community{}).Where("community_id = ?", communityID).Count(&cnt).Error
+	if err != nil {
+		return 0, err
+	}
+	return
 }

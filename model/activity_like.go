@@ -2,6 +2,8 @@ package model
 
 import (
 	"database/sql"
+	"finders-server/global"
+	"github.com/jinzhu/gorm"
 	"time"
 
 	"github.com/guregu/null"
@@ -55,4 +57,39 @@ func (a *ActivityLike) Prepare() {
 func (a *ActivityLike) Validate(action Action) error {
 
 	return nil
+}
+
+func ExistActivityLike(activityID, userID string) bool {
+	db := global.DB
+	var activityLike ActivityLike
+	err := db.Where("activity_id = ? AND user_id = ?", activityID, userID).First(&activityLike).Error
+	return !gorm.IsRecordNotFoundError(err)
+}
+
+func AddActivityLike(activityID, userID string) (activityLike ActivityLike, err error) {
+	db := global.DB
+	activityLike = ActivityLike{
+		ActivityID: activityID,
+		UserID:     userID,
+	}
+	err = db.Create(&activityLike).Error
+	return
+}
+
+func DeleteActivityLike(activityID, userID string) (err error) {
+	db := global.DB
+	err = db.Where("activity_id = ? AND user_id = ?", activityID, userID).Delete(&ActivityLike{}).Error
+	return
+}
+
+func GetActivityLikeTotal(userID string) (cnt int, err error) {
+	db := global.DB
+	err = db.Model(&ActivityLike{}).Where("user_id = ?", userID).Count(&cnt).Error
+	return
+}
+
+func GetActivityLikesByUserID(userID string) (activityLikes []*ActivityLike, err error) {
+	db := global.DB
+	err = db.Where("user_id = ?", userID).Find(&activityLikes).Error
+	return
 }

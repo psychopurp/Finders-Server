@@ -49,3 +49,4 @@ appconfig:
   videomaxsize: 500
   imageallowexts: .jpg,.jpeg,.png
   videoallowexts: .mp4,.avi,.rm,.rmvb,.flv,.mpg,.mov,.mkv
+  pagesize: 10

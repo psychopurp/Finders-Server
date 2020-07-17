@@ -2,6 +2,10 @@ package model
 
 import (
 	"database/sql"
+	"errors"
+	"finders-server/global"
+	"github.com/jinzhu/gorm"
+	uuid "github.com/satori/go.uuid"
 	"time"
 
 	"github.com/guregu/null"
@@ -52,6 +56,7 @@ type Activity struct {
 	MediaID     string `gorm:"column:media_id;varchar(50);" json:"media_id"` //[ 8] picture_id                                     VARCHAR[30]          null: true   primary: false  auto: false
 	MediaType   int    `gorm:"column:media_type;int;" json:"media_id"`       //[ 8] picture_id                                     VARCHAR[30]          null: true   primary: false  auto: false
 	Media       Media  `gorm:"foreignkey:media_id;association_foreignkey:media_id"`
+	User        User   `gorm:"foreignkey:user_id;association_foreignkey:user_id"`
 	UserID      string `gorm:"column:user_id;type:varchar(50);" json:"user_id"`   //[ 9] user_id                                        VARCHAR[30]          null: true   primary: false  auto: false
 	CommunityID int    `gorm:"column:community_id;type:INT;" json:"community_id"` //[10] community_id                                   INT                  null: false  primary: false  auto: false
 	//CreatedAt      time.Time   `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                     //[ 3] created_at                                     DATETIME             null: false  primary: false  auto: false
@@ -73,4 +78,122 @@ func (a *Activity) Prepare() {
 func (a *Activity) Validate(action Action) error {
 
 	return nil
+}
+
+// status
+const (
+	ActivityNormal = baseIndex + iota
+)
+
+func AddActivityByMap(data map[string]interface{}) (activity Activity, err error) {
+	db := global.DB
+	activity = Activity{
+		ActivityID:     uuid.NewV4().String(),
+		ActivityStatus: ActivityNormal,
+		ActivityInfo:   data["activity_info"].(string),
+		MediaID:        data["media_id"].(string),
+		MediaType:      data["media_type"].(int),
+		UserID:         data["user_id"].(string),
+		CommunityID:    data["community_id"].(int),
+	}
+	err = db.Create(&activity).Error
+	return
+}
+
+func ExistActivityByMap(data map[string]interface{}) bool {
+	db := global.DB
+	var activity Activity
+	err := db.Where(data).First(&activity).Error
+	return !gorm.IsRecordNotFoundError(err)
+}
+
+func GetActivityByID(activityID string) (activity Activity, err error) {
+	db := global.DB
+	err = db.Where("activity_id = ?", activityID).First(&activity).Error
+	return
+}
+
+func GetActivitiesByCommunityID(pageNum, pageSize, communityID int) (activities []*Activity, err error) {
+	db := global.DB
+	err = db.Preload("Media").Preload("User").Where("community_id = ?", communityID).Offset(pageNum).Limit(pageSize).Find(&activities).Error
+	return
+}
+
+func GetActivitiesByActivityIDs(pageNum, pageSize int, activityIDs []string) (activities []*Activity, err error) {
+	db := global.DB
+	err = db.Preload("Media").Preload("User").Where("activity_id IN (?)", activityIDs).Offset(pageNum).Limit(pageSize).Find(&activities).Error
+	return
+}
+
+func GetActivityTotalByCommunityID(communityID int) (cnt int, err error) {
+	db := global.DB
+	err = db.Model(&Activity{}).Where("community_id = ?", communityID).Count(&cnt).Error
+	if err != nil {
+		return 0, err
+	}
+	return
+}
+
+const (
+	AddOP   = "add"
+	MinusOP = "minus"
+)
+
+func AddActivityCollectNum(activityID string, op string) (err error) {
+	db := global.DB
+	var activity Activity
+	err = db.Where("activity_id = ?", activityID).First(&activity).Error
+	if err != nil {
+		return
+	}
+	if op == AddOP {
+		activity.CollectNum = activity.CollectNum + 1
+	} else {
+		activity.CollectNum = activity.CollectNum - 1
+		if activity.CollectNum < 0 {
+			return errors.New("no < 0")
+		}
+	}
+	err = db.Save(&activity).Error
+	return
+}
+
+func UpdateActivityReadNum(activityID string, op string) (err error) {
+	db := global.DB
+	var activity Activity
+	err = db.Where("activity_id = ?", activityID).First(&activity).Error
+	if err != nil {
+		return
+	}
+	if op == AddOP {
+		activity.ReadNum = activity.ReadNum + 1
+	} else {
+		activity.ReadNum = activity.ReadNum - 1
+		if activity.ReadNum < 0 {
+			return errors.New("no < 0")
+		}
+	}
+
+	err = db.Save(&activity).Error
+	return
+}
+
+func UpdateActivityCommentNum(activityID string, op string) (err error) {
+	db := global.DB
+	var activity Activity
+	err = db.Where("activity_id = ?", activityID).First(&activity).Error
+	if err != nil {
+		return
+	}
+	if op == AddOP {
+		activity.CommentNum = activity.CommentNum + 1
+	} else {
+		activity.CommentNum = activity.CommentNum - 1
+		if activity.CommentNum < 0 {
+			return errors.New("no < 0")
+		}
+	}
+
+	err = db.Save(&activity).Error
+	return
 }

@@ -19,6 +19,10 @@ const (
 	OPERATING_ERROR                      = "operating error"
 	NOT_LOGIN                            = "websocket user not login"
 	SERVER_ERROR                         = "server error"
+	COMMUNITY_ID_NOT_EXIST               = "communityID not exist"
+	PERMISSION_DENY                      = "no permission"
+	REPEAT_SUBMIT                        = "repeat submit"
+	INFO_NOT_EXIST                       = "info not exist or id error"
 )
 
 var msgFlags = map[int]string{
@@ -40,6 +44,10 @@ var msgFlags = map[int]string{
 	OperatingError:                  OPERATING_ERROR,
 	NotLogin:                        NOT_LOGIN,
 	ServerError:                     SERVER_ERROR,
+	CommunityIDNotExist:             COMMUNITY_ID_NOT_EXIST,
+	PermissionDeny:                  PERMISSION_DENY,
+	RepeatSubmit:                    REPEAT_SUBMIT,
+	InfoNotExist:                    INFO_NOT_EXIST,
 }
 
 // 获取错误代码对应的中文意思
