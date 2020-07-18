@@ -1,22 +1,11 @@
 package config
 
-<<<<<<< HEAD
-=======
 import "time"
 
->>>>>>> test
 type Server struct {
 	AppName string
 	Version string
 
-<<<<<<< HEAD
-	System SystemConfig `mapstructure:"system" yaml:"system"`
-	MySQL  MySQLConfig  `mapstructure:"mysql" yaml:"mysql"`
-	Redis  RedisConfig  `mapstructure:"redis" yaml:"redis"`
-	Log    LogConfig    `mapstructure:"log" yaml:"log"`
-	SQLite SQLiteConfig `mapstructure:"sqlite" yaml:"sqlite"`
-	JWT    JWTConfig    `yaml:"jwt"`
-=======
 	System     SystemConfig `mapstructure:"system" yaml:"system"`
 	MySQL      MySQLConfig  `mapstructure:"mysql" yaml:"mysql"`
 	Redis      RedisConfig  `mapstructure:"redis" yaml:"redis"`
@@ -24,7 +13,6 @@ type Server struct {
 	SQLite     SQLiteConfig `mapstructure:"sqlite" yaml:"sqlite"`
 	JWT        JWTConfig    `yaml:"jwt"`
 	AppSetting AppConfig    `mapstructure:"appconfig" yaml:"appconfig"`
->>>>>>> test
 }
 type SystemConfig struct {
 	Env  string
@@ -45,16 +33,11 @@ type MySQLConfig struct {
 }
 
 type RedisConfig struct {
-<<<<<<< HEAD
-	Addr     string `mapstructure:"addr" yaml:"addr"`
-	Password string `mapstructure:"password" yaml:"password"`
-=======
 	Addr        string        `mapstructure:"addr" yaml:"addr"`
 	Password    string        `mapstructure:"password" yaml:"password"`
 	MaxIdle     int           `mapstructure:"maxidle" yaml:"maxidle"`
 	MaxActive   int           `mapstructure:"maxactive" yaml:"maxactive"`
 	IdleTimeout time.Duration `mapstructure:"idletimeout" yaml:"idletimeout"`
->>>>>>> test
 }
 
 type LogConfig struct {
@@ -75,8 +58,6 @@ type SQLiteConfig struct {
 type JWTConfig struct {
 	SigningKey string `yaml:"signing-key"`
 }
-<<<<<<< HEAD
-=======
 
 type AppConfig struct {
 	PrefixUrl       string   `mapstructure:"prefixurl" yaml:"prefixurl"`
@@ -85,4 +66,3 @@ type AppConfig struct {
 	ImageAllowExts  []string `mapstructure:"imageallowexts" yaml:"imageallowexts"`
 	RuntimeRootPath string   `mapstructure:"runtimerootpath" yaml:"runtimerootpath"`
 }
->>>>>>> test
