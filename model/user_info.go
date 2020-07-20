@@ -58,7 +58,6 @@ type UserInfo struct {
 	CreatedAt     time.Time  `gorm:"column:created_at;type:DATETIME;" json:"created_at"`          //[15] created_at                                     DATETIME             sfalse  primary: false  auto: false
 	UpdatedAt     time.Time  `gorm:"column:updated_at;type:DATETIME;" json:"updated_at"`          //[16] updated_at                                     DATETIME             strue   primary: false  auto: false
 	Credit        int        `gorm:"column:credit;type:INT;" json:"credit"`                       //[17] credit                                         INT                  sfalse  primary: false  auto: false
-	UserTag       string     `gorm:"column:user_tag;type:TEXT;size:65535;" json:"user_tag"`       //[18] user_tag                                       TEXT[65535]          strue   primary: false  auto: false
 	DeletedAt     *time.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`          //[19] deleted_at                                     DATETIME             strue   primary: false  auto: false
 	Age           int        `gorm:"column:age;type:INT;" json:"age"`                             //[20] age
 }
@@ -80,27 +79,27 @@ func (u *UserInfo) Validate(action Action) error {
 	return nil
 }
 
-func AddUserInfo(userInfo *UserInfo) (err error){
+func AddUserInfo(userInfo *UserInfo) (err error) {
 	db := global.DB
 	err = db.Create(userInfo).Error
 	return
 }
 
-func GetUserInfoByUserID(userID string)(userInfo UserInfo, err error){
+func GetUserInfoByUserID(userID string) (userInfo UserInfo, err error) {
 	db := global.DB
 	err = db.Where("user_id = ?", userID).First(&userInfo).Error
 	return
 }
 
-func UpdateUserInfoByUserID(userID string, fieldName string, it interface{})(err error){
+func UpdateUserInfoByUserID(userID string, fieldName string, it interface{}) (err error) {
 	var userInfo UserInfo
 	db := global.DB
 	err = db.Model(&userInfo).Where("user_id = ?", userID).Update(fieldName, it).Error
 	return err
 }
 
-func UpdateUserInfoByUserInfo(userInfo UserInfo) (err error){
+func UpdateUserInfoByUserInfo(userID string, userInfo UserInfo) (err error) {
 	db := global.DB
-	err = db.Save(&userInfo).Error
+	err = db.Model(&UserInfo{}).Where("user_id = ?", userID).Updates(userInfo).Error
 	return
 }

@@ -5,6 +5,7 @@ import (
 	"finders-server/model"
 	"finders-server/pkg/e"
 	"finders-server/utils"
+	"fmt"
 	"github.com/gin-gonic/gin"
 	"time"
 )
@@ -42,13 +43,13 @@ func JWT() gin.HandlerFunc {
 			response.FailWithMsg(e.TOKEN_ERROR, c)
 			return
 		}
-		user, err = model.GetUserByUserName(jwtClaims.UserName)
+		user, err = model.GetUserByUserID(jwtClaims.UserID)
 		if err != nil {
 			response.FailWithMsg(e.MYSQL_ERROR, c)
 			return
 		}
 		c.Request.Header.Set("username", user.UserName)
-		c.Request.Header.Set("user_id", user.UserID.String())
+		c.Request.Header.Set("user_id", jwtClaims.UserID)
 		c.Next()
 	}
 }
@@ -84,14 +85,18 @@ func AdminJWT() gin.HandlerFunc {
 		}
 		if jwtClaims == nil {
 			response.FailWithMsg(e.TOKEN_ERROR, c)
+			c.Abort()
 			return
 		}
-		admin, err = model.GetAdminByAdminName(jwtClaims.UserName)
+		fmt.Println(jwtClaims.UserID)
+		admin, err = model.GetAdminByAdminID(jwtClaims.UserID)
 		if err != nil {
 			response.FailWithMsg(e.MYSQL_ERROR, c)
+			c.Abort()
 			return
 		}
 		c.Request.Header.Set("adminName", admin.AdminName)
+		c.Request.Header.Set("admin_id", admin.AdminID)
 		c.Next()
 	}
 }

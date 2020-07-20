@@ -3,8 +3,11 @@ package v1
 import (
 	"finders-server/global/response"
 	"finders-server/model"
+	"finders-server/model/requestForm"
+	"finders-server/model/responseForm"
 	"finders-server/pkg/e"
 	"finders-server/service/userService"
+	"finders-server/utils"
 	"finders-server/utils/reg"
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
@@ -14,28 +17,6 @@ import (
 用户相关接口
 */
 
-func SendCode(c *gin.Context) {
-	phone := c.Param("phone")
-	if !reg.Phone(phone) {
-		response.FailWithMsg("phone not valid", c)
-		return
-	}
-	code, err := userService.SendCode(phone)
-
-	if err != nil {
-		response.FailWithMsg("get code fail", c)
-		return
-	}
-	data := gin.H{}
-	data["code"] = code
-	response.OkWithData(data, c)
-}
-
-func Register(user *model.User) (err error) {
-	err = userService.RegisterByPhone(user)
-	return
-}
-
 // @Summary 登录或注册
 // @Description 登录或注册
 // @Tags 登录或注册
@@ -44,36 +25,65 @@ func Register(user *model.User) (err error) {
 // @Param data body userService.loginByUserNameOrPhone true "手机号 可选择手机号和验证码登录 或用户名和密码"
 // @Success 200 {string} string "success: {"code": 0, data:"", "msg": "", token: "token"}; failure: {"code": -1, data:"", "msg": "error msg", token: ""}"
 // @Router /v1/user/login [post]
+
 func Login(c *gin.Context) {
 	var (
-		user  model.User
 		err   error
 		token string
+		form  requestForm.LoginByUserNameOrPhone
+		exist bool
+		ok    bool
 	)
-	// 假设短信验证是另一个接口
-	user, err = userService.CheckByUserNameOrPhone(c)
-	// 信息不完全 电话号码和用户名都没有 或信息格式出现错误
-	if err != nil {
-		// 手机号不存在
-		if err.Error() == e.PHONE_NOT_EXIST {
-			// 若不存在则自动进行注册
-			err = Register(&user)
-			if err != nil {
-				response.FailWithMsg(err.Error(), c)
-				return
-			}
-		} else {
-			response.FailWithMsg(err.Error(), c)
+	err = c.BindJSON(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
+		return
+	}
+	if form.Check(c) {
+		return
+	}
+	userStruct := userService.UserStruct{
+		Phone:    form.Phone,
+		UserName: form.UserName,
+		Password: form.Password,
+	}
+
+	if form.UserName != "" {
+		ok = true
+		// 查看用户名和密码是否正确
+		_, exist = userStruct.ExistUserByUserNameAndPassword()
+		// 若存在则返回用户数据
+		if !exist {
+			response.FailWithMsg(e.USERNAME_NOT_EXIST_OR_PASSWORD_WRONG, c)
 			return
 		}
 	}
-	token, err = userService.GetAuth(user)
-	// 获得token失败
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	// 若收到的json中电话号码不为空
+	if form.Phone != "" {
+		ok = true
+		// 检验手机号码正确性
+		if !reg.Phone(form.Phone) {
+			response.FailWithMsg(e.INFO_ERROR, c)
+			return
+		}
+		// 检测是否存在用户已经使用该手机号注册 假设目前已经通过短信验证
+		_, exist = userStruct.ExistUserByPhone()
+		if !exist {
+			_, err = userStruct.Register()
+			if utils.FailOnError(e.MYSQL_ERROR, err, c) {
+				return
+			}
+		}
+	}
+	if !ok {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	token, err = userStruct.GetAuth()
+	if utils.FailOnError("", err, c) {
 		return
 	}
 	response.OKWithToken(token, c)
+
 }
 
 // @Summary 更新用户信息
@@ -86,32 +96,29 @@ func Login(c *gin.Context) {
 // @Router /v1/user/update_profile [post]
 func UpdateProfile(c *gin.Context) {
 	var (
-		user model.User
-		err  error
-		form userService.UpdateForm
+		err    error
+		form   requestForm.UserUpdateForm
+		userID string
 	)
-	// 从header获取token
-	userName := c.GetHeader("username")
-	user, err = model.GetUserByUserName(userName)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	err = c.BindJSON(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
 		return
 	}
-
-	// 获取body中的更新数据
-	form, err = userService.GetUpdateForm(c)
-	if err != nil {
-		//response.FailWithMsg("get update form fail or value not valid", c)
-		response.FailWithMsg(e.INFO_ERROR, c)
+	if form.Check(c) {
 		return
 	}
-
-	err = userService.UpdateUserInfo(user, form)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	userID = c.GetHeader("user_id")
+	userStruct := userService.UserStruct{
+		UserID: uuid.FromStringOrNil(userID),
+	}
+	err = userStruct.BindUpdateForm(form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
 		return
 	}
-
+	err = userStruct.Edit()
+	if utils.FailOnError(e.MYSQL_ERROR, err, c) {
+		return
+	}
 	response.OkWithData("", c)
 }
 
@@ -120,33 +127,30 @@ func UpdateProfile(c *gin.Context) {
 // @Tags 关注
 // @Accept json
 // @Produce json
-// @Param data body userService.FollowForm true "需要关注的人的ID"
+// @Param data body userService.ToUserForm true "需要关注的人的ID"
 // @Success 200 {string} string "success: {"code": 0, data:"", "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
 // @Router /v1/user/follow [post]
 func Follow(c *gin.Context) {
 	var (
-		err              error
-		fromUser, toUser model.User
+		err    error
+		userID string
+		form   requestForm.ToUserForm
 	)
-	userName := c.GetHeader("username")
-	fromUser, err = model.GetUserByUserName(userName)
-	// 解析token错误
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	userID = c.GetHeader("user_id")
+	err = c.BindJSON(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
 		return
 	}
-
-	toUser, err = userService.GetToUser(c)
-	if err != nil {
-		response.FailWithMsg(e.INFO_ERROR, c)
+	if form.Check(c) {
 		return
 	}
-	_, err = userService.AddRelation(fromUser.UserID, toUser.UserID, model.FOLLOW)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	userStruct := userService.UserStruct{
+		UserID: uuid.FromStringOrNil(userID),
+	}
+	_, err = userStruct.AddRelation(form.UserID, model.FOLLOW)
+	if utils.FailOnError("", err, c) {
 		return
 	}
-
 	response.OkWithData("", c)
 }
 
@@ -155,33 +159,30 @@ func Follow(c *gin.Context) {
 // @Tags 取消关注
 // @Accept json
 // @Produce json
-// @Param data body userService.FollowForm true "需要取消关注的人的ID"
+// @Param data body userService.ToUserForm true "需要取消关注的人的ID"
 // @Success 200 {string} string "success: {"code": 0, data:"", "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
 // @Router /v1/user/unfollow [post]
 func UnFollow(c *gin.Context) {
 	var (
-		err              error
-		fromUser, toUser model.User
+		err    error
+		userID string
+		form   requestForm.ToUserForm
 	)
-	userName := c.GetHeader("username")
-	fromUser, err = model.GetUserByUserName(userName)
-	// 解析token错误
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	userID = c.GetHeader("user_id")
+	err = c.BindJSON(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
 		return
 	}
-
-	toUser, err = userService.GetToUser(c)
-	if err != nil {
-		response.FailWithMsg(e.INFO_ERROR, c)
+	if form.Check(c) {
 		return
 	}
-	_, err = userService.DeleteRelation(fromUser.UserID, toUser.UserID, model.FOLLOW)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	userStruct := userService.UserStruct{
+		UserID: uuid.FromStringOrNil(userID),
+	}
+	_, err = userStruct.DeleteRelation(form.UserID, model.FOLLOW)
+	if utils.FailOnError("", err, c) {
 		return
 	}
-
 	response.OkWithData("", c)
 }
 
@@ -190,34 +191,30 @@ func UnFollow(c *gin.Context) {
 // @Tags 拉入黑名单
 // @Accept json
 // @Produce json
-// @Param data body userService.FollowForm true "需要拉入黑名单的人的ID"
+// @Param data body userService.ToUserForm true "需要拉入黑名单的人的ID"
 // @Success 200 {string} string "success: {"code": 0, data:"", "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
 // @Router /v1/user/add_denylist [post]
 func AddDenyList(c *gin.Context) {
 	var (
-		err              error
-		fromUser, toUser model.User
+		err    error
+		userID string
+		form   requestForm.ToUserForm
 	)
-
-	userName := c.GetHeader("username")
-	fromUser, err = model.GetUserByUserName(userName)
-	// 解析token错误
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	userID = c.GetHeader("user_id")
+	err = c.BindJSON(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
 		return
 	}
-
-	toUser, err = userService.GetToUser(c)
-	if err != nil {
-		response.FailWithMsg(e.INFO_ERROR, c)
+	if form.Check(c) {
 		return
 	}
-	_, err = userService.AddRelation(fromUser.UserID, toUser.UserID, model.DENY)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	userStruct := userService.UserStruct{
+		UserID: uuid.FromStringOrNil(userID),
+	}
+	_, err = userStruct.AddRelation(form.UserID, model.DENY)
+	if utils.FailOnError("", err, c) {
 		return
 	}
-
 	response.OkWithData("", c)
 }
 
@@ -226,33 +223,27 @@ func AddDenyList(c *gin.Context) {
 // @Tags 将一个人从黑名单中移除
 // @Accept json
 // @Produce json
-// @Param data body userService.FollowForm true "需要取消黑名单的人的ID"
+// @Param data body userService.ToUserForm true "需要取消黑名单的人的ID"
 // @Success 200 {string} string "success: {"code": 0, data:"", "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
 // @Router /v1/user/remove_denylist [post]
 func RemoveDenyList(c *gin.Context) {
 	var (
-		err              error
-		fromUser, toUser model.User
+		err    error
+		userID string
+		form   requestForm.ToUserForm
 	)
-	userName := c.GetHeader("username")
-	fromUser, err = model.GetUserByUserName(userName)
-	// 解析token错误
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	userID = c.GetHeader("user_id")
+	err = c.BindJSON(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
 		return
 	}
-
-	toUser, err = userService.GetToUser(c)
-	if err != nil {
-		response.FailWithMsg(e.INFO_ERROR, c)
+	userStruct := userService.UserStruct{
+		UserID: uuid.FromStringOrNil(userID),
+	}
+	_, err = userStruct.DeleteRelation(form.UserID, model.DENY)
+	if utils.FailOnError("", err, c) {
 		return
 	}
-	_, err = userService.DeleteRelation(fromUser.UserID, toUser.UserID, model.DENY)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
-		return
-	}
-
 	response.OkWithData("", c)
 }
 
@@ -266,20 +257,36 @@ func RemoveDenyList(c *gin.Context) {
 func GetDenyList(c *gin.Context) {
 	var (
 		err             error
-		fromUser        model.User
-		simpleUserInfos []userService.SimpleUserInfo
+		userID          string
+		simpleUserInfos []responseForm.SimpleUserInfo
 	)
-	userName := c.GetHeader("username")
-	fromUser, err = model.GetUserByUserName(userName)
-	// 解析token错误
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
-		return
+	userID = c.GetHeader("user_id")
+	userStruct := userService.UserStruct{
+		UserID: uuid.FromStringOrNil(userID),
 	}
 
-	simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(fromUser.UserID, model.DENY, userService.FROM)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(fromUser.UserID, model.DENY, userService.FROM)
+	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.DENY, userService.FROM)
+	if utils.FailOnError("", err, c) {
+		return
+	}
+	response.OkWithData(simpleUserInfos, c)
+}
+
+func GetFollowList(c *gin.Context) {
+	var (
+		err             error
+		userID          string
+		simpleUserInfos []responseForm.SimpleUserInfo
+	)
+	userID = c.GetHeader("user_id")
+	userStruct := userService.UserStruct{
+		UserID: uuid.FromStringOrNil(userID),
+	}
+
+	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(fromUser.UserID, model.DENY, userService.FROM)
+	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, userService.FROM)
+	if utils.FailOnError("", err, c) {
 		return
 	}
 	response.OkWithData(simpleUserInfos, c)
@@ -290,7 +297,7 @@ func GetDenyList(c *gin.Context) {
 // @Tags 获取一个用户的粉丝列表
 // @Accept json
 // @Produce json
-// @Param data body userService.FollowForm true "需要获取粉丝列表的人的ID"
+// @Param data body userService.ToUserForm true "需要获取粉丝列表的人的ID"
 // @Success 200 {string} string "success: {"code": 0, data: {"code": 0, data: {userId:"",avatar:"url",nickName:"",introduction:""}, "msg": ""}; failure: {"code": -1, data:"", "msg": "error msg"}"
 // @Router /v1/user/get_fans [get]
 func GetFans(c *gin.Context) {
@@ -298,21 +305,20 @@ func GetFans(c *gin.Context) {
 		err             error
 		userID          string
 		userUUID        uuid.UUID
-		simpleUserInfos []userService.SimpleUserInfo
+		simpleUserInfos []responseForm.SimpleUserInfo
 	)
 	userID = c.Query("userId")
 	if userID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
-	userUUID, err = uuid.FromString(userID)
-	if err != nil {
-		response.FailWithMsg(e.INFO_ERROR, c)
-		return
+	userUUID = uuid.FromStringOrNil(userID)
+	userStruct := userService.UserStruct{
+		UserID: userUUID,
 	}
-	simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(userUUID, model.FOLLOW, userService.TO)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(userUUID, model.FOLLOW, userService.TO)
+	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, userService.TO)
+	if utils.FailOnError("", err, c) {
 		return
 	}
 	response.OkWithData(simpleUserInfos, c)
@@ -323,7 +329,7 @@ func GetFans(c *gin.Context) {
 // @Tags 获取一个用户的关注列表
 // @Accept json
 // @Produce json
-// @Param data body userService.FollowForm true "需要获取关注列表名单的人的ID"
+// @Param data body userService.ToUserForm true "需要获取关注列表名单的人的ID"
 // @Success 200 {string} string "success: {"code": 0, data: {"code": 0, data: {userId:"",avatar:"url",nickName:"",introduction:""}; failure: {"code": -1, data:"", "msg": "error msg"}"
 // @Router /v1/user/get_follow [get]
 func GetFollow(c *gin.Context) {
@@ -331,21 +337,20 @@ func GetFollow(c *gin.Context) {
 		err             error
 		userID          string
 		userUUID        uuid.UUID
-		simpleUserInfos []userService.SimpleUserInfo
+		simpleUserInfos []responseForm.SimpleUserInfo
 	)
 	userID = c.Query("userId")
 	if userID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
-	userUUID, err = uuid.FromString(userID)
-	if err != nil {
-		response.FailWithMsg(e.INFO_ERROR, c)
-		return
+	userUUID = uuid.FromStringOrNil(userID)
+	userStruct := userService.UserStruct{
+		UserID: userUUID,
 	}
-	simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(userUUID, model.FOLLOW, userService.FROM)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(userUUID, model.FOLLOW, userService.FROM)
+	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, userService.FROM)
+	if utils.FailOnError("", err, c) {
 		return
 	}
 	response.OkWithData(simpleUserInfos, c)

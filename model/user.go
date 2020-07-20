@@ -91,7 +91,6 @@ func (u *User) AfterCreate(scope *gorm.Scope) error {
 	if err := scope.DB().Create(uinfo).Error; err != nil {
 		return err
 	} else {
-		fmt.Println("UserInfo created")
 		return nil
 	}
 
@@ -104,6 +103,20 @@ func (u *User) AfterCreate(scope *gorm.Scope) error {
 func AddUser(user *User) (err error) {
 	db := global.DB
 	err = db.Create(user).Error
+	return
+}
+
+func AddUserByMap(data map[string]interface{}) (user User, err error) {
+	db := global.DB
+	user = User{
+		UserID:   data["user_id"].(uuid.UUID),
+		Phone:    data["phone"].(string),
+		Password: data["password"].(string),
+		Nickname: data["nickname"].(string),
+		Status:   data["status"].(int),
+		UserName: data["username"].(string),
+	}
+	err = db.Create(&user).Error
 	return
 }
 
@@ -164,4 +177,10 @@ func UpdateUserByUserID(userID string, fieldName string, it interface{}) (err er
 	db := global.DB
 	err = db.Model(&user).Where("user_id = ?", userID).Update(fieldName, it).Error
 	return err
+}
+
+func UpdateUserByUser(userID string, user User) (err error) {
+	db := global.DB
+	err = db.Model(&User{}).Where("user_id = ?", userID).Updates(user).Error
+	return
 }

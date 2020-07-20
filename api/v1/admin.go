@@ -2,76 +2,96 @@ package v1
 
 import (
 	"finders-server/global/response"
-	"finders-server/model"
+	"finders-server/model/requestForm"
 	"finders-server/pkg/e"
-	"finders-server/service/admin_service"
+	"finders-server/service/adminService"
+	"finders-server/utils"
+	"finders-server/utils/reg"
 	"github.com/gin-gonic/gin"
 )
 
-func AdminRegister(admin *model.Admin) (err error) {
-	err = admin_service.RegisterByPhone(admin)
-	return
-}
-
 func AdminLogin(c *gin.Context) {
 	var (
-		admin model.Admin
 		err   error
 		token string
+		form  requestForm.LoginByUserNameOrPhone
+		exist bool
+		ok    bool
 	)
-
-	// 假设短信验证是另一个接口
-	admin, err = admin_service.CheckByAdminNameOrPhone(c)
-	// 信息不完全 电话号码和用户名都没有 或信息格式出现错误
-	if err != nil {
-		// 手机号不存在
-		if err.Error() == e.PHONE_NOT_EXIST {
-			// 若不存在则自动进行注册
-			err = AdminRegister(&admin)
-			if err != nil {
-				response.FailWithMsg(err.Error(), c)
-				return
-			}
-		} else {
-			response.FailWithMsg(err.Error(), c)
+	err = c.BindJSON(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
+		return
+	}
+	if form.Check(c) {
+		return
+	}
+	adminStruct := adminService.AdminStruct{
+		AdminName:     form.UserName,
+		AdminPassword: form.Password,
+		AdminPhone:    form.Phone,
+	}
+	if form.UserName != "" {
+		ok = true
+		// 查看用户名和密码是否正确
+		_, exist = adminStruct.ExistUserByUserNameAndPassword()
+		// 若存在则返回用户数据
+		if !exist {
+			response.FailWithMsg(e.USERNAME_NOT_EXIST_OR_PASSWORD_WRONG, c)
 			return
 		}
 	}
-	token, err = admin_service.GetAuth(admin)
-	// 获得token失败
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	// 若收到的json中电话号码不为空
+	if form.Phone != "" {
+		ok = true
+		// 检验手机号码正确性
+		if !reg.Phone(form.Phone) {
+			response.FailWithMsg(e.INFO_ERROR, c)
+			return
+		}
+		// 检测是否存在用户已经使用该手机号注册 假设目前已经通过短信验证
+		_, exist = adminStruct.ExistUserByPhone()
+		if !exist {
+			_, err = adminStruct.Register()
+			if utils.FailOnError(e.MYSQL_ERROR, err, c) {
+				return
+			}
+		}
+	}
+	if !ok {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	token, err = adminStruct.GetAuth()
+	if utils.FailOnError("", err, c) {
 		return
 	}
 	response.OKWithToken(token, c)
+
 }
 
 func UpdateAdminProfile(c *gin.Context) {
 	var (
-		admin model.Admin
-		err   error
-		form  admin_service.UpdateForm
+		err  error
+		form requestForm.UpdateAdminForm
 	)
-	// 从header获取token
-	adminName := c.GetHeader("adminName")
-	admin, err = model.GetAdminByAdminName(adminName)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	err = c.BindJSON(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
 		return
 	}
-
-	// 获取body中的更新数据
-	form, err = admin_service.GetUpdateForm(c)
-	if err != nil {
-		response.FailWithMsg(e.INFO_ERROR, c)
+	if form.Check(c) {
 		return
 	}
-	// 更新admin信息
-	err = admin_service.UpdateAdminProfile(admin, form)
-	if err != nil {
-		response.FailWithMsg(err.Error(), c)
+	adminID := c.GetHeader("admin_id")
+	adminStruct := adminService.AdminStruct{
+		AdminID: adminID,
+	}
+	err = adminStruct.BindUpdateForm(form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
 		return
 	}
-
+	err = adminStruct.Edit()
+	if utils.FailOnError(e.MYSQL_ERROR, err, c) {
+		return
+	}
 	response.OkWithData("", c)
 }

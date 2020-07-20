@@ -16,7 +16,7 @@ type JWT struct {
 type JWTClaims struct {
 	//继承jwt.MapClaims 的方法
 	jwt.MapClaims
-	UserName  string //用户名
+	UserID    string //用户名
 	ExpiredAt int64  //过期时间
 	CreatedAt int64  //生效时间
 }

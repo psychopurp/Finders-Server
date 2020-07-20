@@ -3,6 +3,7 @@ package utils
 import (
 	"errors"
 	"finders-server/global"
+	"finders-server/global/response"
 	"github.com/gin-gonic/gin"
 	"github.com/unknwon/com"
 )
@@ -28,4 +29,17 @@ func GetPage(c *gin.Context) (pageNum int, page int) {
 		pageNum = (page - 1) * global.CONFIG.AppSetting.PageSize
 	}
 	return
+}
+
+func FailOnError(errStr string, err error, c *gin.Context) bool {
+	if err != nil {
+		global.LOG.Debug(err.Error())
+		if errStr != "" {
+			response.FailWithMsg(errStr, c)
+		} else {
+			response.FailWithMsg(err.Error(), c)
+		}
+		return true
+	}
+	return false
 }

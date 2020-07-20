@@ -18,6 +18,7 @@ func InitUserRouter(Router *gin.RouterGroup) {
 		UserRouter.POST("add_denylist", middleware.JWT(), v1.AddDenyList)       // 添加黑名单
 		UserRouter.POST("remove_denylist", middleware.JWT(), v1.RemoveDenyList) // 移除黑名单
 		UserRouter.GET("get_denylist", middleware.JWT(), v1.GetDenyList)        // 查看黑名单
+		UserRouter.GET("get_followlist", middleware.JWT(), v1.GetFollowList)    // 查看黑名单
 		UserRouter.GET("get_fans", v1.GetFans)                                  // 查看用户的粉丝列表
 		UserRouter.GET("get_follow", v1.GetFollow)                              // 查看用户的关注
 	}

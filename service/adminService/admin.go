@@ -1,11 +1,11 @@
-package admin_service
+package adminService
 
 import (
 	"errors"
 	"finders-server/model"
+	"finders-server/model/requestForm"
 	"finders-server/pkg/e"
 	"finders-server/utils"
-	"finders-server/utils/reg"
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
 	"gopkg.in/go-playground/validator.v9"
@@ -13,73 +13,53 @@ import (
 	"time"
 )
 
-type loginByUserNameOrPhone struct {
-	UserName string `json:"userName" validate:"omitempty,gte=5,lte=30"`
-	Password string `json:"password" validate:"omitempty,gte=5,lte=30"`
-	Phone    string `json:"phone" validate:"omitempty,gte=1,lte=30"`
-	Code     string `json:"code" validate:"omitempty,gte=4,lte=30"`
+type AdminStruct struct {
+	AdminID       string
+	AdminName     string
+	AdminPassword string
+	AdminPhone    string
+	Permission    int
 }
 
-func CheckByAdminNameOrPhone(c *gin.Context) (admin model.Admin, err error) {
-	var json loginByUserNameOrPhone
-	var exist bool
-	validate := validator.New()
-	if c.BindJSON(&json) == nil {
-		// 对结构体中的成员进行检测是否符合要求
-		err := validate.Struct(json)
-		if err != nil {
-			return admin, errors.New(e.INFO_ERROR)
-		}
-		// 若收到的json中用户名不为空
-		if json.UserName != "" {
-			// 查看用户名和密码是否正确
-			admin, exist = model.ExistAdminByAdminNameAndPassword(json.UserName, json.Password)
-			// 若存在则返回用户数据
-			if exist {
-				return admin, nil
-			}
-			// 若出现错误则是用户名和密码不正确或不存在
-			return admin, errors.New(e.USERNAME_NOT_EXIST_OR_PASSWORD_WRONG)
-		}
-		// 若收到的json中电话号码不为空
-		if json.Phone != "" {
-			// 检验手机号码正确性
-			if !reg.Phone(json.Phone) {
-				return admin, errors.New(e.INFO_ERROR)
-			}
-			// 检测是否存在用户已经使用该手机号注册 假设目前已经通过短信验证
-			admin, exist = model.ExistAdminByPhone(json.Phone)
-			if exist {
-				return admin, nil
-			}
-			admin.AdminPhone = json.Phone
-			return admin, errors.New(e.PHONE_NOT_EXIST)
-		}
-	}
-	// 上面条件都没有满足说明出现了错误
-	return admin, errors.New(e.INFO_ERROR)
-}
-
-func RegisterByPhone(admin *model.Admin) (err error) {
-	//给用户用户ID进行注册
-	admin.AdminID = uuid.NewV4().String()
-	admin.AdminName = uuid.NewV4().String()[:20]
-	admin.AdminPassword = uuid.NewV4().String()[:20]
-	admin.Permission = model.SUPER
-	err = model.AddAdmin(admin)
-	if err != nil {
-		return
+func (a *AdminStruct) ExistUserByUserNameAndPassword() (admin model.Admin, exist bool) {
+	admin, exist = model.ExistAdminByAdminNameAndPassword(a.AdminName, a.AdminPassword)
+	if exist {
+		a.AdminID = admin.AdminID
 	}
 	return
 }
 
-func GetAuth(admin model.Admin) (token string, err error) {
+func (a *AdminStruct) ExistUserByPhone() (admin model.Admin, exist bool) {
+	admin, exist = model.ExistAdminByPhone(a.AdminPhone)
+	if exist {
+		a.AdminID = admin.AdminID
+	}
+	return
+}
+
+func (a *AdminStruct) Register() (admin model.Admin, err error) {
+	data := map[string]interface{}{
+		"admin_id":         uuid.NewV4().String(),
+		"admin_name":       uuid.NewV4().String(),
+		"admin_password":   uuid.NewV4().String()[:20],
+		"admin_phone":      a.AdminPhone,
+		"admin_permission": model.SUPER,
+	}
+	admin, err = model.AddAdminByMaps(data)
+	if err != nil {
+		return
+	}
+	a.AdminID = admin.AdminID
+	return
+}
+
+func (a *AdminStruct) GetAuth() (token string, err error) {
 	jwt := utils.NewJWT()
 	createAt := time.Now()
 	expiredAt := createAt.Add(time.Hour * 5)
 	jwtClaims := utils.JWTClaims{
 		MapClaims: nil,
-		UserName:  admin.AdminName,
+		UserID:    a.AdminID,
 		CreatedAt: createAt.Unix(),
 		ExpiredAt: expiredAt.Unix(),
 	}
@@ -87,8 +67,24 @@ func GetAuth(admin model.Admin) (token string, err error) {
 	if err != nil {
 		return
 	}
-	model.AddLoginRecord(admin.AdminID, token, createAt, expiredAt)
+	model.AddLoginRecord(a.AdminID, token, createAt, expiredAt)
 	return
+}
+
+func (a *AdminStruct) BindUpdateForm(form requestForm.UpdateAdminForm) (err error) {
+	a.AdminPassword = form.AdminPassword
+	a.Permission = form.Permission
+	a.AdminName = form.AdminName
+	return nil
+}
+
+func (a *AdminStruct) Edit() (err error) {
+	admin := model.Admin{
+		AdminName:     a.AdminName,
+		AdminPassword: a.AdminPassword,
+		Permission:    a.Permission,
+	}
+	return model.UpdateAdminByAdmin(a.AdminID, admin)
 }
 
 type UpdateForm struct {

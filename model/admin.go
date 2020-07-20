@@ -70,6 +70,11 @@ func GetAdminByAdminName(adminName string) (admin Admin, err error) {
 	return
 }
 
+func GetAdminByAdminID(adminID string) (admin Admin, err error) {
+	db := global.DB
+	err = db.Where("admin_id = ?", adminID).First(&admin).Error
+	return
+}
 func ExistAdminByAdminNameAndPassword(name, password string) (admin Admin, isExist bool) {
 	db := global.DB
 	data := make(map[string]interface{})
@@ -93,9 +98,27 @@ func AddAdmin(admin *Admin) (err error) {
 	return
 }
 
-func UpdateAdminByUserID(adminID string, fieldName string, it interface{}) (err error) {
-	var admin Admin
+func AddAdminByMaps(data map[string]interface{}) (admin Admin, err error) {
 	db := global.DB
-	err = db.Model(&admin).Where("admin_id = ?", adminID).Update(fieldName, it).Error
+	admin = Admin{
+		AdminID:       data["admin_id"].(string),
+		AdminName:     data["admin_name"].(string),
+		AdminPassword: data["admin_password"].(string),
+		AdminPhone:    data["admin_phone"].(string),
+		Permission:    data["admin_permission"].(int),
+	}
+	err = db.Create(&admin).Error
+	return
+}
+
+func UpdateAdminByUserID(adminID string, fieldName string, it interface{}) (err error) {
+	db := global.DB
+	err = db.Model(&Admin{}).Where("admin_id = ?", adminID).Update(fieldName, it).Error
 	return err
+}
+
+func UpdateAdminByAdmin(adminID string, admin Admin) (err error) {
+	db := global.DB
+	err = db.Model(&Admin{}).Where("admin_id = ?", adminID).Updates(admin).Error
+	return
 }
