@@ -41,11 +41,13 @@ func JWT() gin.HandlerFunc {
 		}
 		if jwtClaims == nil {
 			response.FailWithMsg(e.TOKEN_ERROR, c)
+			c.Abort()
 			return
 		}
 		user, err = model.GetUserByUserID(jwtClaims.UserID)
 		if err != nil {
 			response.FailWithMsg(e.MYSQL_ERROR, c)
+			c.Abort()
 			return
 		}
 		c.Request.Header.Set("username", user.UserName)
