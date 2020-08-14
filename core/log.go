@@ -35,10 +35,7 @@ var (
 
 func InitLogger(config config.LogConfig) *oplogging.Logger {
 	c := config
-<<<<<<< HEAD
-=======
 	// 检查是否有前缀
->>>>>>> test
 	if c.Prefix == "" {
 		_ = fmt.Errorf("Logger prefix not fount")
 	}

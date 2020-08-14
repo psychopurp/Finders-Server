@@ -1,17 +1,12 @@
 package model
 
 import (
-<<<<<<< HEAD
-	"time"
-
-	uuid "github.com/satori/go.uuid"
-=======
 	"errors"
 	"finders-server/global"
 	"finders-server/pkg/e"
-	uuid "github.com/satori/go.uuid"
 	"time"
->>>>>>> test
+
+	uuid "github.com/satori/go.uuid"
 )
 
 /*
@@ -44,9 +39,6 @@ type Relation struct {
 	ToUID         uuid.UUID `gorm:"column:to_uid;type:varchar(50);" json:"to_uid"`                             //[ 4] to_uid                                         VARCHAR[30]          null: false  primary: false  auto: false
 	CreatedAt     time.Time `gorm:"column:created_at;type:DATETIME;" json:"created_at"`                        //[ 5] created_at                                     DATETIME             null: false  primary: false  auto: false
 	UpdatedAt     time.Time `gorm:"column:updated_at;type:DATETIME;" json:"updated_at"`                        //[ 6] updated_at                                     DATETIME             null: true   primary: false  auto: false
-<<<<<<< HEAD
-
-=======
 	//DeletedAt     *time.Time `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`                        //[ 6] deleted_at                                     DATETIME             null: true   primary: false  auto: false
 }
 
@@ -67,7 +59,6 @@ const (
 var relationGroupByIndex = map[int]string{
 	FOLLOW: FOLLOW_RELATION_GROUP,
 	DENY:   DENY_RELATION_GROUP,
->>>>>>> test
 }
 
 // TableName sets the insert table name for this struct type
@@ -86,8 +77,6 @@ func (r *Relation) Validate(action Action) error {
 
 	return nil
 }
-<<<<<<< HEAD
-=======
 
 func ExistRelation(fromUID, toUID string, relationType int) (isExist bool, err error) {
 	db := global.DB
@@ -181,4 +170,3 @@ func UpdateRelationType(data map[string]interface{}, relationType int) (relation
 		Error
 	return
 }
->>>>>>> test

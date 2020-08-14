@@ -20,15 +20,11 @@ func test() {
 
 func main() {
 	// test()
-<<<<<<< HEAD
-
-=======
 	global.LOG.Debug("初始化redis")
 	err := initialize.Redis()
 	if err != nil {
 		global.LOG.Debug("redis初始化失败")
 	}
->>>>>>> test
 	switch global.CONFIG.System.DB {
 	case "mysql":
 		initialize.MySql()
