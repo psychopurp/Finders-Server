@@ -19,7 +19,7 @@ func RunServer() {
 		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
-	global.LOG.Debugf("%s Serve run success on http://%s:%d ", global.CONFIG.AppName, global.CONFIG.System.IP, global.CONFIG.System.Port)
+	global.LOG.Debugf("%s Serves run success on http://%s:%d ", global.CONFIG.AppName, global.CONFIG.System.IP, global.CONFIG.System.Port)
 
 	global.LOG.Error(s.ListenAndServe())
 
