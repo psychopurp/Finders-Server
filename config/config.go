@@ -41,10 +41,10 @@ type RedisConfig struct {
 }
 
 type LogConfig struct {
-	Prefix  string
-	Logfile bool
-	Stdout  string
-	File    string
+	Prefix  string `yaml:"prefix"`
+	Logfile bool   `yaml:"logfile"`
+	Stdout  string `yaml:"stdout"`
+	File    string `yaml:"file"`
 }
 
 type SQLiteConfig struct {

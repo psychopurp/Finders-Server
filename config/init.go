@@ -2,19 +2,21 @@ package config
 
 import (
 	"fmt"
+	"path/filepath"
 
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
 )
 
-const defaultConfigFile = "config.yaml"
-
 // 加载配置文件
-func InitConfig() (config *Server) {
+func InitConfig(configDir string) (config *Server) {
 	v := viper.New()
-
-	v.SetConfigFile(defaultConfigFile)
-	err := v.ReadInConfig()
+	configFile, err := filepath.Glob(configDir + "/config*.yaml")
+	if err != nil || len(configFile) <= 0 {
+		panic("config file not found")
+	}
+	v.SetConfigFile(configFile[0])
+	err = v.ReadInConfig()
 	if err != nil {
 		panic(fmt.Errorf("fatal error config file: %s ", err))
 	}

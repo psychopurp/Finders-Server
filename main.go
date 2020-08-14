@@ -32,6 +32,7 @@ func main() {
 		initialize.Sqlite()
 	default:
 		fmt.Println("default")
+		panic("请选择数据库")
 	}
 	global.LOG.Debug("连接数据库")
 	initialize.DBTables()

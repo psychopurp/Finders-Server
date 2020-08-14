@@ -25,5 +25,8 @@ yarn-error.log*
 *.njsproj
 *.sln
 *.sw?
+output
+*_product.yaml
+docker-compose.yml
 
 site
