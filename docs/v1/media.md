@@ -32,6 +32,34 @@ return:
 }
 ```
 
+```json
+url: /media/upload_images
+method: POST
+header:{
+    token:str
+}
+data:
+{
+     //相关上传信息
+}
+return:
+{
+    code: int
+    msg: str
+    data:{
+    	medias:[
+            {
+                media_id: str,
+                media_url: url,
+            }
+    	]
+	}
+
+}
+```
+
+
+
 #### 视频上传
 
 ```js
@@ -51,3 +79,29 @@ return:
     data: str  //video_url 文件地址
 }
 ```
+
+```json
+url: /media/upload_videos
+method: POST
+header:{
+    token:str
+}
+data:
+{
+    //相关上传信息
+}
+return:
+{
+    code: int
+    msg: str
+    data:{
+    	medias:[
+            {
+                media_id: str,
+                media_url: url,
+            }
+    	]
+	}
+}
+```
+

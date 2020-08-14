@@ -10,6 +10,8 @@ import (
 	"finders-server/global/response"
 	"finders-server/middleware"
 	"finders-server/router"
+	"finders-server/service/upload"
+	"net/http"
 
 	"github.com/gin-gonic/gin"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -20,6 +22,8 @@ func Routers() *gin.Engine {
 
 	Router := gin.New()
 	//加载静态资源
+	Router.StaticFS("upload/images", http.Dir(upload.GetImageFullPath()))
+	Router.StaticFS("upload/videos", http.Dir(upload.GetVideoFullPath()))
 	Router.LoadHTMLGlob("resource/*.html")
 	Router.GET("", func(c *gin.Context) {
 		c.HTML(200, "index.html", nil)
@@ -35,6 +39,10 @@ func Routers() *gin.Engine {
 	APIGroup := Router.Group("/api/v1")
 	router.InitBaseRouter(APIGroup) //注册基本路由 不用鉴权
 	router.InitUserRouter(APIGroup)
+	router.InitAdminRouter(APIGroup)
+	router.InitMediaRouter(APIGroup)
+	router.InitCommunityRouter(APIGroup)
+	router.InitActivityRouter(APIGroup)
 	return Router
 
 }

@@ -89,15 +89,15 @@ func (r *Relation) Validate(action Action) error {
 <<<<<<< HEAD
 =======
 
-func ExistRelation(fromUID, toUID uuid.UUID, relationType int) (isExist bool, err error) {
+func ExistRelation(fromUID, toUID string, relationType int) (isExist bool, err error) {
 	db := global.DB
 	if relationGroupByIndex[relationType] == "" {
 		return false, errors.New(e.TYPE_ERROR)
 	}
 	data := make(map[string]interface{})
-	data["from_uid"] = fromUID.String()
-	if !uuid.Equal(toUID, uuid.Nil){
-		data["to_uid"] = toUID.String()
+	data["from_uid"] = fromUID
+	if toUID != "" {
+		data["to_uid"] = toUID
 	}
 
 	data["relation_type"] = relationType
@@ -106,9 +106,9 @@ func ExistRelation(fromUID, toUID uuid.UUID, relationType int) (isExist bool, er
 	return
 }
 
-func ExistRelationByData(data map[string]interface{}) (isExist bool, err error){
+func ExistRelationByData(data map[string]interface{}) (isExist bool, err error) {
 	db := global.DB
-	if data["relation_type"] != "" && relationGroupByIndex[data["relation_type"].(int)] == ""{
+	if data["relation_type"] != "" && relationGroupByIndex[data["relation_type"].(int)] == "" {
 		return false, errors.New(e.TYPE_ERROR)
 	}
 	if data["relation_group"] != "" {
@@ -119,29 +119,29 @@ func ExistRelationByData(data map[string]interface{}) (isExist bool, err error){
 	return
 }
 
-func AddRelation(fromUID, toUID uuid.UUID, relationType int) (relation Relation, err error) {
+func AddRelation(fromUID, toUID string, relationType int) (relation Relation, err error) {
 	db := global.DB
 	if relationGroupByIndex[relationType] == "" {
 		return relation, errors.New(e.TYPE_ERROR)
 	}
-	relation.FromUID = fromUID
-	relation.ToUID = toUID
+	relation.FromUID = uuid.FromStringOrNil(fromUID)
+	relation.ToUID = uuid.FromStringOrNil(toUID)
 	relation.RelationType = relationType
 	relation.RelationGroup = relationGroupByIndex[relationType]
 	err = db.Create(&relation).Error
 	return
 }
 
-func DeleteRelation(fromUID, toUID uuid.UUID, relationType int) (relation Relation, err error) {
+func DeleteRelation(fromUID, toUID string, relationType int) (relation Relation, err error) {
 	db := global.DB
 	if relationGroupByIndex[relationType] == "" {
 		return relation, errors.New(e.TYPE_ERROR)
 	}
 	data := make(map[string]interface{})
-	data["from_uid"] = fromUID.String()
-	data["to_uid"] = toUID.String()
+	data["from_uid"] = fromUID
+	data["to_uid"] = toUID
 	data["relation_type"] = relationType
-	err = db.Where(data).Delete(&relation).Error
+	err = db.Unscoped().Where(data).Delete(&relation).Error
 	return
 }
 
@@ -157,9 +157,9 @@ func GetRelations(fromUID uuid.UUID, relationType int) (relations []Relation, er
 	return
 }
 
-func GetRelationsByData(data map[string]interface{}) (relations []Relation, err error){
+func GetRelationsByData(data map[string]interface{}) (relations []Relation, err error) {
 	db := global.DB
-	if data["relation_type"] != "" && relationGroupByIndex[data["relation_type"].(int)] == ""{
+	if data["relation_type"] != "" && relationGroupByIndex[data["relation_type"].(int)] == "" {
 		return relations, errors.New(e.TYPE_ERROR)
 	}
 	if data["relation_group"] != "" {

@@ -28,7 +28,7 @@ func MySql() {
 
 func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 	if !scope.HasError() {
-		nowTime := time.Now().Unix()
+		nowTime := time.Now()
 		if createTimeField, ok := scope.FieldByName("CreatedAt"); ok {
 			if createTimeField.IsBlank {
 				createTimeField.Set(nowTime)
@@ -45,6 +45,6 @@ func updateTimeStampForCreateCallback(scope *gorm.Scope) {
 
 func updateTimeStampForUpdateCallback(scope *gorm.Scope) {
 	if _, ok := scope.Get("gorm:update_column"); !ok {
-		scope.SetColumn("UpdatedAt", time.Now().Unix())
+		scope.SetColumn("UpdatedAt", time.Now())
 	}
 }

@@ -45,7 +45,7 @@ type Message struct {
 	ToUID         string      `gorm:"column:to_uid;type:VARCHAR;size:30;" json:"to_uid"`             //[ 5] to_uid                                         VARCHAR[30]          null: false  primary: false  auto: false
 	MessageType   null.Int    `gorm:"column:message_type;type:INT;" json:"message_type"`             //[ 6] message_type                                   INT                  null: true   primary: false  auto: false
 	Link          null.String `gorm:"column:link;type:VARCHAR;size:100;" json:"link"`                //[ 7] link                                           VARCHAR[100]         null: true   primary: false  auto: false
-
+	TimeModel
 }
 
 // TableName sets the insert table name for this struct type

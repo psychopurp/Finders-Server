@@ -25,7 +25,7 @@ method: POST
 data:
 {
     userName | phone : str
-    password | 验证码 : str  //加密后的密码串
+    password | code : str  //加密后的密码串
 }
 return:
 {
@@ -170,7 +170,7 @@ method: POST
 data:
 {
     userName | phone : str
-    password | 验证码 : str  //加密后的密码串
+    password | code : str  //加密后的密码串
 }
 return:
 {
@@ -185,7 +185,7 @@ return:
 #### 管理员信息更新
 
 ```js
-url: /user/update_profile
+url: /admin/update_profile
 method: POST
 header:{
     token:str

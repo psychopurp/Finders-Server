@@ -85,17 +85,16 @@ CREATE TABLE `collections` (
 PRIMARY KEY (`collection_id`) 
 );
 CREATE TABLE `communities` (
-`community_id` int NOT NULL COMMENT '社区ID',
-`community_creator` varchar(30) NOT NULL COMMENT '社区创建者（圈主）',
-`created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+`community_id` int NOT NULL AUTO_INCREMEN COMMENT '社区ID',
+`community_creator` varchar(50) NOT NULL COMMENT '社区创建者（圈主）',
 `community_name` varchar(100) NOT NULL COMMENT '社区名称',
-`community_description` text CHARACTER SET 社区简介 NULL,
+`community_description` text COMMENT '社区简介' NULL,
 `community_status` int NOT NULL COMMENT '社区状态',
+`created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
 `updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
-`background` varchar(200) NULL COMMENT '背景',
-`board` text CHARACTER SET 公告板 NULL,
 `deleted_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
-PRIMARY KEY (`community_id`) 
+`background` varchar(200) NULL COMMENT '背景',
+PRIMARY KEY (`community_id`)
 );
 CREATE TABLE `pictures` (
 `picture_id` varchar(30) NOT NULL COMMENT '图片ID',
@@ -103,60 +102,70 @@ CREATE TABLE `pictures` (
 `picture_type` int NULL COMMENT '图片类型',
 `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
 `user_id` varchar(30) NOT NULL COMMENT '用户ID',
-PRIMARY KEY (`picture_id`) 
+PRIMARY KEY (`picture_id`)
 );
 CREATE TABLE `tags` (
 `tag_id` int NOT NULL COMMENT '标签ID',
 `tag_name` varchar(50) NOT NULL COMMENT '标签名',
 `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
 `tag_type` int  NULL COMMENT '标签类型',
-PRIMARY KEY (`tag_id`) 
+PRIMARY KEY (`tag_id`)
 );
 CREATE TABLE `activities` (
-`activity_id` varchar(30) NOT NULL COMMENT '帖子ID',
+`activity_id` varchar(50) NOT NULL COMMENT '帖子ID',
 `activity_status` int NULL COMMENT '帖子类型',
-`activity_info` text CHARACTER SET 帖子内容 NULL,
-`created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+`activity_info` text COMMENT '帖子内容' NULL,
 `collect_num` int NOT NULL COMMENT '收藏次数',
 `comment_num` int NOT NULL COMMENT '评论次数',
 `read_num` int NOT NULL COMMENT '阅读次数',
-`activity_tag` text NULL COMMENT '帖子标签',
-`picture_id` varchar(30) NULL COMMENT '帖子图片ID',
-`user_id` varchar(30) NULL COMMENT '发表用户ID',
+-- `media_id` varchar(50) NULL COMMENT '帖子媒体ID',
+`media_ids` varchar(5000) NULL COMMENT '帖子媒体IDs',
+-- `media_type` int NULL COMMENT '帖子媒体类型',
+`user_id` varchar(50) NULL COMMENT '发表用户ID',
 `community_id` int NOT NULL COMMENT '所属社区ID',
+`created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+`updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+`deleted_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
 PRIMARY KEY (`activity_id`) 
 );
 CREATE TABLE `community_managers` (
 `community_id` int NOT NULL COMMENT '社区ID',
-`id` int NOT NULL COMMENT 'ID',
-`manager_id` varchar(30) NULL COMMENT '管理员ID',
+`id` int AUTO_INCREMENT NOT NULL COMMENT 'ID',
+`manager_id` varchar(50) NULL COMMENT '管理员ID',
 `permission` int NULL COMMENT '圈子管理员权限',
 `status` int NOT NULL COMMENT '管理员状态',
+`created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+`updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+`deleted_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
 PRIMARY KEY (`id`) 
 );
 CREATE TABLE `community_users` (
-`id` int NOT NULL,
-`user_id` varchar(30) NULL COMMENT '社区用户ID',
-`created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '用户加入时间',
-`updated_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+`id` int AUTO_INCREMENT NOT NULL,
+`user_id` varchar(50) NULL COMMENT '社区用户ID',
 `community_id` int NULL COMMENT '社区ID',
 `status` int NULL COMMENT '用户当前在圈子的状态',
+`created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+`updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+`deleted_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
 PRIMARY KEY (`id`) 
 );
 CREATE TABLE `activity_likes` (
-`activity_id` varchar(30) NOT NULL COMMENT '帖子ID',
-`user_id` varchar(30) NOT NULL COMMENT '用户ID',
-`id` int NOT NULL,
+`activity_id` varchar(50) NOT NULL COMMENT '帖子ID',
+`user_id` varchar(50) NOT NULL COMMENT '用户ID',
+`id` int AUTO_INCREMENT NOT NULL,
 `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '点赞时间',
+`updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+`deleted_at` datetime NULL  COMMENT '删除时间',
 PRIMARY KEY (`id`) 
 );
 CREATE TABLE `comments` (
 `comment_id` int NOT NULL COMMENT '评论ID',
-`activity_id` varchar(30) NULL COMMENT '评论的帖子ID',
+`activity_id` varchar(50) NULL COMMENT '评论的帖子ID',
 `activity_type` varchar(100) NULL COMMENT '帖子类型',
 `content` text CHARACTER SET 评论内容 NULL,
 `from_uid` varchar(30) NULL COMMENT '评论用户ID',
 `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '创建时间',
+`updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
 `status` int NULL COMMENT '评论状态',
 `deleted_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
 PRIMARY KEY (`comment_id`) 

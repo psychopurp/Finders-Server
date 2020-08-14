@@ -2,6 +2,8 @@ package model
 
 import (
 	"database/sql"
+	"finders-server/global"
+	"github.com/jinzhu/gorm"
 	"time"
 
 	"github.com/guregu/null"
@@ -34,12 +36,12 @@ CREATE TABLE `community_managers` (
 
 // CommunityManager struct is a row record of the community_managers table in the employees database
 type CommunityManager struct {
-	CommunityID int         `gorm:"column:community_id;type:INT;" json:"community_id"`         //[ 0] community_id                                   INT                  null: false  primary: false  auto: false
-	ID          int         `gorm:"column:id;type:INT;primary_key" json:"id"`                  //[ 1] id                                             INT                  null: false  primary: true   auto: false
-	ManagerID   null.String `gorm:"column:manager_id;type:VARCHAR;size:30;" json:"manager_id"` //[ 2] manager_id                                     VARCHAR[30]          null: true   primary: false  auto: false
-	Permission  null.Int    `gorm:"column:permission;type:INT;" json:"permission"`             //[ 3] permission                                     INT                  null: true   primary: false  auto: false
-	Status      int         `gorm:"column:status;type:INT;" json:"status"`                     //[ 4] status                                         INT                  null: false  primary: false  auto: false
-
+	CommunityID int    `gorm:"column:community_id;type:INT;" json:"community_id"`     //[ 0] community_id                                   INT                  null: false  primary: false  auto: false
+	ID          int    `gorm:"column:id;type:INT;primary_key" json:"id"`              //[ 1] id                                             INT                  null: false  primary: true   auto: false
+	ManagerID   string `gorm:"column:manager_id;type:varchar(50);" json:"manager_id"` //[ 2] manager_id                                     VARCHAR[30]          null: true   primary: false  auto: false
+	Permission  int    `gorm:"column:permission;type:INT;" json:"permission"`         //[ 3] permission                                     INT                  null: true   primary: false  auto: false
+	Status      int    `gorm:"column:status;type:INT;" json:"status"`                 //[ 4] status                                         INT                  null: false  primary: false  auto: false
+	TimeModel
 }
 
 // TableName sets the insert table name for this struct type
@@ -57,4 +59,38 @@ func (c *CommunityManager) Prepare() {
 func (c *CommunityManager) Validate(action Action) error {
 
 	return nil
+}
+
+// permission
+const (
+	ManagerNoPermission = baseIndex + iota
+	ManagerPermission
+)
+
+// status
+const (
+	ManagerWaitForCheck = baseIndex + iota
+	IsManager
+)
+
+// identity
+const (
+	CommunityNormalMember  = "normal"
+	CommunityManagerMember = "manager"
+)
+
+func IsManagerByUserID(userID string) (bool, error) {
+	var communityManager CommunityManager
+	db := global.DB
+	err := db.Where("manager_id = ?", userID).First(&communityManager).Error
+	if err != nil && err == gorm.ErrRecordNotFound {
+		return false, nil
+	}
+	if err != nil {
+		return false, err
+	}
+	if communityManager.Permission == ManagerPermission {
+		return true, nil
+	}
+	return false, nil
 }

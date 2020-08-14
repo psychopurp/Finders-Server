@@ -50,10 +50,10 @@ type Reply struct {
 	Content   null.String `gorm:"column:content;type:TEXT;size:65535;" json:"content"`   //[ 4] content                                        TEXT[65535]          null: true   primary: false  auto: false
 	FromUID   null.String `gorm:"column:from_uid;type:VARCHAR;size:30;" json:"from_uid"` //[ 5] from_uid                                       VARCHAR[30]          null: true   primary: false  auto: false
 	ToUID     null.String `gorm:"column:to_uid;type:VARCHAR;size:30;" json:"to_uid"`     //[ 6] to_uid                                         VARCHAR[30]          null: true   primary: false  auto: false
-	CreatedAt time.Time   `gorm:"column:created_at;type:DATETIME;" json:"created_at"`    //[ 7] created_at                                     DATETIME             null: false  primary: false  auto: false
-	DeletedAt null.Time   `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`    //[ 8] deleted_at                                     DATETIME             null: true   primary: false  auto: false
 	Status    null.Int    `gorm:"column:status;type:INT;" json:"status"`                 //[ 9] status                                         INT                  null: true   primary: false  auto: false
-
+	//CreatedAt time.Time   `gorm:"column:created_at;type:DATETIME;" json:"created_at"`    //[ 7] created_at                                     DATETIME             null: false  primary: false  auto: false
+	//DeletedAt null.Time   `gorm:"column:deleted_at;type:DATETIME;" json:"deleted_at"`    //[ 8] deleted_at                                     DATETIME             null: true   primary: false  auto: false
+	TimeModel
 }
 
 // TableName sets the insert table name for this struct type

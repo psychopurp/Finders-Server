@@ -8,7 +8,7 @@ type Server struct {
 
 	System     SystemConfig `mapstructure:"system" yaml:"system"`
 	MySQL      MySQLConfig  `mapstructure:"mysql" yaml:"mysql"`
-	Redis      RedisConfig  `mapstructure:"redis" yaml:"redis"`
+	Redis      RedisConfig  `mapstructure:"gredis" yaml:"gredis"`
 	Log        LogConfig    `mapstructure:"log" yaml:"log"`
 	SQLite     SQLiteConfig `mapstructure:"sqlite" yaml:"sqlite"`
 	JWT        JWTConfig    `yaml:"jwt"`
@@ -62,7 +62,11 @@ type JWTConfig struct {
 type AppConfig struct {
 	PrefixUrl       string   `mapstructure:"prefixurl" yaml:"prefixurl"`
 	ImageSavePath   string   `mapstructure:"imagesavepath" yaml:"imagesavepath"`
-	ImageMaxSize    int      `mapstructure:"imagemaxsize" yaml:"imagemaxsize"`
+	ImageMaxSize    int64    `mapstructure:"imagemaxsize" yaml:"imagemaxsize"`
 	ImageAllowExts  []string `mapstructure:"imageallowexts" yaml:"imageallowexts"`
+	VideoSavePath   string   `mapstructure:"videosavepath" yaml:"videosavepath"`
+	VideoMaxSize    int64    `mapstructure:"videomaxsize" yaml:"videomaxsize"`
+	VideoAllowExts  []string `mapstructure:"videoallowexts" yaml:"videoallowexts"`
 	RuntimeRootPath string   `mapstructure:"runtimerootpath" yaml:"runtimerootpath"`
+	PageSize        int      `mapstructure:"pagesize" yaml:"pagesize"`
 }

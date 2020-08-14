@@ -43,5 +43,10 @@ appconfig:
   prefixurl: http://127.0.0.1:8660
   runtimerootpath: runtime/
   imagesavepath: upload/images/
+  videosavepath: upload/videos/
+  # MB
   imagemaxsize: 5
+  videomaxsize: 500
   imageallowexts: .jpg,.jpeg,.png
+  videoallowexts: .mp4,.avi,.rm,.rmvb,.flv,.mpg,.mov,.mkv
+  pagesize: 10
