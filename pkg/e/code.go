@@ -20,7 +20,7 @@ const (
 	PhoneNotExist
 	InfoError
 
-	ImageFormatOrSizeError
+	FileFormatOrSizeError
 
 	UploadCheckFileError
 	UploadSaveFileError

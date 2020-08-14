@@ -53,8 +53,8 @@ type Activity struct {
 	CommentNum     int    `gorm:"column:comment_num;type:INT;" json:"comment_num"`                    //[ 5] comment_num                                    INT                  null: false  primary: false  auto: false
 	ReadNum        int    `gorm:"column:read_num;type:INT;" json:"read_num"`                          //[ 6] read_num                                       INT                  null: false  primary: false  auto: false
 	//ActivityTag    string `gorm:"column:activity_tag;type:TEXT;size:65535;" json:"activity_tag"`          //[ 7] activity_tag                                   TEXT[65535]          null: true   primary: false  auto: false
-	MediaID     string `gorm:"column:media_id;varchar(50);" json:"media_id"` //[ 8] picture_id                                     VARCHAR[30]          null: true   primary: false  auto: false
-	MediaType   int    `gorm:"column:media_type;int;" json:"media_id"`       //[ 8] picture_id                                     VARCHAR[30]          null: true   primary: false  auto: false
+	MediaIDs string `gorm:"column:media_ids;varchar(5000);" json:"media_id"` //[ 8] picture_id                                     VARCHAR[30]          null: true   primary: false  auto: false
+	//MediaType   int    `gorm:"column:media_type;int;" json:"media_id"`       //[ 8] picture_id                                     VARCHAR[30]          null: true   primary: false  auto: false
 	Media       Media  `gorm:"foreignkey:media_id;association_foreignkey:media_id"`
 	User        User   `gorm:"foreignkey:user_id;association_foreignkey:user_id"`
 	UserID      string `gorm:"column:user_id;type:varchar(50);" json:"user_id"`   //[ 9] user_id                                        VARCHAR[30]          null: true   primary: false  auto: false
@@ -91,8 +91,7 @@ func AddActivityByMap(data map[string]interface{}) (activity Activity, err error
 		ActivityID:     uuid.NewV4().String(),
 		ActivityStatus: ActivityNormal,
 		ActivityInfo:   data["activity_info"].(string),
-		MediaID:        data["media_id"].(string),
-		MediaType:      data["media_type"].(int),
+		MediaIDs:       data["media_ids"].(string),
 		UserID:         data["user_id"].(string),
 		CommunityID:    data["community_id"].(int),
 	}
@@ -115,13 +114,13 @@ func GetActivityByID(activityID string) (activity Activity, err error) {
 
 func GetActivitiesByCommunityID(pageNum, pageSize, communityID int) (activities []*Activity, err error) {
 	db := global.DB
-	err = db.Preload("Media").Preload("User").Where("community_id = ?", communityID).Offset(pageNum).Limit(pageSize).Find(&activities).Error
+	err = db.Preload("User").Where("community_id = ?", communityID).Offset(pageNum).Limit(pageSize).Find(&activities).Error
 	return
 }
 
 func GetActivitiesByActivityIDs(pageNum, pageSize int, activityIDs []string) (activities []*Activity, err error) {
 	db := global.DB
-	err = db.Preload("Media").Preload("User").Where("activity_id IN (?)", activityIDs).Offset(pageNum).Limit(pageSize).Find(&activities).Error
+	err = db.Preload("User").Where("activity_id IN (?)", activityIDs).Offset(pageNum).Limit(pageSize).Find(&activities).Error
 	return
 }
 

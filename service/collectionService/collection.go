@@ -7,6 +7,7 @@ import (
 	"finders-server/utils"
 	"fmt"
 	"math"
+	"strings"
 )
 
 type CollectionStruct struct {
@@ -152,12 +153,10 @@ func (collectionStruct *CollectionStruct) GetActivityCollectionResponse() (form 
 		return
 	}
 	form.CNT = len(activities)
-	var getMediaType = map[int]string{
-		model.PICTURE: "picture",
-		model.VIDEO:   "video",
-	}
+
 	for _, activity := range activities {
 		var tags []*model.Tag
+		var mediasForms []responseForm.MediasForm
 		tags, err = model.GetTagsByActivityID(activity.ActivityID)
 		if err != nil {
 			return
@@ -171,15 +170,30 @@ func (collectionStruct *CollectionStruct) GetActivityCollectionResponse() (form 
 			}
 			TagInfoForms = append(TagInfoForms, tagInfoForm)
 		}
-		userType := "normal"
+		userType := model.CommunityNormalMember
 		ok, err = model.IsManagerByUserID(activity.UserID)
 		if err != nil {
 			return
 		}
 		if ok {
-			userType = "manager"
+			userType = model.CommunityManagerMember
 		}
 		fmt.Println(activity.User.Nickname)
+		if len(activity.MediaIDs) != 0 {
+			mediaIDs := strings.Split(activity.MediaIDs, ";")
+			for _, mediaID := range mediaIDs {
+				var media model.Media
+				media, err = model.GetMediaByMediaID(mediaID)
+				if err != nil {
+					return
+				}
+				mediaForm := responseForm.MediasForm{
+					MediaURL:  media.MediaURL,
+					MediaType: model.GetMediaTypeByInt(media.MediaType),
+				}
+				mediasForms = append(mediasForms, mediaForm)
+			}
+		}
 		var activitiesForm = responseForm.ActivityInfoForm{
 			ActivityID:   activity.ActivityID,
 			ActivityInfo: activity.ActivityInfo,
@@ -187,8 +201,7 @@ func (collectionStruct *CollectionStruct) GetActivityCollectionResponse() (form 
 			CommentNum:   activity.CommentNum,
 			ReadNum:      activity.ReadNum,
 			Tags:         TagInfoForms,
-			MediaURL:     activity.Media.MediaURL,
-			MediaType:    getMediaType[activity.Media.MediaType],
+			Medias:       mediasForms,
 			NickName:     activity.User.Nickname,
 			UserID:       activity.User.UserID.String(),
 			Avatar:       activity.User.Avatar,

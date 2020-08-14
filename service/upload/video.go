@@ -21,7 +21,7 @@ func GetVideoFullUrl(name string) string {
 // GetVideoName：获取视屏名称
 func GetVideoName(name string) string {
 	ext := path.Ext(name)
-	timeStamp := time.Now().Unix()
+	timeStamp := time.Now().UnixNano()
 	timeFileName := strconv.FormatInt(timeStamp, 10)
 
 	return timeFileName + ext
@@ -70,6 +70,12 @@ func CheckVideoSize(f multipart.File) bool {
 		return false
 	}
 	return size <= float64(global.CONFIG.AppSetting.VideoMaxSize)
+}
+
+// CheckVideoSize：检查视屏大小
+func CheckVideoSizeForMulti(size int64) bool {
+
+	return size <= global.CONFIG.AppSetting.VideoMaxSize*1024*1024
 }
 
 // CheckVideo：检查视屏

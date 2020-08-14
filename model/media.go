@@ -3,6 +3,7 @@ package model
 import (
 	"database/sql"
 	"finders-server/global"
+	"github.com/jinzhu/gorm"
 	uuid "github.com/satori/go.uuid"
 	"time"
 
@@ -57,6 +58,15 @@ func GetMediaTypeByString(str string) (mediaType int, ok bool) {
 	return
 }
 
+func GetMediaTypeByInt(mediaType int) (mediaT string) {
+	data := map[int]string{
+		PICTURE: "picture",
+		VIDEO:   "video",
+	}
+	mediaT = data[mediaType]
+	return
+}
+
 // TableName sets the insert table name for this struct type
 func (p *Media) TableName() string {
 	return "medias"
@@ -82,4 +92,32 @@ func AddMedia(mediaURL, userID string, mediaType int) (media Media, err error) {
 	media.MediaURL = mediaURL
 	err = db.Create(&media).Error
 	return
+}
+
+func GetMediaByMediaID(mediaID string) (media Media, err error) {
+	db := global.DB
+	err = db.Where("media_id = ?", mediaID).First(&media).Error
+	return
+}
+
+func AddMedias(mediaType int, userID string, mediaURLs []string, medias *[]*Media) error {
+	db := global.DB
+	return db.Transaction(func(tx *gorm.DB) error {
+		// 在事务中做一些数据库操作 (这里应该使用 'tx' ，而不是 'db')
+		for _, mediaURL := range mediaURLs {
+			media := &Media{
+				MediaID:   uuid.NewV4().String(),
+				MediaURL:  mediaURL,
+				MediaType: mediaType,
+				UserID:    userID,
+			}
+			if err := tx.Create(media).Error; err != nil {
+				return err
+			}
+			*medias = append(*medias, media)
+		}
+
+		// 返回 nil ，事务会 commit
+		return nil
+	})
 }

@@ -62,10 +62,10 @@ type JWTConfig struct {
 type AppConfig struct {
 	PrefixUrl       string   `mapstructure:"prefixurl" yaml:"prefixurl"`
 	ImageSavePath   string   `mapstructure:"imagesavepath" yaml:"imagesavepath"`
-	ImageMaxSize    int      `mapstructure:"imagemaxsize" yaml:"imagemaxsize"`
+	ImageMaxSize    int64    `mapstructure:"imagemaxsize" yaml:"imagemaxsize"`
 	ImageAllowExts  []string `mapstructure:"imageallowexts" yaml:"imageallowexts"`
 	VideoSavePath   string   `mapstructure:"videosavepath" yaml:"videosavepath"`
-	VideoMaxSize    int      `mapstructure:"videomaxsize" yaml:"videomaxsize"`
+	VideoMaxSize    int64    `mapstructure:"videomaxsize" yaml:"videomaxsize"`
 	VideoAllowExts  []string `mapstructure:"videoallowexts" yaml:"videoallowexts"`
 	RuntimeRootPath string   `mapstructure:"runtimerootpath" yaml:"runtimerootpath"`
 	PageSize        int      `mapstructure:"pagesize" yaml:"pagesize"`

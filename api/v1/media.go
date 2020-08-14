@@ -3,6 +3,7 @@ package v1
 import (
 	"finders-server/global/response"
 	"finders-server/model"
+	"finders-server/model/responseForm"
 	"finders-server/pkg/e"
 	"finders-server/service/upload"
 	"github.com/gin-gonic/gin"
@@ -52,7 +53,7 @@ func UploadImage(c *gin.Context) {
 	src := fullPath + imageName
 	// 检查图片的后缀和大小是否符合规范
 	if !upload.CheckImageExt(imageName) || !upload.CheckImageSize(file) {
-		response.FailWithMsg(e.IMAGE_FORMAT_OR_SIZE_ERROR, c)
+		response.FailWithMsg(e.FILE_FORMAT_OR_SIZE_ERROR, c)
 		return
 	}
 	err = upload.CheckImage(fullPath)
@@ -122,7 +123,7 @@ func UploadVideo(c *gin.Context) {
 	src := fullPath + videoName
 	// 检查视屏后缀和大小
 	if !upload.CheckVideoExt(videoName) || !upload.CheckVideoSize(file) {
-		response.FailWithMsg(e.IMAGE_FORMAT_OR_SIZE_ERROR, c)
+		response.FailWithMsg(e.FILE_FORMAT_OR_SIZE_ERROR, c)
 		return
 	}
 	// 检查视屏
@@ -148,4 +149,129 @@ func UploadVideo(c *gin.Context) {
 	}
 	data["video_id"] = media.MediaID
 	response.OkWithData(data, c)
+}
+
+func UploadImages(c *gin.Context) {
+	var (
+		err       error
+		resForm   responseForm.UploadResponseForm
+		form      *multipart.Form
+		mediaURLs []string
+	)
+	// 获取用户名
+	userID := c.GetHeader("user_id")
+
+	form, err = c.MultipartForm()
+	if err != nil {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	files := form.File["image"]
+	if files == nil {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	for _, file := range files {
+		// 获取新的图片名称
+		imageName := upload.GetImageName(file.Filename)
+		// 获取图片路径并创建存放的文件夹
+		fullPath := upload.GetImageFullPathAndMKDir()
+		// 图片的路径
+		src := fullPath + imageName
+		// 检查图片的后缀和大小是否符合规范
+		if !upload.CheckImageExt(imageName) || !upload.CheckImageSizeForMulti(file.Size) {
+			response.FailWithMsg(e.FILE_FORMAT_OR_SIZE_ERROR, c)
+			return
+		}
+		err = upload.CheckImage(fullPath)
+		if err != nil {
+			response.FailWithMsg(e.UPLOAD_CHECK_FILE_ERROR, c)
+			return
+		}
+		// 存放照片
+		err = c.SaveUploadedFile(file, src)
+		if err != nil {
+			response.FailWithMsg(e.UPLOAD_SAVE_FILE_ERROR, c)
+			return
+		}
+		imageUrl := upload.GetImagePath() + imageName
+		mediaURLs = append(mediaURLs, imageUrl)
+	}
+	medias := new([]*model.Media)
+	err = model.AddMedias(model.PICTURE, userID, mediaURLs, medias)
+	if err != nil {
+		response.FailWithMsg(e.MYSQL_ERROR, c)
+		return
+	}
+	for _, media := range *medias {
+		mediaForm := responseForm.UploadMedia{
+			MediaID:  media.MediaID,
+			MediaURL: media.MediaURL,
+		}
+		resForm.Medias = append(resForm.Medias, mediaForm)
+	}
+	response.OkWithData(resForm, c)
+}
+
+func UploadVideos(c *gin.Context) {
+	var (
+		resForm   responseForm.UploadResponseForm
+		form      *multipart.Form
+		err       error
+		mediaURLs []string
+	)
+	// 获取用户名
+	userID := c.GetHeader("user_id")
+	// 获取视屏文件
+	form, err = c.MultipartForm()
+	if err != nil {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	files := form.File["video"]
+	if files == nil {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+
+	for _, file := range files {
+		// 获取新的图片名称
+		videoName := upload.GetVideoName(file.Filename)
+		// 获取图片路径并创建存放的文件夹
+		fullPath := upload.GetVideoFullPathAndMKDir()
+		// 图片的路径
+		src := fullPath + videoName
+		// 检查图片的后缀和大小是否符合规范
+		if !upload.CheckVideoExt(videoName) || !upload.CheckVideoSizeForMulti(file.Size) {
+			response.FailWithMsg(e.FILE_FORMAT_OR_SIZE_ERROR, c)
+			return
+		}
+		err = upload.CheckVideo(fullPath)
+		if err != nil {
+			response.FailWithMsg(e.UPLOAD_CHECK_FILE_ERROR, c)
+			return
+		}
+		// 存放照片
+		err = c.SaveUploadedFile(file, src)
+		if err != nil {
+			response.FailWithMsg(e.UPLOAD_SAVE_FILE_ERROR, c)
+			return
+		}
+		videoUrl := upload.GetVideoPath() + videoName
+		mediaURLs = append(mediaURLs, videoUrl)
+	}
+	medias := new([]*model.Media)
+	err = model.AddMedias(model.VIDEO, userID, mediaURLs, medias)
+	if err != nil {
+		response.FailWithMsg(e.MYSQL_ERROR, c)
+		return
+	}
+	for _, media := range *medias {
+		mediaForm := responseForm.UploadMedia{
+			MediaID:  media.MediaID,
+			MediaURL: media.MediaURL,
+		}
+		resForm.Medias = append(resForm.Medias, mediaForm)
+	}
+	response.OkWithData(resForm, c)
 }

@@ -6,6 +6,7 @@ import (
 	"finders-server/pkg/e"
 	"finders-server/utils"
 	"math"
+	"strings"
 )
 
 type ActivityStruct struct {
@@ -16,8 +17,7 @@ type ActivityStruct struct {
 	CommentNum     int
 	ReadNum        int
 	Media          model.Media
-	MediaID        string
-	MediaType      int
+	MediaIDs       string
 	UserID         string
 	CommunityID    int
 
@@ -38,8 +38,7 @@ func (activityStruct *ActivityStruct) CutReadNum() (err error) {
 func (activityStruct *ActivityStruct) Exist() bool {
 	data := map[string]interface{}{
 		"activity_info": activityStruct.ActivityInfo,
-		"media_id":      activityStruct.MediaID,
-		"media_type":    activityStruct.MediaType,
+		"media_id":      activityStruct.MediaIDs,
 		"user_id":       activityStruct.UserID,
 		"community_id":  activityStruct.CommunityID,
 	}
@@ -56,8 +55,7 @@ func (activityStruct *ActivityStruct) ExistByID() bool {
 func (activityStruct *ActivityStruct) Add() (activity model.Activity, err error) {
 	data := map[string]interface{}{
 		"activity_info": activityStruct.ActivityInfo,
-		"media_id":      activityStruct.MediaID,
-		"media_type":    activityStruct.MediaType,
+		"media_id":      activityStruct.MediaIDs,
 		"user_id":       activityStruct.UserID,
 		"community_id":  activityStruct.CommunityID,
 	}
@@ -80,15 +78,13 @@ func (activityStruct *ActivityStruct) GetActivityInfoResponse() (form responseFo
 		activity     model.Activity
 		ok           bool
 		TagInfoForms []responseForm.TagInfoForm
+		mediasForms  []responseForm.MediasForm
 	)
 	activity, err = activityStruct.GetByID()
 	if err != nil {
 		return
 	}
-	var getMediaType = map[int]string{
-		model.PICTURE: "picture",
-		model.VIDEO:   "video",
-	}
+
 	var tags []*model.Tag
 	var user model.User
 	tags, err = model.GetTagsByActivityID(activity.ActivityID)
@@ -106,13 +102,28 @@ func (activityStruct *ActivityStruct) GetActivityInfoResponse() (form responseFo
 		}
 		TagInfoForms = append(TagInfoForms, tagInfoForm)
 	}
-	userType := "normal"
+	userType := model.CommunityNormalMember
 	ok, err = model.IsManagerByUserID(activity.UserID)
 	if err != nil {
 		return
 	}
 	if ok {
-		userType = "manager"
+		userType = model.CommunityManagerMember
+	}
+	if len(activity.MediaIDs) != 0 {
+		mediaIDs := strings.Split(activity.MediaIDs, ";")
+		for _, mediaID := range mediaIDs {
+			var media model.Media
+			media, err = model.GetMediaByMediaID(mediaID)
+			if err != nil {
+				return
+			}
+			mediaForm := responseForm.MediasForm{
+				MediaURL:  media.MediaURL,
+				MediaType: model.GetMediaTypeByInt(media.MediaType),
+			}
+			mediasForms = append(mediasForms, mediaForm)
+		}
 	}
 	form = responseForm.ActivityInfoForm{
 		ActivityID:   activity.ActivityID,
@@ -121,8 +132,7 @@ func (activityStruct *ActivityStruct) GetActivityInfoResponse() (form responseFo
 		CommentNum:   activity.CommentNum,
 		ReadNum:      activity.ReadNum,
 		Tags:         TagInfoForms,
-		MediaURL:     activity.Media.MediaURL,
-		MediaType:    getMediaType[activity.Media.MediaType],
+		Medias:       mediasForms,
 		NickName:     user.Nickname,
 		UserID:       user.UserID.String(),
 		Avatar:       user.Avatar,
@@ -137,7 +147,8 @@ func (activityStruct *ActivityStruct) GetActivitiesPageResponse() (form response
 		activities       []*model.Activity
 		totalActivityCNT int
 		activitiesForms  []responseForm.ActivityInfoForm
-		ok               bool
+
+		ok bool
 	)
 	form.Page = activityStruct.Page
 	totalActivityCNT, _ = activityStruct.CountByCommunityID()
@@ -152,11 +163,9 @@ func (activityStruct *ActivityStruct) GetActivitiesPageResponse() (form response
 		return
 	}
 	form.CNT = len(activities)
-	var getMediaType = map[int]string{
-		model.PICTURE: "picture",
-		model.VIDEO:   "video",
-	}
+
 	for _, activity := range activities {
+		var mediasForms []responseForm.MediasForm
 		var tags []*model.Tag
 		tags, err = model.GetTagsByActivityID(activity.ActivityID)
 		if err != nil {
@@ -170,13 +179,28 @@ func (activityStruct *ActivityStruct) GetActivitiesPageResponse() (form response
 			}
 			TagInfoForms = append(TagInfoForms, tagInfoForm)
 		}
-		userType := "normal"
+		userType := model.CommunityNormalMember
 		ok, err = model.IsManagerByUserID(activity.UserID)
 		if err != nil {
 			return
 		}
 		if ok {
-			userType = "manager"
+			userType = model.CommunityManagerMember
+		}
+		if len(activity.MediaIDs) != 0 {
+			mediaIDs := strings.Split(activity.MediaIDs, ";")
+			for _, mediaID := range mediaIDs {
+				var media model.Media
+				media, err = model.GetMediaByMediaID(mediaID)
+				if err != nil {
+					return
+				}
+				mediaForm := responseForm.MediasForm{
+					MediaURL:  media.MediaURL,
+					MediaType: model.GetMediaTypeByInt(media.MediaType),
+				}
+				mediasForms = append(mediasForms, mediaForm)
+			}
 		}
 		var activitiesForm = responseForm.ActivityInfoForm{
 			ActivityID:   activity.ActivityID,
@@ -185,8 +209,7 @@ func (activityStruct *ActivityStruct) GetActivitiesPageResponse() (form response
 			CommentNum:   activity.CommentNum,
 			ReadNum:      activity.ReadNum,
 			Tags:         TagInfoForms,
-			MediaURL:     activity.Media.MediaURL,
-			MediaType:    getMediaType[activity.Media.MediaType],
+			Medias:       mediasForms,
 			NickName:     activity.User.Nickname,
 			UserID:       activity.User.UserID.String(),
 			Avatar:       activity.User.Avatar,

@@ -73,6 +73,12 @@ const (
 	IsManager
 )
 
+// identity
+const (
+	CommunityNormalMember  = "normal"
+	CommunityManagerMember = "manager"
+)
+
 func IsManagerByUserID(userID string) (bool, error) {
 	var communityManager CommunityManager
 	db := global.DB

@@ -21,7 +21,7 @@ func GetImageFullUrl(name string) string {
 // GetImageName：获取图片名称
 func GetImageName(name string) string {
 	ext := path.Ext(name)
-	timeStamp := time.Now().Unix()
+	timeStamp := time.Now().UnixNano()
 	timeFileName := strconv.FormatInt(timeStamp, 10)
 
 	return timeFileName + ext
@@ -74,6 +74,11 @@ func CheckImageSize(f multipart.File) bool {
 		return false
 	}
 	return size <= float64(global.CONFIG.AppSetting.ImageMaxSize)
+}
+
+// CheckImageSize：检查图片大小
+func CheckImageSizeForMulti(size int64) bool {
+	return size <= global.CONFIG.AppSetting.ImageMaxSize*1024*1024
 }
 
 // CheckImage：检查图片

@@ -12,8 +12,7 @@ type ActivityInfoForm struct {
 	CommentNum   int           `json:"comment_num"`
 	ReadNum      int           `json:"read_num"`
 	Tags         []TagInfoForm `json:"tags"`
-	MediaURL     string        `json:"media_url"`
-	MediaType    string        `json:"media_type"`
+	Medias       []MediasForm  `json:"medias"`
 	NickName     string        `json:"nick_name"`
 	UserID       string        `json:"user_id"`
 	Avatar       string        `json:"avatar"`
@@ -24,4 +23,9 @@ type ActivityInfoForm struct {
 type TagInfoForm struct {
 	TagName string `json:"tag_name"`
 	TagType int    `json:"tag_type"`
+}
+
+type MediasForm struct {
+	MediaURL  string `json:"media_url"`
+	MediaType string `json:"media_type"`
 }

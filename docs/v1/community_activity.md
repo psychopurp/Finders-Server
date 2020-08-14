@@ -87,6 +87,8 @@ return:
 
 默认page为1，第一页
 
+# 改动
+
 ```json
 url: /activity/get_activities
 method: GET
@@ -117,8 +119,14 @@ return:
                     },
 					...
 				},
-				media_url: url,
-				media_type: str, //picture or video
+				// media_url: url,
+				// media_type: str, //picture or video
+				medias: [
+                    {
+                        media_url: url,
+                    	media_type: str,
+                    },
+                ]
 				nick_name: str, // 创建人的昵称
                 user_id: str, // 创建人id 
                 avatar: url, // 创建人头像
@@ -197,6 +205,8 @@ return:
 
 #### 创建帖子
 
+# 改动
+
 ```json
 url: /activity/add_activity
 method: POST
@@ -207,8 +217,9 @@ data:
 {
     community_id: int,
     activity_info: str,
-    media_id: str,
-    media_type: str // pircture or video
+    // media_id: str,
+    // media_type: str // pircture or video
+    media_ids:[str],
 }
 return:
 {
@@ -225,6 +236,8 @@ return:
 #### 查看帖子详情【不需要登陆】
 
 ？ 所有字段都需要吗
+
+# 改动
 
 ```json
 url: /activity/get_activity_info
@@ -251,8 +264,14 @@ return:
 			},
 			...
 		},
-    	media_url: url,
-    	media_type: str, // picture or video
+    	// media_url: url,
+    	// media_type: str, // picture or video
+		medias: [
+            {
+                media_url: url,
+                media_type: str,
+            }
+        ]
     	nick_name: str, // 创建人的昵称
     	user_id: str, // 创建人id 
     	user_type: str, // manager or normal
@@ -290,6 +309,8 @@ return:
 
 默认第一页
 
+# 改动
+
 ```json
 url: /activity/get_collect
 method: GET
@@ -326,8 +347,14 @@ return:
                     },
 					...
 				},
-				media_url: url,
-				media_type: str, //picture or video
+				// media_url: url,
+				// media_type: str, //picture or video
+				medias: [
+                    {
+                        media_url: url,
+                        media_type: str,
+                    }
+                ]
 				nick_name: str, // 创建人的昵称
                 user_id: str, // 创建人id 
 				user_type: str, // manager or normal

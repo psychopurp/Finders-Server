@@ -50,6 +50,7 @@ func AddActivity(c *gin.Context) {
 		form     requestForm.CreateActivityForm
 		userID   string
 		activity model.Activity
+		mediaIDs string
 	)
 	err = c.BindJSON(&form)
 	if err != nil {
@@ -66,15 +67,17 @@ func AddActivity(c *gin.Context) {
 	}
 	userID = c.GetHeader("user_id")
 	// 若上传的media_type 不合法则直接返回错误
-	mediaType, ok := model.GetMediaTypeByString(form.MediaType)
-	if !ok {
+	for _, mediaId := range form.MediaIDs {
+		mediaIDs = mediaId + ";"
+	}
+	if len(mediaIDs) == 0 {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
+	mediaIDs = mediaIDs[:len(mediaIDs)-1]
 	activityStruct := activityService.ActivityStruct{
 		ActivityInfo: form.ActivityInfo,
-		MediaID:      form.MediaID,
-		MediaType:    mediaType,
+		MediaIDs:     mediaIDs,
 		UserID:       userID,
 		CommunityID:  form.CommunityID,
 	}

@@ -11,7 +11,7 @@ const (
 	INFO_ERROR                           = "info not exist or wrong"
 	TOKEN_ERROR                          = "token error"
 	MYSQL_ERROR                          = "mysql error"
-	IMAGE_FORMAT_OR_SIZE_ERROR           = "file format or size error"
+	FILE_FORMAT_OR_SIZE_ERROR            = "file format or size error"
 	UPLOAD_CHECK_FILE_ERROR              = "check file error"
 	UPLOAD_SAVE_FILE_ERROR               = "save file error"
 	ROUTING_NOT_EXIST                    = "router not exist"
@@ -36,7 +36,7 @@ var msgFlags = map[int]string{
 	InfoError:                       INFO_ERROR,
 	TokenError:                      TOKEN_ERROR,
 	MysqlError:                      MYSQL_ERROR,
-	ImageFormatOrSizeError:          IMAGE_FORMAT_OR_SIZE_ERROR,
+	FileFormatOrSizeError:           FILE_FORMAT_OR_SIZE_ERROR,
 	UploadCheckFileError:            UPLOAD_CHECK_FILE_ERROR,
 	UploadSaveFileError:             UPLOAD_SAVE_FILE_ERROR,
 	RoutingNotExist:                 ROUTING_NOT_EXIST,
