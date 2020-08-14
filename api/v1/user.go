@@ -2,32 +2,19 @@ package v1
 
 import (
 	"finders-server/global/response"
-<<<<<<< HEAD
-
-	"github.com/gin-gonic/gin"
-=======
 	"finders-server/model"
 	"finders-server/pkg/e"
 	"finders-server/service/userService"
 	"finders-server/utils/reg"
+
 	"github.com/gin-gonic/gin"
 	uuid "github.com/satori/go.uuid"
->>>>>>> test
 )
 
 /*
 用户相关接口
 */
 
-<<<<<<< HEAD
-func Register(c *gin.Context) {
-
-	response.OkWithMsg("用户注册  test", c)
-}
-
-func Login(c *gin.Context) {
-	response.OkWithMsg("用户登陆", c)
-=======
 func SendCode(c *gin.Context) {
 	phone := c.Param("phone")
 	if !reg.Phone(phone) {
@@ -297,5 +284,4 @@ func GetFollow(c *gin.Context) {
 		return
 	}
 	response.OkWithData(simpleUserInfos, c)
->>>>>>> test
 }

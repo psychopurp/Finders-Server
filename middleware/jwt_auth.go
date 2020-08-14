@@ -1,14 +1,13 @@
 package middleware
-<<<<<<< HEAD
-=======
 
 import (
 	"finders-server/global/response"
 	"finders-server/model"
 	"finders-server/pkg/e"
 	"finders-server/utils"
-	"github.com/gin-gonic/gin"
 	"time"
+
+	"github.com/gin-gonic/gin"
 )
 
 func JWT() gin.HandlerFunc {
@@ -40,7 +39,7 @@ func JWT() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		if jwtClaims == nil{
+		if jwtClaims == nil {
 			response.FailWithMsg(e.TOKEN_ERROR, c)
 			return
 		}
@@ -53,4 +52,3 @@ func JWT() gin.HandlerFunc {
 		c.Next()
 	}
 }
->>>>>>> test
