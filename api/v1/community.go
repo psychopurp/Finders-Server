@@ -209,6 +209,10 @@ func GetCollectCommunity(c *gin.Context) {
 	// 获取页数 方便分页
 	pageNum, page = utils.GetPage(c)
 	userID = c.GetHeader("user_id")
+	tmpID := c.Query("user_id")
+	if tmpID != "" {
+		userID = tmpID
+	}
 	collectionStruct := collectionService.CollectionStruct{
 		CollectionType: model.CollectionCommunity,
 		UserID:         userID,

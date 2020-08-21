@@ -34,6 +34,7 @@ type UserInfoStruct struct {
 	Feeling       string
 	Birthday      string
 	Introduction  string
+	Signature     string
 	BloodType     string
 	Eamil         string
 	QQ            string
@@ -124,6 +125,7 @@ func (u *UserStruct) BindUpdateForm(form requestForm.UserUpdateForm) (err error)
 		Constellation: form.Constellation,
 		Credit:        form.Credit,
 		Age:           form.Age,
+		Signature:     form.Signature,
 	}
 	return nil
 }
@@ -146,6 +148,7 @@ func (u *UserStruct) UpdateUserInfo() (err error) {
 		Constellation: u.UserInfo.Constellation,
 		Credit:        u.UserInfo.Credit,
 		Age:           u.UserInfo.Age,
+		Signature:     u.UserInfo.Signature,
 	}
 	return model.UpdateUserInfoByUserInfo(u.UserID.String(), userInfo)
 }
@@ -166,6 +169,11 @@ func (u *UserStruct) Edit() (err error) {
 		return
 	}
 	err = u.UpdateUserInfo()
+	return
+}
+
+func (u *UserStruct) CheckExistRelation(toID string, relationType int) (ok bool) {
+	ok, _ = model.ExistRelation(u.UserID.String(), toID, relationType)
 	return
 }
 
@@ -270,6 +278,7 @@ func (u *UserStruct) GetSimpleUserInfoListByUserID(relationType int, loc int) (s
 			NickName: user.Nickname,
 			//Introduction: userInfo.Introduction,
 			Introduction: user.UserInfo.Introduction,
+			Signature:    user.UserInfo.Signature,
 		})
 	}
 	return

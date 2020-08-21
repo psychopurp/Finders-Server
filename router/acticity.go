@@ -11,6 +11,7 @@ func InitActivityRouter(Router *gin.RouterGroup) {
 	ActivityRouter := Router.Group("activity")
 	{
 		ActivityRouter.GET("get_activities", v1.GetActivities)
+		ActivityRouter.GET("get_user_activities", v1.GetUserActivities)
 		ActivityRouter.POST("add_activity", middleware.JWT(), v1.AddActivity)
 		ActivityRouter.GET("get_activity_info", v1.GetActivityInfo)
 		ActivityRouter.POST("collect", middleware.JWT(), v1.CollectActivity)

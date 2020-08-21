@@ -194,19 +194,29 @@ func (collectionStruct *CollectionStruct) GetActivityCollectionResponse() (form 
 				mediasForms = append(mediasForms, mediaForm)
 			}
 		}
+		var community model.Community
+		community, err = model.GetCommunityByCommunityID(activity.CommunityID)
+		if err != nil {
+			return
+		}
 		var activitiesForm = responseForm.ActivityInfoForm{
-			ActivityID:   activity.ActivityID,
-			ActivityInfo: activity.ActivityInfo,
-			CollectNum:   activity.CollectNum,
-			CommentNum:   activity.CommentNum,
-			ReadNum:      activity.ReadNum,
-			Tags:         TagInfoForms,
-			Medias:       mediasForms,
-			NickName:     activity.User.Nickname,
-			UserID:       activity.User.UserID.String(),
-			Avatar:       activity.User.Avatar,
-			UserType:     userType,
-			CreatedAt:    activity.CreatedAt.String(),
+			ActivityID:    activity.ActivityID,
+			ActivityInfo:  activity.ActivityInfo,
+			ActivityTitle: activity.ActivityTitle,
+			CollectNum:    activity.CollectNum,
+			CommentNum:    activity.CommentNum,
+			ReadNum:       activity.ReadNum,
+			Tags:          TagInfoForms,
+			Medias:        mediasForms,
+			NickName:      activity.User.Nickname,
+			UserID:        activity.User.UserID.String(),
+			Avatar:        activity.User.Avatar,
+			UserType:      userType,
+			CreatedAt:     activity.CreatedAt.String(),
+
+			CommunityID:   community.CommunityID,
+			CommunityName: community.CommunityName,
+			Background:    community.Background,
 		}
 		activitiesForms = append(activitiesForms, activitiesForm)
 	}

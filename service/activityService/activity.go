@@ -1,10 +1,12 @@
 package activityService
 
 import (
+	"finders-server/global/response"
 	"finders-server/model"
 	"finders-server/model/responseForm"
 	"finders-server/pkg/e"
 	"finders-server/utils"
+	"github.com/gin-gonic/gin"
 	"math"
 	"strings"
 )
@@ -13,6 +15,7 @@ type ActivityStruct struct {
 	ActivityID     string
 	ActivityStatus int
 	ActivityInfo   string
+	ActivityTitle  string
 	CollectNum     int
 	CommentNum     int
 	ReadNum        int
@@ -24,6 +27,22 @@ type ActivityStruct struct {
 	PageNum  int
 	PageSize int
 	Page     int
+
+	Affair *model.AffairService
+}
+
+func (activityStruct *ActivityStruct) AffairInit(c *gin.Context) (err error) {
+	activityStruct.Affair = new(model.AffairService)
+	err = activityStruct.Affair.NewAffairs()
+	if err != nil {
+		response.FailWithMsg(e.MYSQL_ERROR, c)
+		return
+	}
+	return nil
+}
+
+func (activityStruct *ActivityStruct) AffairBegin() func() {
+	return activityStruct.Affair.DeferFunc()
 }
 
 func (activityStruct *ActivityStruct) AddReadNum() (err error) {
@@ -54,17 +73,23 @@ func (activityStruct *ActivityStruct) ExistByID() bool {
 
 func (activityStruct *ActivityStruct) Add() (activity model.Activity, err error) {
 	data := map[string]interface{}{
-		"activity_info": activityStruct.ActivityInfo,
-		"media_id":      activityStruct.MediaIDs,
-		"user_id":       activityStruct.UserID,
-		"community_id":  activityStruct.CommunityID,
+		"activity_info":  activityStruct.ActivityInfo,
+		"activity_title": activityStruct.ActivityTitle,
+		"media_id":       activityStruct.MediaIDs,
+		"user_id":        activityStruct.UserID,
+		"community_id":   activityStruct.CommunityID,
 	}
 	activity, err = model.AddActivityByMap(data)
 	return
 }
 
-func (activityStruct *ActivityStruct) GetAll() (activities []*model.Activity, err error) {
+func (activityStruct *ActivityStruct) GetAllByCommunityID() (activities []*model.Activity, err error) {
 	activities, err = model.GetActivitiesByCommunityID(activityStruct.PageNum, activityStruct.PageSize, activityStruct.CommunityID)
+	return
+}
+
+func (activityStruct *ActivityStruct) GetAllByUserID() (activities []*model.Activity, err error) {
+	activities, err = model.GetActivitiesByUserID(activityStruct.PageNum, activityStruct.PageSize, activityStruct.UserID)
 	return
 }
 
@@ -125,39 +150,61 @@ func (activityStruct *ActivityStruct) GetActivityInfoResponse() (form responseFo
 			mediasForms = append(mediasForms, mediaForm)
 		}
 	}
+	var community model.Community
+	community, err = model.GetCommunityByCommunityID(activity.CommunityID)
+	if err != nil {
+		return
+	}
 	form = responseForm.ActivityInfoForm{
-		ActivityID:   activity.ActivityID,
-		ActivityInfo: activity.ActivityInfo,
-		CollectNum:   activity.CollectNum,
-		CommentNum:   activity.CommentNum,
-		ReadNum:      activity.ReadNum,
-		Tags:         TagInfoForms,
-		Medias:       mediasForms,
-		NickName:     user.Nickname,
-		UserID:       user.UserID.String(),
-		Avatar:       user.Avatar,
-		UserType:     userType,
-		CreatedAt:    activity.CreatedAt.String(),
+		ActivityID:    activity.ActivityID,
+		ActivityInfo:  activity.ActivityInfo,
+		ActivityTitle: activity.ActivityTitle,
+		CollectNum:    activity.CollectNum,
+		CommentNum:    activity.CommentNum,
+		ReadNum:       activity.ReadNum,
+		Tags:          TagInfoForms,
+		Medias:        mediasForms,
+		NickName:      user.Nickname,
+		UserID:        user.UserID.String(),
+		Avatar:        user.Avatar,
+		UserType:      userType,
+		CreatedAt:     activity.CreatedAt.String(),
+
+		CommunityID:   community.CommunityID,
+		CommunityName: community.CommunityName,
+		Background:    community.Background,
 	}
 	return
 }
 
-func (activityStruct *ActivityStruct) GetActivitiesPageResponse() (form responseForm.ActivitiesResponseForm, err error) {
+const (
+	GetActivitiesOnCommunity = 1 + iota
+	GetActivitiesOnUser      = 1 + iota
+)
+
+func (activityStruct *ActivityStruct) GetActivitiesPageResponse(filterType int) (form responseForm.ActivitiesResponseForm, err error) {
 	var (
 		activities       []*model.Activity
 		totalActivityCNT int
 		activitiesForms  []responseForm.ActivityInfoForm
-
-		ok bool
+		ok               bool
 	)
 	form.Page = activityStruct.Page
-	totalActivityCNT, _ = activityStruct.CountByCommunityID()
+	if filterType == GetActivitiesOnCommunity {
+		totalActivityCNT, _ = activityStruct.CountByCommunityID()
+	} else if filterType == GetActivitiesOnUser {
+		totalActivityCNT, _ = activityStruct.CountByUserID()
+	}
 	form.TotalCNT = totalActivityCNT
 	if totalActivityCNT == 0 {
 		return
 	}
 	form.TotalPage = int(math.Ceil(float64(totalActivityCNT) / float64(activityStruct.PageSize)))
-	activities, err = activityStruct.GetAll()
+	if filterType == GetActivitiesOnCommunity {
+		activities, err = activityStruct.GetAllByCommunityID()
+	} else if filterType == GetActivitiesOnUser {
+		activities, err = activityStruct.GetAllByUserID()
+	}
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetActivitiesPageResponse1")
 		return
@@ -202,19 +249,27 @@ func (activityStruct *ActivityStruct) GetActivitiesPageResponse() (form response
 				mediasForms = append(mediasForms, mediaForm)
 			}
 		}
+		var community model.Community
+		community, err = model.GetCommunityByCommunityID(activity.CommunityID)
+		if err != nil {
+			return
+		}
 		var activitiesForm = responseForm.ActivityInfoForm{
-			ActivityID:   activity.ActivityID,
-			ActivityInfo: activity.ActivityInfo,
-			CollectNum:   activity.CollectNum,
-			CommentNum:   activity.CommentNum,
-			ReadNum:      activity.ReadNum,
-			Tags:         TagInfoForms,
-			Medias:       mediasForms,
-			NickName:     activity.User.Nickname,
-			UserID:       activity.User.UserID.String(),
-			Avatar:       activity.User.Avatar,
-			UserType:     userType,
-			CreatedAt:    activity.CreatedAt.String(),
+			ActivityID:    activity.ActivityID,
+			ActivityInfo:  activity.ActivityInfo,
+			CollectNum:    activity.CollectNum,
+			CommentNum:    activity.CommentNum,
+			ReadNum:       activity.ReadNum,
+			Tags:          TagInfoForms,
+			Medias:        mediasForms,
+			NickName:      activity.User.Nickname,
+			UserID:        activity.User.UserID.String(),
+			Avatar:        activity.User.Avatar,
+			UserType:      userType,
+			CreatedAt:     activity.CreatedAt.String(),
+			CommunityID:   community.CommunityID,
+			CommunityName: community.CommunityName,
+			Background:    community.Background,
 		}
 		activitiesForms = append(activitiesForms, activitiesForm)
 	}
@@ -224,6 +279,11 @@ func (activityStruct *ActivityStruct) GetActivitiesPageResponse() (form response
 
 func (activityStruct *ActivityStruct) CountByCommunityID() (cnt int, err error) {
 	cnt, err = model.GetActivityTotalByCommunityID(activityStruct.CommunityID)
+	return
+}
+
+func (activityStruct *ActivityStruct) CountByUserID() (cnt int, err error) {
+	cnt, err = model.GetActivityTotalByUserID(activityStruct.UserID)
 	return
 }
 

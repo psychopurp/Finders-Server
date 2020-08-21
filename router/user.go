@@ -21,5 +21,6 @@ func InitUserRouter(Router *gin.RouterGroup) {
 		UserRouter.GET("get_followlist", middleware.JWT(), v1.GetFollowList)    // 查看黑名单
 		UserRouter.GET("get_fans", v1.GetFans)                                  // 查看用户的粉丝列表
 		UserRouter.GET("get_follow", v1.GetFollow)                              // 查看用户的关注
+		UserRouter.GET("check_follow", middleware.JWT(), v1.CheckFollow)        // 查看用户是否关注某人
 	}
 }

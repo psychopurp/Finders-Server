@@ -202,7 +202,6 @@ ALTER TABLE `collections` ADD CONSTRAINT `fk_collection_user` FOREIGN KEY (`user
 ALTER TABLE `pictures` ADD CONSTRAINT `fk_picture_user_id` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE `communities` ADD CONSTRAINT `fk_com_user` FOREIGN KEY (`community_creator`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE `activities` ADD CONSTRAINT `fk_activity_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-ALTER TABLE `activities` ADD CONSTRAINT `fk_activity_picture` FOREIGN KEY (`picture_id`) REFERENCES `pictures` (`picture_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE `activities` ADD CONSTRAINT `fk_activity_community` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `community_managers` ADD CONSTRAINT `fk_manager_community` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `community_managers` ADD CONSTRAINT `fk_manager_user` FOREIGN KEY (`manager_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;

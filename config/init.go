@@ -9,6 +9,8 @@ import (
 
 const defaultConfigFile = "config.yaml"
 
+//const defaultConfigFile = "configServer.yaml"
+
 // 加载配置文件
 func InitConfig() (config *Server) {
 	v := viper.New()

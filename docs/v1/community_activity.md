@@ -109,6 +109,7 @@ return:
     		{
     			activity_id: str,
     			activity_info: str,
+    			activity_title: str,
     			collect_num: int,
     			comment_num: int,
     			read_num: int,
@@ -139,6 +140,68 @@ return:
 }
 ```
 
+
+
+#### 获取某人的帖子
+
+# 增加
+
+```json
+url: /activity/get_user_activities
+method: GET
+queryparam:{
+    user_id: str, 
+    page: str
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	total_cnt: int,
+    	total_page: int,
+    	page: int, // 当前
+    	cnt: int,
+    	activities:{
+    		{
+    			activity_id: str,
+    			activity_info: str,
+    			collect_num: int,
+    			comment_num: int,
+    			read_num: int,
+    			tags:{
+                    {
+                        tag_name,
+                        tag_type
+                    },
+					...
+				},
+				// media_url: url,
+				// media_type: str, //picture or video
+				medias: [
+                    {
+                        media_url: url,
+                    	media_type: str,
+                    },
+                ]
+				nick_name: str, // 创建人的昵称
+                user_id: str, // 创建人id 
+                avatar: url, // 创建人头像
+				user_type: str, // manager or normal
+				created_at: str
+			},
+			...
+		}
+	}
+}
+```
+
+
+
+
+
+
+
 #### 收藏圈子和取消收藏
 
 ```js
@@ -161,6 +224,8 @@ return:
 
 #### 查看收藏的圈子列表
 
+修改
+
 默认第一页page=1
 
 ```json
@@ -170,6 +235,7 @@ header:{
     token:str
 }
 queryparam:{
+    userID: str // 获取自己的就不要填 获取别人的就要填
     page: str
 }
 data:
@@ -216,6 +282,7 @@ header:{
 data:
 {
     community_id: int,
+    activity_title: str,
     activity_info: str,
     // media_id: str,
     // media_type: str // pircture or video
@@ -253,6 +320,7 @@ return:
     code: int
     msg: str
     data: {
+    	activity_title: str,
     	activity_info: str,
     	collect_num: int,
     	comment_num: int,
@@ -336,6 +404,7 @@ return:
     	activities:{
     		{
     			activity_id: str,
+    			activity_title: str,
     			activity_info: str,
     			collect_num: int,
     			comment_num: int,
@@ -564,4 +633,79 @@ return:
 
 
 
+
+
+
+#### 创建动态
+
+```json
+url: /moment/create_moment
+method: POST
+header:{
+    token:str
+}
+data:
+{
+    moment_info: str,
+    // media_id: str,
+    // media_type: str // pircture or video
+    media_ids:[str],
+    location: str,
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	moment_id: str
+	}
+}
+```
+
+
+
+#### 获取某用户的动态
+
+```json
+url: /moment/get_moments
+method: GET
+queryparam:{
+    userId: str
+    page: str
+}
+data:
+{
+    
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	total_cnt: int,
+    	total_page: int,
+    	page: int, // 当前
+    	cnt: int,
+    	nick_name: str, // 创建人的昵称
+        user_id: str, // 创建人id 
+        avatar: url, // 创建人头像
+    	moments :[
+    		{
+    			moment_id: str,
+    			moment_info: str,
+    			read_num: int,
+				medias: [
+                    {
+                        media_url: url,
+                        media_type: str,
+                    }
+                ]
+
+				created_at: str
+			},
+			...
+		]
+	}
+}
+```
 

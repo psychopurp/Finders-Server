@@ -141,6 +141,12 @@ func GetCommunities(pageNum, pageSize int, communityIDs []string) (communities [
 	return
 }
 
+func GetCommunityByCommunityID(communityID int) (community Community, err error) {
+	db := global.DB
+	err = db.Where("community_id = ?", communityID).First(&community).Error
+	return
+}
+
 func GetCommunityTotal(communityID int) (cnt int, err error) {
 	db := global.DB
 	err = db.Model(&Community{}).Where("community_id = ?", communityID).Count(&cnt).Error

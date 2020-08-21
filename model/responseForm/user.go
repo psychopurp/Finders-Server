@@ -7,4 +7,5 @@ type SimpleUserInfo struct {
 	Avatar       string
 	NickName     string
 	Introduction string
+	Signature    string
 }

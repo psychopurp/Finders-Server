@@ -48,6 +48,7 @@ type UserInfo struct {
 	Feeling       string     `gorm:"column:feeling;type:varchar(20);" json:"feeling"`             //[ 5] feeling                                        VARCHAR[20]          strue   primary: false  auto: false
 	Birthday      string     `gorm:"column:birthday;type:varchar(20);" json:"birthday"`           //[ 6] birthday                                       VARCHAR[20]          strue   primary: false  auto: false
 	Introduction  string     `gorm:"column:introduction;type:varchar(400);" json:"introduction"`  //[ 7] introduction                                   VARCHAR[400]         strue   primary: false  auto: false
+	Signature     string     `gorm:"column:signature;type:varchar(400);" json:"signature"`        //[ 7] introduction                                   VARCHAR[400]         strue   primary: false  auto: false
 	BloodType     string     `gorm:"column:blood_type;type:varchar(8);" json:"blood_type"`        //[ 8] blood_type                                     VARCHAR[8]           strue   primary: false  auto: false
 	Eamil         string     `gorm:"column:eamil;type:varchar(60);" json:"eamil"`                 //[ 9] eamil                                          VARCHAR[60]          strue   primary: false  auto: false
 	QQ            string     `gorm:"column:qq;type:varchar(30);" json:"qq"`                       //[10] qq                                             VARCHAR[30]          strue   primary: false  auto: false

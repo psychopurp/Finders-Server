@@ -35,7 +35,41 @@ func GetActivities(c *gin.Context) {
 		Page:        page,
 	}
 	// 获取返回的表单 方法与community的类似
-	form, err = activityStruct.GetActivitiesPageResponse()
+	form, err = activityStruct.GetActivitiesPageResponse(activityService.GetActivitiesOnCommunity)
+	if err != nil {
+		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetActivities1")
+		response.FailWithMsg(err.Error(), c)
+		return
+	}
+	response.OkWithData(form, c)
+}
+
+func GetUserActivities(c *gin.Context) {
+	var (
+		err         error
+		communityID int
+		pageNum     int
+		page        int
+		form        responseForm.ActivitiesResponseForm
+	)
+	// 获取社区id
+	//communityID = com.StrTo(c.Query("community_id")).MustInt()
+	userID := c.Query("userID")
+	if userID == "" {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	// 获取需要的页
+	pageNum, page = utils.GetPage(c)
+	activityStruct := activityService.ActivityStruct{
+		UserID:      userID,
+		CommunityID: communityID,
+		PageNum:     pageNum,
+		PageSize:    global.CONFIG.AppSetting.PageSize,
+		Page:        page,
+	}
+	// 获取返回的表单 方法与community的类似
+	form, err = activityStruct.GetActivitiesPageResponse(activityService.GetActivitiesOnUser)
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetActivities1")
 		response.FailWithMsg(err.Error(), c)
@@ -76,10 +110,11 @@ func AddActivity(c *gin.Context) {
 	}
 	mediaIDs = mediaIDs[:len(mediaIDs)-1]
 	activityStruct := activityService.ActivityStruct{
-		ActivityInfo: form.ActivityInfo,
-		MediaIDs:     mediaIDs,
-		UserID:       userID,
-		CommunityID:  form.CommunityID,
+		ActivityInfo:  form.ActivityInfo,
+		MediaIDs:      mediaIDs,
+		UserID:        userID,
+		ActivityTitle: form.ActivityTitle,
+		CommunityID:   form.CommunityID,
 	}
 	// 若重复则返回错误
 	if activityStruct.Exist() {

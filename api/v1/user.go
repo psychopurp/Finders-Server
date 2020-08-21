@@ -355,3 +355,25 @@ func GetFollow(c *gin.Context) {
 	}
 	response.OkWithData(simpleUserInfos, c)
 }
+
+func CheckFollow(c *gin.Context) {
+	var (
+		myID   string
+		userID string
+		myUUID uuid.UUID
+	)
+	myID = c.GetHeader("user_id")
+	userID = c.Query("userId")
+	if userID == "" {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	myUUID = uuid.FromStringOrNil(myID)
+	userStruct := userService.UserStruct{
+		UserID: myUUID,
+	}
+	flag := userStruct.CheckExistRelation(userID, model.FOLLOW)
+	data := make(gin.H)
+	data["flag"] = flag
+	response.OkWithData(data, c)
+}

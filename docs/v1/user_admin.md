@@ -78,6 +78,32 @@ return:
 }
 ```
 
+
+
+#### 查看当前用户是否关注某用户
+
+```json
+url: /user/check_follow
+method: GET
+header:{
+    token:str
+}
+queryparam:
+{
+    userId: str
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	flag: bool // true 是关注
+	}
+}
+```
+
+
+
 #### 添加和移除黑名单
 
 ```js
@@ -142,7 +168,8 @@ return:
             userId: str,
             avatar: str,
             nickName: str,
-            introduction: str
+            introduction: str，
+            signature: str,
         },
         {
             //...

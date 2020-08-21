@@ -39,6 +39,7 @@ type UpdateUserInfoForm struct {
 	Feeling       string `json:"feeling" validate:"omitempty,gte=1,lte=20"`       //[ 5] feeling                                        VARCHAR[20]          strue   primary: false  auto: false
 	Birthday      string `json:"birthday" validate:"omitempty,gte=1,lte=20"`      //[ 6] birthday                                       VARCHAR[20]          strue   primary: false  auto: false
 	Introduction  string `json:"introduction" validate:"omitempty,gte=1,lte=400"` //[ 7] introduction                                   VARCHAR[400]         strue   primary: false  auto: false
+	Signature     string `json:"signature" validate:"omitempty,gte=1,lte=400"`    //[ 7] introduction                                   VARCHAR[400]         strue   primary: false  auto: false
 	BloodType     string `json:"blood_type" validate:"omitempty,gte=1,lte=8"`     //[ 8] blood_type                                     VARCHAR[8]           strue   primary: false  auto: false
 	Eamil         string `json:"eamil" validate:"omitempty,gte=1,lte=60"`         //[ 9] eamil                                          VARCHAR[60]          strue   primary: false  auto: false
 	QQ            string `json:"qq" validate:"omitempty,gte=1,lte=30"`            //[10] qq                                             VARCHAR[30]          strue   primary: false  auto: false

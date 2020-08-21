@@ -43,6 +43,7 @@ func Routers() *gin.Engine {
 	router.InitMediaRouter(APIGroup)
 	router.InitCommunityRouter(APIGroup)
 	router.InitActivityRouter(APIGroup)
+	router.InitMomentRouter(APIGroup)
 	return Router
 
 }
