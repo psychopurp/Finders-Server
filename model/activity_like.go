@@ -82,9 +82,15 @@ func DeleteActivityLike(activityID, userID string) (err error) {
 	return
 }
 
-func GetActivityLikeTotal(userID string) (cnt int, err error) {
+func GetUserActivityLikeTotal(userID string) (cnt int, err error) {
 	db := global.DB
 	err = db.Model(&ActivityLike{}).Where("user_id = ?", userID).Count(&cnt).Error
+	return
+}
+
+func GetActivityLikeNumByActivityID(activityID string) (cnt int, err error) {
+	db := global.DB
+	err = db.Model(&ActivityLike{}).Where("activity_id = ?", activityID).Count(&cnt).Error
 	return
 }
 

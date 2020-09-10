@@ -24,6 +24,7 @@ func InitActivityRouter(Router *gin.RouterGroup) {
 		ActivityRouter.POST("reply", middleware.JWT(), v1.AddReply)
 		ActivityRouter.GET("get_activity_comment", v1.GetActivityComments)
 		ActivityRouter.GET("get_comment_reply", v1.GetCommentReplies)
+		ActivityRouter.GET("get_activity_like_num", middleware.JWTOmitEmpty(), v1.GetActivityLikeNum)
 
 	}
 }

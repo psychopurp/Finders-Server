@@ -83,6 +83,14 @@ func (activityStruct *ActivityStruct) Add() (activity model.Activity, err error)
 	return
 }
 
+func (activityStruct *ActivityStruct) GetActivityLikeNum() (cnt int, err error) {
+	return model.GetActivityLikeNumByActivityID(activityStruct.ActivityID)
+}
+
+func (activityStruct *ActivityStruct) IsLikeActivity() bool {
+	return model.ExistActivityLike(activityStruct.ActivityID, activityStruct.UserID)
+}
+
 func (activityStruct *ActivityStruct) GetAllByCommunityID() (activities []*model.Activity, err error) {
 	activities, err = model.GetActivitiesByCommunityID(activityStruct.PageNum, activityStruct.PageSize, activityStruct.CommunityID)
 	return
@@ -302,7 +310,7 @@ func (activityStruct *ActivityStruct) DisLike() (err error) {
 }
 
 func (activityStruct *ActivityStruct) CountLike() (cnt int, err error) {
-	cnt, err = model.GetActivityLikeTotal(activityStruct.UserID)
+	cnt, err = model.GetUserActivityLikeTotal(activityStruct.UserID)
 	return
 }
 

@@ -476,6 +476,32 @@ return:
 }
 ```
 
+#### 获取帖子点赞的数量
+
+```json
+url: /activity/get_activity_like_num
+method: GET
+header:{
+    token: str
+}
+queryparam:{
+    activity_id: str
+}
+data:
+{
+    
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+    	like_num: int,
+    	is_like: bool
+	},
+}
+```
+
 
 
 #### 点赞和取消点赞 帖子

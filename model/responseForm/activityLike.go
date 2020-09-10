@@ -10,3 +10,8 @@ type LikeForm struct {
 	UserID   string `json:"user_id"`
 	Avatar   string `json:"avatar"`
 }
+
+type ActivityLikeNumResponseForm struct {
+	LikeNum int  `json:"like_num"`
+	IsLike  bool `json:"is_like"`
+}

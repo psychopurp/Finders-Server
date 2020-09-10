@@ -514,17 +514,17 @@ func GetCommentReplies(c *gin.Context) {
 	var (
 		err           error
 		pageNum, page int
-		activityID    string
+		commentID     string
 		form          responseForm.CommentResponseForm
 	)
-	activityID = c.Query("comment_id")
-	if activityID == "" {
+	commentID = c.Query("comment_id")
+	if commentID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
 	pageNum, page = utils.GetPage(c)
 	commentStruct := commentService.CommentStruct{
-		ItemID:   activityID,
+		ItemID:   commentID,
 		ItemType: model.CommentOnComment,
 		PageNum:  pageNum,
 		PageSize: global.CONFIG.AppSetting.PageSize,
@@ -536,6 +536,32 @@ func GetCommentReplies(c *gin.Context) {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetCommentReplies1")
 		response.FailWithMsg(err.Error(), c)
 		return
+	}
+	response.OkWithData(form, c)
+}
+
+func GetActivityLikeNum(c *gin.Context) {
+	var (
+		err        error
+		activityID string
+		userID     string
+		likeNum    int
+		form       responseForm.ActivityLikeNumResponseForm
+	)
+	activityID = c.Query("activity_id")
+	userID = c.GetHeader("user_id")
+	activityStruct := activityService.ActivityStruct{
+		ActivityID: activityID,
+	}
+	likeNum, err = activityStruct.GetActivityLikeNum()
+	if utils.FailOnError(e.MYSQL_ERROR, err, c) {
+		return
+	}
+	form.LikeNum = likeNum
+	form.IsLike = false
+	if userID != "" {
+		activityStruct.UserID = userID
+		form.IsLike = activityStruct.IsLikeActivity()
 	}
 	response.OkWithData(form, c)
 }
