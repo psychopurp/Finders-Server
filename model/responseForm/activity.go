@@ -15,14 +15,16 @@ type ActivityInfoForm struct {
 	Tags          []TagInfoForm `json:"tags"`
 	Medias        []MediasForm  `json:"medias"`
 	NickName      string        `json:"nick_name"`
+	Signature     string        `json:"signature"`
 	UserID        string        `json:"user_id"`
 	Avatar        string        `json:"avatar"`
 	UserType      string        `json:"user_type"`
 	CreatedAt     string        `json:"created_at"`
 
-	CommunityID   int    `json:"community_id"`
-	CommunityName string `json:"community_name"`
-	Background    string `json:"background"`
+	CommunityID          int    `json:"community_id"`
+	CommunityName        string `json:"community_name"`
+	CommunityDescription string `json:"community_description"`
+	Background           string `json:"background"`
 }
 
 type TagInfoForm struct {

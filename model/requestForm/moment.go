@@ -22,3 +22,17 @@ func (u *CreateMomentRequestForm) Check(c *gin.Context) bool {
 	}
 	return false
 }
+
+type LikeMomentRequestForm struct {
+	MomentID string `json:"moment_info" validate:"required,min=1,max=50"`
+}
+
+func (u *LikeMomentRequestForm) Check(c *gin.Context) bool {
+	validate := validator.New()
+	err := validate.Struct(*u)
+	if err != nil {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return true
+	}
+	return false
+}

@@ -44,11 +44,15 @@ func (m *MomentStruct) GetMomentsByUserID() (moments []*model.Moment, err error)
 	return model.GetMoments(m.PageNum, m.PageSize, m.UserID)
 }
 
+func (m *MomentStruct) GetMomentByMomentID() (moment model.Moment, err error) {
+	return model.GetMomentByMomentID(m.MomentID)
+}
+
 func (m *MomentStruct) AddReadNum() (err error) {
 	return m.Affair.AddMomentReadNum(m.MomentID)
 }
 
-func (m *MomentStruct) GetMomentsResponseForm() (form responseForm.GetMomentsResponseForm, err error) {
+func (m *MomentStruct) GetUserMomentsResponseForm() (form responseForm.GetUserMomentsResponseForm, err error) {
 	var (
 		moments  []*model.Moment
 		totalCnt int
@@ -96,14 +100,64 @@ func (m *MomentStruct) GetMomentsResponseForm() (form responseForm.GetMomentsRes
 		if err != nil {
 			return
 		}
-		simpleForm := responseForm.SimpleMomentForm{
-			MomentID:   moment.MomentID,
-			MomentInfo: moment.MomentInfo,
-			ReadNum:    moment.ReadNum + 1,
-			Medias:     mediasForms,
-			CreatedAt:  moment.CreatedAt.String(),
-		}
-		form.Moments = append(form.Moments, simpleForm)
+		//simpleForm := responseForm.SimpleMomentForm{
+		//	MomentID:   moment.MomentID,
+		//MomentInfo: moment.MomentInfo,
+		//ReadNum:    moment.ReadNum + 1,
+		//Medias:     mediasForms,
+		//CreatedAt:  moment.CreatedAt.String(),
+		//}
+		form.MomentIDs = append(form.MomentIDs, moment.MomentID)
 	}
+	return
+}
+
+func (m *MomentStruct) GetMomentResponseForm() (form responseForm.GetMomentResponseForm, err error) {
+	var (
+		moment      model.Moment
+		user        model.User
+		mediasForms []responseForm.MediasForm
+	)
+	moment, err = m.GetMomentByMomentID()
+	if err != nil {
+		return
+	}
+	user, err = model.GetUserByUserID(moment.UserID)
+	if err != nil {
+		return
+	}
+	if len(moment.MediaIDs) != 0 {
+		mediaIDs := strings.Split(moment.MediaIDs, ";")
+		for _, mediaID := range mediaIDs {
+			var media model.Media
+			media, err = model.GetMediaByMediaID(mediaID)
+			if err != nil {
+				return
+			}
+			mediaForm := responseForm.MediasForm{
+				MediaURL:  media.MediaURL,
+				MediaType: model.GetMediaTypeByInt(media.MediaType),
+			}
+			mediasForms = append(mediasForms, mediaForm)
+		}
+	}
+	form = responseForm.GetMomentResponseForm{
+		NickName:   user.Nickname,
+		Avatar:     user.Avatar,
+		UserID:     user.UserID.String(),
+		Signature:  user.UserInfo.Signature,
+		MomentID:   moment.MomentID,
+		MomentInfo: moment.MomentInfo,
+		Location:   moment.Location,
+		ReadNum:    moment.ReadNum,
+		LikeNum:    0,
+		Medias:     mediasForms,
+		CreatedAt:  moment.CreatedAt.String(),
+	}
+	return
+}
+
+func (m *MomentStruct) Like() (err error) {
+	_, err = model.AddLikeMap(m.MomentID, m.UserID, model.LikeMoment)
 	return
 }

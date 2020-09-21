@@ -693,7 +693,7 @@ return:
 #### 获取某用户的动态
 
 ```json
-url: /moment/get_moments
+url: /moment/get_user_moments
 method: GET
 queryparam:{
     userId: str
@@ -715,22 +715,62 @@ return:
     	nick_name: str, // 创建人的昵称
         user_id: str, // 创建人id 
         avatar: url, // 创建人头像
-    	moments :[
-    		{
-    			moment_id: str,
-    			moment_info: str,
-    			read_num: int,
-				medias: [
-                    {
-                        media_url: url,
-                        media_type: str,
-                    }
-                ]
+    	moment_ids :[
+    		
+    			str,
+    			// moment_info: str,
+    			// read_num: int,
+				// medias: [
+                   //  {
+                      //   media_url: url,
+                        // media_type: str,
+                    // }
+                // ]
 
-				created_at: str
-			},
+				//created_at: str
+			
 			...
 		]
+	}
+}
+```
+
+#### 获取动态详情
+
+
+
+```json
+
+url: /moment/get_moment
+method: GET
+queryparam:{
+    moment_id: str
+}
+data:
+{
+    
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+		nick_name: str,
+    	avatar: str,
+    	user_id: str,
+    	signature: str,
+        moment_id: str,
+        moment_info: str,
+    	location: str,
+        read_num: int,
+    	like_num: int,
+        medias: [
+        {
+            media_url: url,
+            media_type: str,
+            }
+        ]
+        created_at: str
 	}
 }
 ```

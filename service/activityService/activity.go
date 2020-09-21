@@ -84,11 +84,11 @@ func (activityStruct *ActivityStruct) Add() (activity model.Activity, err error)
 }
 
 func (activityStruct *ActivityStruct) GetActivityLikeNum() (cnt int, err error) {
-	return model.GetActivityLikeNumByActivityID(activityStruct.ActivityID)
+	return model.GetLikeMapNumByObjectID(activityStruct.ActivityID)
 }
 
 func (activityStruct *ActivityStruct) IsLikeActivity() bool {
-	return model.ExistActivityLike(activityStruct.ActivityID, activityStruct.UserID)
+	return model.ExistLikeMap(activityStruct.ActivityID, activityStruct.UserID, model.LikeActivity)
 }
 
 func (activityStruct *ActivityStruct) GetAllByCommunityID() (activities []*model.Activity, err error) {
@@ -175,12 +175,14 @@ func (activityStruct *ActivityStruct) GetActivityInfoResponse() (form responseFo
 		NickName:      user.Nickname,
 		UserID:        user.UserID.String(),
 		Avatar:        user.Avatar,
+		Signature:     user.UserInfo.Signature,
 		UserType:      userType,
 		CreatedAt:     activity.CreatedAt.String(),
 
-		CommunityID:   community.CommunityID,
-		CommunityName: community.CommunityName,
-		Background:    community.Background,
+		CommunityID:          community.CommunityID,
+		CommunityName:        community.CommunityName,
+		Background:           community.Background,
+		CommunityDescription: community.CommunityDescription,
 	}
 	return
 }
@@ -296,40 +298,40 @@ func (activityStruct *ActivityStruct) CountByUserID() (cnt int, err error) {
 }
 
 func (activityStruct *ActivityStruct) ExistLike() bool {
-	return model.ExistActivityLike(activityStruct.ActivityID, activityStruct.UserID)
+	return model.ExistLikeMap(activityStruct.ActivityID, activityStruct.UserID, model.LikeActivity)
 }
 
-func (activityStruct *ActivityStruct) Like() (like model.ActivityLike, err error) {
-	like, err = model.AddActivityLike(activityStruct.ActivityID, activityStruct.UserID)
+func (activityStruct *ActivityStruct) Like() (like model.LikeMap, err error) {
+	like, err = model.AddLikeMap(activityStruct.ActivityID, activityStruct.UserID, model.LikeActivity)
 	return
 }
 
 func (activityStruct *ActivityStruct) DisLike() (err error) {
-	err = model.DeleteActivityLike(activityStruct.ActivityID, activityStruct.UserID)
+	err = model.DeleteLikeMap(activityStruct.ActivityID, activityStruct.UserID, model.LikeActivity)
 	return
 }
 
 func (activityStruct *ActivityStruct) CountLike() (cnt int, err error) {
-	cnt, err = model.GetUserActivityLikeTotal(activityStruct.UserID)
+	cnt, err = model.GetUserLikeMapTotal(activityStruct.UserID, model.LikeActivity)
 	return
 }
 
-func (activityStruct *ActivityStruct) GetALlActivityLikes() (activityLikes []*model.ActivityLike, err error) {
-	activityLikes, err = model.GetActivityLikesByUserID(activityStruct.UserID)
+func (activityStruct *ActivityStruct) GetALlActivityLikes() (likeMaps []*model.LikeMap, err error) {
+	likeMaps, err = model.GetLikeMapsByUserID(activityStruct.UserID, model.LikeActivity)
 	return
 }
 
 func (activityStruct *ActivityStruct) GetAllLikeActivities() (activities []*model.Activity, err error) {
 	var (
-		activityLikes []*model.ActivityLike
-		activityIDs   []string
+		likeMaps    []*model.LikeMap
+		activityIDs []string
 	)
-	activityLikes, err = activityStruct.GetALlActivityLikes()
+	likeMaps, err = activityStruct.GetALlActivityLikes()
 	if err != nil {
 		return
 	}
-	for _, activityLike := range activityLikes {
-		activityIDs = append(activityIDs, activityLike.ActivityID)
+	for _, activityLike := range likeMaps {
+		activityIDs = append(activityIDs, activityLike.ObjectID)
 	}
 	activities, err = model.GetActivitiesByActivityIDs(activityStruct.PageNum, activityStruct.PageSize, activityIDs)
 	return

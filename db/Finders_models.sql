@@ -85,7 +85,7 @@ CREATE TABLE `collections` (
 PRIMARY KEY (`collection_id`) 
 );
 CREATE TABLE `communities` (
-`community_id` int NOT NULL AUTO_INCREMEN COMMENT '社区ID',
+`community_id` int NOT NULL AUTO_INCREMENT COMMENT '社区ID',
 `community_creator` varchar(50) NOT NULL COMMENT '社区创建者（圈主）',
 `community_name` varchar(100) NOT NULL COMMENT '社区名称',
 `community_description` text COMMENT '社区简介' NULL,
@@ -149,10 +149,11 @@ CREATE TABLE `community_users` (
 `deleted_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
 PRIMARY KEY (`id`) 
 );
-CREATE TABLE `activity_likes` (
-`activity_id` varchar(50) NOT NULL COMMENT '帖子ID',
+CREATE TABLE `like_maps` (
+`object_id` varchar(50) NOT NULL COMMENT '喜欢的ID',
 `user_id` varchar(50) NOT NULL COMMENT '用户ID',
 `id` int AUTO_INCREMENT NOT NULL,
+`object_type` varchar(50) NOT NULL COMMENT '喜欢的id的类型',
 `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '点赞时间',
 `updated_at` datetime NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
 `deleted_at` datetime NULL  COMMENT '删除时间',
@@ -207,8 +208,6 @@ ALTER TABLE `community_managers` ADD CONSTRAINT `fk_manager_community` FOREIGN K
 ALTER TABLE `community_managers` ADD CONSTRAINT `fk_manager_user` FOREIGN KEY (`manager_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `community_users` ADD CONSTRAINT `fk_community_user_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `community_users` ADD CONSTRAINT `fk_community_user_community` FOREIGN KEY (`community_id`) REFERENCES `communities` (`community_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-ALTER TABLE `activity_likes` ADD CONSTRAINT `fk_likes_activity` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`activity_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
-ALTER TABLE `activity_likes` ADD CONSTRAINT `fk_likes_user` FOREIGN KEY (`user_id`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE `comments` ADD CONSTRAINT `fk_comment_user` FOREIGN KEY (`from_uid`) REFERENCES `users` (`user_id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
 ALTER TABLE `comments` ADD CONSTRAINT `fk_comment_activity` FOREIGN KEY (`activity_id`) REFERENCES `activities` (`activity_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;
 ALTER TABLE `replies` ADD CONSTRAINT `fk_reply_comment` FOREIGN KEY (`comment_id`) REFERENCES `comments` (`comment_id`) ON DELETE RESTRICT ON UPDATE RESTRICT;

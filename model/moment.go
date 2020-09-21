@@ -81,6 +81,11 @@ func GetMoments(pageNum, pageSize int, userID string) (moments []*Moment, err er
 	err = db.Where("user_id = ?", userID).Offset(pageNum).Limit(pageSize).Find(&moments).Error
 	return
 }
+func GetMomentByMomentID(momentID string) (moment Moment, err error) {
+	db := global.DB
+	err = db.Where("moment_id = ?", momentID).First(&moment).Error
+	return
+}
 
 func (a *AffairService) AddMomentReadNum(momentID string) (err error) {
 	db := a.tx

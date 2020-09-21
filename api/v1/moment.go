@@ -59,10 +59,10 @@ func CreateMoment(c *gin.Context) {
 	response.OkWithData(data, c)
 }
 
-func GetMoments(c *gin.Context) {
+func GetUserMoments(c *gin.Context) {
 	var (
 		err           error
-		form          responseForm.GetMomentsResponseForm
+		form          responseForm.GetUserMomentsResponseForm
 		userID        string
 		pageNum, page int
 	)
@@ -87,7 +87,7 @@ func GetMoments(c *gin.Context) {
 	}
 	base.AffairBegin()()
 	momentStruct.AffairInitWithAffair(base.Affair)
-	form, err = momentStruct.GetMomentsResponseForm()
+	form, err = momentStruct.GetUserMomentsResponseForm()
 	if base.AffairRollbackIfError(err, c) {
 		return
 	}
@@ -95,4 +95,50 @@ func GetMoments(c *gin.Context) {
 		return
 	}
 	response.OkWithData(form, c)
+}
+
+func GetMoment(c *gin.Context) {
+	var (
+		err      error
+		momentID string
+		form     responseForm.GetMomentResponseForm
+	)
+	momentID = c.Query("moment_id")
+	if momentID == "" {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	momentStruct := momentService.MomentStruct{
+		MomentID: momentID,
+	}
+	form, err = momentStruct.GetMomentResponseForm()
+	if utils.FailOnError(e.MYSQL_ERROR, err, c) {
+		return
+	}
+	response.OkWithData(form, c)
+}
+
+func LikeMoment(c *gin.Context) {
+	var (
+		err    error
+		form   requestForm.LikeMomentRequestForm
+		userID string
+	)
+	userID = c.GetHeader("user_id")
+	err = c.ShouldBind(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
+		return
+	}
+	if form.Check(c) {
+		return
+	}
+	momentStruct := momentService.MomentStruct{
+		MomentID: form.MomentID,
+		UserID:   userID,
+	}
+	err = momentStruct.Like()
+	if utils.FailOnError(e.MYSQL_ERROR, err, c) {
+		return
+	}
+	response.OkWithData("", c)
 }
