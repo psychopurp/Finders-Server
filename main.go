@@ -19,7 +19,7 @@ func test() {
 }
 
 func main() {
-	// test()
+	// tool()
 	global.LOG.Debug("初始化redis")
 	err := initialize.Redis()
 	if err != nil {
@@ -38,6 +38,5 @@ func main() {
 
 	//程序结束前关闭数据库连接
 	defer global.DB.Close()
-
 	core.RunServer()
 }

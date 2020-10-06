@@ -18,6 +18,7 @@ import (
 	"fmt"
 	"io"
 	"os"
+	"path"
 	"strings"
 
 	oplogging "github.com/op/go-logging"
@@ -55,6 +56,7 @@ func registerStdout(c config.LogConfig, backends []oplogging.Backend) []oploggin
 			fmt.Println(err)
 		}
 		backends = append(backends, createBackend(os.Stdout, c, level))
+		backends = append(backends, getFileBackend(c))
 	}
 	return backends
 }
@@ -85,4 +87,40 @@ func getLogFormatter(c config.LogConfig, stdOutWriter bool) oplogging.Formatter 
 	}
 	return oplogging.MustStringFormatter(pattern)
 
+}
+
+func getFileBackend(c config.LogConfig) oplogging.LeveledBackend {
+	//判断是否存在该文件夹
+	if err := os.MkdirAll(logDir, 0777); err != nil {
+		panic(err)
+	}
+	// 打开一个文件
+	file, err := os.OpenFile(path.Join(logDir, module+"_info.log"), os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+	if err != nil {
+		panic(err)
+	}
+	//backend := l.getLogBackend(file, LogLevelMap[l.level])
+	level, err := oplogging.LogLevel(c.Stdout)
+	if err != nil {
+		panic(err)
+	}
+	backend := getLogBackend(c, file, int(level))
+	//logging.SetBackend(backend)
+	return backend
+}
+
+func getLogBackend(c config.LogConfig, out io.Writer, level int) oplogging.LeveledBackend {
+	pattern := defaultFormatter
+	pattern = strings.Replace(pattern, "%{color:bold}", "", -1)
+	pattern = strings.Replace(pattern, "%{color:reset}", "", -1)
+	if !c.Logfile {
+		//remove %{logfile} tag
+		pattern = strings.Replace(pattern, "%{longfile}", "", -1)
+	}
+	backend := oplogging.NewLogBackend(out, c.Prefix, 1)
+	format := oplogging.MustStringFormatter(pattern)
+	backendFormatter := oplogging.NewBackendFormatter(backend, format)
+	backendLeveled := oplogging.AddModuleLevel(backendFormatter)
+	backendLeveled.SetLevel(oplogging.Level(level), "")
+	return backendLeveled
 }

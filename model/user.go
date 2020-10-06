@@ -97,7 +97,7 @@ func (u *User) AfterCreate(scope *gorm.Scope) error {
 }
 
 // func (u User) String() string {
-// 	return "this is test"
+// 	return "this is "
 // }
 
 func AddUser(user *User) (err error) {
@@ -182,5 +182,10 @@ func UpdateUserByUserID(userID string, fieldName string, it interface{}) (err er
 func UpdateUserByUser(userID string, user User) (err error) {
 	db := global.DB
 	err = db.Model(&User{}).Where("user_id = ?", userID).Updates(user).Error
+	return
+}
+func GetUsers() (users []*User, err error) {
+	db := global.DB
+	err = db.Model(&User{}).Find(&users).Error
 	return
 }

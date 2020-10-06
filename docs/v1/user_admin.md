@@ -58,6 +58,34 @@ return:
 }
 ```
 
+#### 获取用户信息
+
+```go
+url: /user/user_info
+method: GET
+header:{
+}
+data:
+{
+}
+return:
+{
+    code: int
+    msg: str
+    data: {
+        user_id: str,
+        avatar:  str,
+        nick_name: str,
+        introduction: str,
+        signatrue: str,
+    }
+}
+```
+
+
+
+
+
 #### 关注和取消关注用户
 
 ```js

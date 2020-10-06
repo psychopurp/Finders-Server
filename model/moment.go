@@ -76,9 +76,15 @@ func GetMomentsTotal(userID string) (cnt int, err error) {
 	return
 }
 
-func GetMoments(pageNum, pageSize int, userID string) (moments []*Moment, err error) {
+func GetMomentsWithPaginator(pageNum, pageSize int, userID string) (moments []*Moment, err error) {
 	db := global.DB
 	err = db.Where("user_id = ?", userID).Offset(pageNum).Limit(pageSize).Find(&moments).Error
+	return
+}
+
+func GetMoments() (moments []*Moment, err error) {
+	db := global.DB
+	err = db.Model(&Moment{}).Find(&moments).Error
 	return
 }
 func GetMomentByMomentID(momentID string) (moment Moment, err error) {

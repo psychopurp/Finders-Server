@@ -13,6 +13,7 @@ func InitUserRouter(Router *gin.RouterGroup) {
 	{
 		UserRouter.POST("login", v1.Login)                                      // 登陆
 		UserRouter.POST("update_profile", middleware.JWT(), v1.UpdateProfile)   // 用户信息更新
+		UserRouter.GET("user_info", middleware.JWT(), v1.GetUserInfo)           // 获取用户信息
 		UserRouter.POST("follow", middleware.JWT(), v1.Follow)                  // 关注用户
 		UserRouter.POST("unfollow", middleware.JWT(), v1.UnFollow)              // 取消关注用户
 		UserRouter.POST("add_denylist", middleware.JWT(), v1.AddDenyList)       // 添加黑名单

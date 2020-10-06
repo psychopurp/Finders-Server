@@ -45,5 +45,9 @@ func (a *AffairService) Commit() (err error) {
 	return a.tx.Commit().Error
 }
 
+func (a *AffairService) GetTX() *gorm.DB {
+	return a.tx
+}
+
 // 在每个service中都加上 affairService
 // 所有model.Addxxx等操作都变成affairService的函数

@@ -136,6 +136,10 @@ func LikeMoment(c *gin.Context) {
 		MomentID: form.MomentID,
 		UserID:   userID,
 	}
+	if momentStruct.ExistLike() {
+		response.FailWithMsg(e.REPEAT_SUBMIT, c)
+		return
+	}
 	err = momentStruct.Like()
 	if utils.FailOnError(e.MYSQL_ERROR, err, c) {
 		return

@@ -41,7 +41,7 @@ func (m *MomentStruct) GetMomentsTotalByUserID() (cnt int, err error) {
 }
 
 func (m *MomentStruct) GetMomentsByUserID() (moments []*model.Moment, err error) {
-	return model.GetMoments(m.PageNum, m.PageSize, m.UserID)
+	return model.GetMomentsWithPaginator(m.PageNum, m.PageSize, m.UserID)
 }
 
 func (m *MomentStruct) GetMomentByMomentID() (moment model.Moment, err error) {
@@ -156,7 +156,9 @@ func (m *MomentStruct) GetMomentResponseForm() (form responseForm.GetMomentRespo
 	}
 	return
 }
-
+func (m *MomentStruct) ExistLike() bool {
+	return model.ExistLikeMap(m.MomentID, m.UserID, model.LikeMoment)
+}
 func (m *MomentStruct) Like() (err error) {
 	_, err = model.AddLikeMap(m.MomentID, m.UserID, model.LikeMoment)
 	return

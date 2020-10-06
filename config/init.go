@@ -7,9 +7,9 @@ import (
 	"github.com/spf13/viper"
 )
 
-const defaultConfigFile = "config.yaml"
+//const defaultConfigFile = "config.yaml"
 
-//const defaultConfigFile = "configServer.yaml"
+const defaultConfigFile = "configServer.yaml"
 
 // 加载配置文件
 func InitConfig() (config *Server) {

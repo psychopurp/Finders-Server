@@ -129,6 +129,11 @@ func GetActivityByID(activityID string) (activity Activity, err error) {
 	return
 }
 
+func GetActivities() (activities []*Activity, err error) {
+	db := global.DB
+	err = db.Model(&Activity{}).Find(&activities).Error
+	return
+}
 func GetActivitiesByCommunityID(pageNum, pageSize, communityID int) (activities []*Activity, err error) {
 	db := global.DB
 	err = db.Preload("User").Where("community_id = ?", communityID).Offset(pageNum).Limit(pageSize).Find(&activities).Error

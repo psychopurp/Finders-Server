@@ -153,6 +153,9 @@ func (u *UserStruct) UpdateUserInfo() (err error) {
 	return model.UpdateUserInfoByUserInfo(u.UserID.String(), userInfo)
 }
 
+func (u *UserStruct) GetUserByUserID() (user model.User, err error) {
+	return model.GetUserByUserID(u.UserID.String())
+}
 func (u *UserStruct) UpdateUser() (err error) {
 	user := model.User{
 		Password: u.Password,
@@ -273,7 +276,7 @@ func (u *UserStruct) GetSimpleUserInfoListByUserID(relationType int, loc int) (s
 			return simpleUserInfo, errors.New(e.MYSQL_ERROR)
 		}
 		simpleUserInfo = append(simpleUserInfo, responseForm.SimpleUserInfo{
-			UserId:   user.UserID,
+			UserId:   user.UserID.String(),
 			Avatar:   user.Avatar,
 			NickName: user.Nickname,
 			//Introduction: userInfo.Introduction,

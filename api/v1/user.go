@@ -122,6 +122,31 @@ func UpdateProfile(c *gin.Context) {
 	response.OkWithData("", c)
 }
 
+func GetUserInfo(c *gin.Context) {
+	var (
+		err    error
+		userID string
+		user   model.User
+		form   responseForm.SimpleUserInfo
+	)
+	userID = c.Query("userId")
+	userStruct := userService.UserStruct{
+		UserID: uuid.FromStringOrNil(userID),
+	}
+	user, err = userStruct.GetUserByUserID()
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
+		return
+	}
+	form = responseForm.SimpleUserInfo{
+		UserId:       user.UserID.String(),
+		Avatar:       user.Avatar,
+		NickName:     user.Nickname,
+		Introduction: user.UserInfo.Introduction,
+		Signature:    user.UserInfo.Signature,
+	}
+	response.OkWithData(form, c)
+}
+
 // @Summary 关注
 // @Description 关注
 // @Tags 关注
