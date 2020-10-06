@@ -26,6 +26,7 @@ func MainRecommend(c *gin.Context) {
 		A
 		M
 	)
+	//
 	for i := 0; i < 2; i++ {
 		card := responseForm.SimpleCard{
 			CardID:   cnt,
