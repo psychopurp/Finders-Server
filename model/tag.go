@@ -3,6 +3,7 @@ package model
 import (
 	"database/sql"
 	"finders-server/global"
+	"github.com/jinzhu/gorm"
 	"time"
 
 	"github.com/guregu/null"
@@ -58,6 +59,8 @@ func (t *Tag) Validate(action Action) error {
 const (
 	TagSystem = baseIndex + iota
 	TagDIY
+	TagQuestionBoxSystem
+	TagQuestionBoxDIY
 )
 
 func GetTagType(tagType int) (typeName string, ok bool) {
@@ -79,5 +82,18 @@ func GetTagsByActivityID(activityID string) (tags []*Tag, err error) {
 		return
 	}
 	err = db.Where("tag_id IN (?)", ids).Find(&tags).Error
+	return
+}
+
+func (a *AffairService) FirstTagOrCreate(tagName string, diy int) (tag *Tag, err error) {
+	db := a.tx
+	tag = new(Tag)
+	err = db.Model(&Tag{}).Where("tag_name = ? and tag_type IN (?)", tagName, []int{diy, diy - 1}).First(tag).Error
+	if gorm.IsRecordNotFoundError(err) {
+		tag.TagName = tagName
+		tag.TagType = diy
+		err = db.Model(&Tag{}).Create(tag).Error
+		return
+	}
 	return
 }

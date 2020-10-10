@@ -12,6 +12,7 @@ type CreateCommunityForm struct {
 	CommunityName        string `json:"community_name" validate:"required,min=1,max=100"`
 	CommunityDescription string `json:"community_description" validate:"required,min=1,max=65535"`
 	Background           string `json:"background" validate:"required,min=1,max=200"`
+	CommunityAvatar      string `json:"community_avatar" validate:"required,min=1,max=200"`
 }
 
 func (u *CreateCommunityForm) Check(c *gin.Context) bool {
@@ -30,6 +31,7 @@ type UpdateCommunityForm struct {
 	CommunityName        string `json:"community_name" validate:"omitempty,min=1,max=100"`
 	CommunityDescription string `json:"community_description" validate:"omitempty,min=1,max=65535"`
 	Background           string `json:"background" validate:"omitempty,min=1,max=200"`
+	CommunityAvatar      string `json:"community_avatar" validate:"required,min=1,max=200"`
 }
 
 func (u *UpdateCommunityForm) Check(c *gin.Context) bool {

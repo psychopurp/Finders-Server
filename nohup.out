@@ -1,0 +1,911 @@
+[Finders-Server][36;1m 2020/09/23 23:11:24  ▶ [DEBUG] Core init[0m
+[Finders-Server][36;1m 2020/09/23 23:11:24  ▶ [DEBUG] 初始化redis[0m
+[Finders-Server][36;1m 2020/09/23 23:11:24  ▶ [DEBUG] 连接数据库[0m
+[Finders-Server][36;1m 2020/09/23 23:11:24  ▶ [DEBUG] Register tables success[0m
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] Loaded HTML Templates (2): 
+	- 
+	- index.html
+
+[GIN-debug] GET    /                         --> finders-server/initialize.Routers.func1 (1 handlers)
+[Finders-Server][36;1m 2020/09/23 23:11:24  ▶ [DEBUG] Register Logger middleware[0m
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (2 handlers)
+[Finders-Server][36;1m 2020/09/23 23:11:24  ▶ [DEBUG] Register swagger handler[0m
+[GIN-debug] POST   /api/v1/user/login        --> finders-server/api/v1.Login (2 handlers)
+[GIN-debug] POST   /api/v1/user/update_profile --> finders-server/api/v1.UpdateProfile (3 handlers)
+[GIN-debug] POST   /api/v1/user/follow       --> finders-server/api/v1.Follow (3 handlers)
+[GIN-debug] POST   /api/v1/user/unfollow     --> finders-server/api/v1.UnFollow (3 handlers)
+[GIN-debug] POST   /api/v1/user/add_denylist --> finders-server/api/v1.AddDenyList (3 handlers)
+[GIN-debug] POST   /api/v1/user/remove_denylist --> finders-server/api/v1.RemoveDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_denylist --> finders-server/api/v1.GetDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_followlist --> finders-server/api/v1.GetFollowList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_fans     --> finders-server/api/v1.GetFans (2 handlers)
+[GIN-debug] GET    /api/v1/user/get_follow   --> finders-server/api/v1.GetFollow (2 handlers)
+[GIN-debug] GET    /api/v1/user/check_follow --> finders-server/api/v1.CheckFollow (3 handlers)
+[GIN-debug] POST   /api/v1/admin/login       --> finders-server/api/v1.AdminLogin (2 handlers)
+[GIN-debug] POST   /api/v1/admin/update_profile --> finders-server/api/v1.UpdateAdminProfile (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_image --> finders-server/api/v1.UploadImage (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_images --> finders-server/api/v1.UploadImages (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_video --> finders-server/api/v1.UploadVideo (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_videos --> finders-server/api/v1.UploadVideos (3 handlers)
+[GIN-debug] POST   /api/v1/community/create_community --> finders-server/api/v1.CreateCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/update_profile --> finders-server/api/v1.UpdateCommunityProfile (3 handlers)
+[GIN-debug] POST   /api/v1/community/collect --> finders-server/api/v1.CollectCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/uncollect --> finders-server/api/v1.UnCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/community/get_collect --> finders-server/api/v1.GetCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activities --> finders-server/api/v1.GetActivities (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_user_activities --> finders-server/api/v1.GetUserActivities (2 handlers)
+[GIN-debug] POST   /api/v1/activity/add_activity --> finders-server/api/v1.AddActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_info --> finders-server/api/v1.GetActivityInfo (2 handlers)
+[GIN-debug] POST   /api/v1/activity/collect  --> finders-server/api/v1.CollectActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/uncollect --> finders-server/api/v1.UnCollectActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_collect --> finders-server/api/v1.GetCollectActivities (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like --> finders-server/api/v1.GetActivityLike (3 handlers)
+[GIN-debug] POST   /api/v1/activity/like_activity --> finders-server/api/v1.LikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/dislike_activity --> finders-server/api/v1.DisLikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/comment  --> finders-server/api/v1.AddComment (3 handlers)
+[GIN-debug] POST   /api/v1/activity/reply    --> finders-server/api/v1.AddReply (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_comment --> finders-server/api/v1.GetActivityComments (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_comment_reply --> finders-server/api/v1.GetCommentReplies (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like_num --> finders-server/api/v1.GetActivityLikeNum (3 handlers)
+[GIN-debug] POST   /api/v1/moment/create_moment --> finders-server/api/v1.CreateMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_user_moments --> finders-server/api/v1.GetUserMoments (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_moment --> finders-server/api/v1.GetMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/like_moment --> finders-server/api/v1.LikeMoment (3 handlers)
+[Finders-Server][36;1m 2020/09/23 23:11:24  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8663 [0m
+config file changed...
+config file changed...
+[Finders-Server][36;1m 2020/09/23 23:13:34  ▶ [DEBUG] Core init[0m
+[Finders-Server][36;1m 2020/09/23 23:13:34  ▶ [DEBUG] 初始化redis[0m
+[Finders-Server][36;1m 2020/09/23 23:13:34  ▶ [DEBUG] 连接数据库[0m
+[Finders-Server][36;1m 2020/09/23 23:13:34  ▶ [DEBUG] Register tables success[0m
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] Loaded HTML Templates (2): 
+	- 
+	- index.html
+
+[GIN-debug] GET    /                         --> finders-server/initialize.Routers.func1 (1 handlers)
+[Finders-Server][36;1m 2020/09/23 23:13:34  ▶ [DEBUG] Register Logger middleware[0m
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (2 handlers)
+[Finders-Server][36;1m 2020/09/23 23:13:34  ▶ [DEBUG] Register swagger handler[0m
+[GIN-debug] POST   /api/v1/user/login        --> finders-server/api/v1.Login (2 handlers)
+[GIN-debug] POST   /api/v1/user/update_profile --> finders-server/api/v1.UpdateProfile (3 handlers)
+[GIN-debug] POST   /api/v1/user/follow       --> finders-server/api/v1.Follow (3 handlers)
+[GIN-debug] POST   /api/v1/user/unfollow     --> finders-server/api/v1.UnFollow (3 handlers)
+[GIN-debug] POST   /api/v1/user/add_denylist --> finders-server/api/v1.AddDenyList (3 handlers)
+[GIN-debug] POST   /api/v1/user/remove_denylist --> finders-server/api/v1.RemoveDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_denylist --> finders-server/api/v1.GetDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_followlist --> finders-server/api/v1.GetFollowList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_fans     --> finders-server/api/v1.GetFans (2 handlers)
+[GIN-debug] GET    /api/v1/user/get_follow   --> finders-server/api/v1.GetFollow (2 handlers)
+[GIN-debug] GET    /api/v1/user/check_follow --> finders-server/api/v1.CheckFollow (3 handlers)
+[GIN-debug] POST   /api/v1/admin/login       --> finders-server/api/v1.AdminLogin (2 handlers)
+[GIN-debug] POST   /api/v1/admin/update_profile --> finders-server/api/v1.UpdateAdminProfile (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_image --> finders-server/api/v1.UploadImage (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_images --> finders-server/api/v1.UploadImages (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_video --> finders-server/api/v1.UploadVideo (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_videos --> finders-server/api/v1.UploadVideos (3 handlers)
+[GIN-debug] POST   /api/v1/community/create_community --> finders-server/api/v1.CreateCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/update_profile --> finders-server/api/v1.UpdateCommunityProfile (3 handlers)
+[GIN-debug] POST   /api/v1/community/collect --> finders-server/api/v1.CollectCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/uncollect --> finders-server/api/v1.UnCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/community/get_collect --> finders-server/api/v1.GetCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activities --> finders-server/api/v1.GetActivities (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_user_activities --> finders-server/api/v1.GetUserActivities (2 handlers)
+[GIN-debug] POST   /api/v1/activity/add_activity --> finders-server/api/v1.AddActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_info --> finders-server/api/v1.GetActivityInfo (2 handlers)
+[GIN-debug] POST   /api/v1/activity/collect  --> finders-server/api/v1.CollectActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/uncollect --> finders-server/api/v1.UnCollectActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_collect --> finders-server/api/v1.GetCollectActivities (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like --> finders-server/api/v1.GetActivityLike (3 handlers)
+[GIN-debug] POST   /api/v1/activity/like_activity --> finders-server/api/v1.LikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/dislike_activity --> finders-server/api/v1.DisLikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/comment  --> finders-server/api/v1.AddComment (3 handlers)
+[GIN-debug] POST   /api/v1/activity/reply    --> finders-server/api/v1.AddReply (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_comment --> finders-server/api/v1.GetActivityComments (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_comment_reply --> finders-server/api/v1.GetCommentReplies (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like_num --> finders-server/api/v1.GetActivityLikeNum (3 handlers)
+[GIN-debug] POST   /api/v1/moment/create_moment --> finders-server/api/v1.CreateMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_user_moments --> finders-server/api/v1.GetUserMoments (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_moment --> finders-server/api/v1.GetMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/like_moment --> finders-server/api/v1.LikeMoment (3 handlers)
+[Finders-Server][36;1m 2020/09/23 23:13:34  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 [0m
+[Finders-Server][36;1m 2020/09/24 18:22:40  ▶ [DEBUG] Core init[0m
+[Finders-Server][36;1m 2020/09/24 18:22:40  ▶ [DEBUG] 初始化redis[0m
+[Finders-Server][36;1m 2020/09/24 18:22:40  ▶ [DEBUG] 连接数据库[0m
+[Finders-Server][36;1m 2020/09/24 18:22:40  ▶ [DEBUG] Register tables success[0m
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] Loaded HTML Templates (2): 
+	- 
+	- index.html
+
+[GIN-debug] GET    /                         --> finders-server/initialize.Routers.func1 (1 handlers)
+[Finders-Server][36;1m 2020/09/24 18:22:40  ▶ [DEBUG] Register Logger middleware[0m
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (2 handlers)
+[Finders-Server][36;1m 2020/09/24 18:22:40  ▶ [DEBUG] Register swagger handler[0m
+[GIN-debug] POST   /api/v1/user/login        --> finders-server/api/v1.Login (2 handlers)
+[GIN-debug] POST   /api/v1/user/update_profile --> finders-server/api/v1.UpdateProfile (3 handlers)
+[GIN-debug] POST   /api/v1/user/follow       --> finders-server/api/v1.Follow (3 handlers)
+[GIN-debug] POST   /api/v1/user/unfollow     --> finders-server/api/v1.UnFollow (3 handlers)
+[GIN-debug] POST   /api/v1/user/add_denylist --> finders-server/api/v1.AddDenyList (3 handlers)
+[GIN-debug] POST   /api/v1/user/remove_denylist --> finders-server/api/v1.RemoveDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_denylist --> finders-server/api/v1.GetDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_followlist --> finders-server/api/v1.GetFollowList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_fans     --> finders-server/api/v1.GetFans (2 handlers)
+[GIN-debug] GET    /api/v1/user/get_follow   --> finders-server/api/v1.GetFollow (2 handlers)
+[GIN-debug] GET    /api/v1/user/check_follow --> finders-server/api/v1.CheckFollow (3 handlers)
+[GIN-debug] POST   /api/v1/admin/login       --> finders-server/api/v1.AdminLogin (2 handlers)
+[GIN-debug] POST   /api/v1/admin/update_profile --> finders-server/api/v1.UpdateAdminProfile (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_image --> finders-server/api/v1.UploadImage (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_images --> finders-server/api/v1.UploadImages (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_video --> finders-server/api/v1.UploadVideo (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_videos --> finders-server/api/v1.UploadVideos (3 handlers)
+[GIN-debug] POST   /api/v1/community/create_community --> finders-server/api/v1.CreateCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/update_profile --> finders-server/api/v1.UpdateCommunityProfile (3 handlers)
+[GIN-debug] POST   /api/v1/community/collect --> finders-server/api/v1.CollectCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/uncollect --> finders-server/api/v1.UnCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/community/get_collect --> finders-server/api/v1.GetCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activities --> finders-server/api/v1.GetActivities (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_user_activities --> finders-server/api/v1.GetUserActivities (2 handlers)
+[GIN-debug] POST   /api/v1/activity/add_activity --> finders-server/api/v1.AddActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_info --> finders-server/api/v1.GetActivityInfo (2 handlers)
+[GIN-debug] POST   /api/v1/activity/collect  --> finders-server/api/v1.CollectActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/uncollect --> finders-server/api/v1.UnCollectActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_collect --> finders-server/api/v1.GetCollectActivities (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like --> finders-server/api/v1.GetActivityLike (3 handlers)
+[GIN-debug] POST   /api/v1/activity/like_activity --> finders-server/api/v1.LikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/dislike_activity --> finders-server/api/v1.DisLikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/comment  --> finders-server/api/v1.AddComment (3 handlers)
+[GIN-debug] POST   /api/v1/activity/reply    --> finders-server/api/v1.AddReply (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_comment --> finders-server/api/v1.GetActivityComments (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_comment_reply --> finders-server/api/v1.GetCommentReplies (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like_num --> finders-server/api/v1.GetActivityLikeNum (3 handlers)
+[GIN-debug] POST   /api/v1/moment/create_moment --> finders-server/api/v1.CreateMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_user_moments --> finders-server/api/v1.GetUserMoments (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_moment --> finders-server/api/v1.GetMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/like_moment --> finders-server/api/v1.LikeMoment (3 handlers)
+[Finders-Server][36;1m 2020/09/24 18:22:40  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 [0m
+[Finders-Server] 2020/09/24 18:23:16  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 61.136.26.3 | method = GET | URI = /favicon.ico |[0m
+[Finders-Server] 2020/09/24 18:33:10  ▶ [INFO] | status = 404 | exec = 97ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |[0m
+[Finders-Server] 2020/09/24 18:34:07  ▶ [INFO] | status = 404 | exec = 113ns | clientIP = 111.33.78.6 | method = GET | URI = /api/v1/ |[0m
+[Finders-Server] 2020/09/24 18:34:19  ▶ [INFO] | status = 404 | exec = 83ns | clientIP = 111.33.78.6 | method = GET | URI = /user/login |[0m
+[Finders-Server] 2020/09/24 18:34:33  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = GET | URI = /user/update_profile |[0m
+[Finders-Server] 2020/09/24 18:34:46  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = GET | URI = /admin |[0m
+[Finders-Server] 2020/09/24 18:34:48  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = GET | URI = /admin |[0m
+[Finders-Server] 2020/09/24 18:35:30  ▶ [INFO] | status = 404 | exec = 97ns | clientIP = 111.33.78.6 | method = GET | URI = /admin |[0m
+[Finders-Server] 2020/09/26 13:15:37  ▶ [INFO] | status = 404 | exec = 90ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |[0m
+[Finders-Server] 2020/09/26 16:45:08  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |[0m
+[Finders-Server] 2020/09/26 16:46:11  ▶ [INFO] | status = 404 | exec = 115ns | clientIP = 111.33.78.6 | method = GET | URI = /user/get_denylist |[0m
+[Finders-Server] 2020/09/26 16:46:31  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 111.33.78.6 | method = GET | URI = /user/get_denylist |[0m
+[Finders-Server] 2020/09/26 16:47:05  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = GET | URI = /user/get_denylist |[0m
+[Finders-Server] 2020/09/26 16:49:28  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |[0m
+[Finders-Server] 2020/09/26 16:49:50  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = GET | URI = /user/login |[0m
+[Finders-Server] 2020/09/26 16:50:38  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = GET | URI = /user/login |[0m
+[Finders-Server] 2020/09/26 16:51:32  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |[0m
+[Finders-Server] 2020/09/26 16:53:19  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |[0m
+[Finders-Server] 2020/09/26 16:54:08  ▶ [INFO] | status = 404 | exec = 95ns | clientIP = 111.33.78.6 | method = GET | URI = /admin/login |[0m
+[Finders-Server] 2020/09/26 16:55:00  ▶ [INFO] | status = 404 | exec = 159ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login?userName%20%7C%20phone=111&password%20%7C%20code=111 |[0m
+[Finders-Server] 2020/09/26 17:01:29  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |[0m
+[Finders-Server] 2020/09/26 17:01:42  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |[0m
+[Finders-Server] 2020/09/26 17:04:28  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |[0m
+[Finders-Server] 2020/09/26 17:06:08  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 61.136.26.26 | method = POST | URI = /user/login |[0m
+[mysql] 2020/09/26 17:06:41 packets.go:122: closing bad idle connection: EOF
+[mysql] 2020/09/26 17:06:41 connection.go:158: driver: bad connection
+[Finders-Server] 2020/09/26 17:06:41  ▶ [INFO] | status = 200 | exec = 6.878076ms | clientIP = 61.136.26.26 | method = POST | URI = /api/v1/user/login |[0m
+[Finders-Server] 2020/09/26 17:10:31  ▶ [INFO] | status = 404 | exec = 96ns | clientIP = 111.33.78.6 | method = POST | URI = /api/v1//user/login |[0m
+[Finders-Server][36;1m 2020/09/26 17:11:02  ▶ [DEBUG] invalid character '-' in numeric literal[0m
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 400 with 200
+[Finders-Server] 2020/09/26 17:11:02  ▶ [INFO] | status = 200 | exec = 229.798µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |[0m
+[Finders-Server] 2020/09/26 17:11:17  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = GET | URI = /api/v1/admin/login |[0m
+[Finders-Server][36;1m 2020/09/26 17:12:14  ▶ [DEBUG] invalid character '-' in numeric literal[0m
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 400 with 200
+[Finders-Server] 2020/09/26 17:12:14  ▶ [INFO] | status = 200 | exec = 101.261µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |[0m
+[Finders-Server][36;1m 2020/09/26 17:13:34  ▶ [DEBUG] invalid character '-' in numeric literal[0m
+[GIN-debug] [WARNING] Headers were already written. Wanted to override status code 400 with 200
+[Finders-Server] 2020/09/26 17:13:34  ▶ [INFO] | status = 200 | exec = 103.438µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |[0m
+[Finders-Server] 2020/09/26 17:16:36  ▶ [INFO] | status = 200 | exec = 5.470601ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |[0m
+[Finders-Server] 2020/09/26 17:23:39  ▶ [INFO] | status = 200 | exec = 37.434µs | clientIP = 111.33.78.6 | method = GET | URI = /api/v1/user/get_denylist |[0m
+[Finders-Server] 2020/09/26 17:24:45  ▶ [INFO] | status = 200 | exec = 3.980954ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |[0m
+[Finders-Server][36;1m 2020/09/27 09:15:07  ▶ [DEBUG] Core init[0m
+[Finders-Server][36;1m 2020/09/27 09:15:07  ▶ [DEBUG] 初始化redis[0m
+[Finders-Server][36;1m 2020/09/27 09:15:07  ▶ [DEBUG] 连接数据库[0m
+[Finders-Server][36;1m 2020/09/27 09:15:07  ▶ [DEBUG] Register tables success[0m
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] Loaded HTML Templates (2): 
+	- 
+	- index.html
+
+[GIN-debug] GET    /                         --> finders-server/initialize.Routers.func1 (1 handlers)
+[GIN-debug] GET    /log                      --> finders-server/initialize.Routers.func2 (1 handlers)
+[Finders-Server][36;1m 2020/09/27 09:15:07  ▶ [DEBUG] Register Logger middleware[0m
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (2 handlers)
+[Finders-Server][36;1m 2020/09/27 09:15:07  ▶ [DEBUG] Register swagger handler[0m
+[GIN-debug] POST   /api/v1/user/login        --> finders-server/api/v1.Login (2 handlers)
+[GIN-debug] POST   /api/v1/user/update_profile --> finders-server/api/v1.UpdateProfile (3 handlers)
+[GIN-debug] POST   /api/v1/user/follow       --> finders-server/api/v1.Follow (3 handlers)
+[GIN-debug] POST   /api/v1/user/unfollow     --> finders-server/api/v1.UnFollow (3 handlers)
+[GIN-debug] POST   /api/v1/user/add_denylist --> finders-server/api/v1.AddDenyList (3 handlers)
+[GIN-debug] POST   /api/v1/user/remove_denylist --> finders-server/api/v1.RemoveDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_denylist --> finders-server/api/v1.GetDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_followlist --> finders-server/api/v1.GetFollowList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_fans     --> finders-server/api/v1.GetFans (2 handlers)
+[GIN-debug] GET    /api/v1/user/get_follow   --> finders-server/api/v1.GetFollow (2 handlers)
+[GIN-debug] GET    /api/v1/user/check_follow --> finders-server/api/v1.CheckFollow (3 handlers)
+[GIN-debug] POST   /api/v1/admin/login       --> finders-server/api/v1.AdminLogin (2 handlers)
+[GIN-debug] POST   /api/v1/admin/update_profile --> finders-server/api/v1.UpdateAdminProfile (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_image --> finders-server/api/v1.UploadImage (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_images --> finders-server/api/v1.UploadImages (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_video --> finders-server/api/v1.UploadVideo (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_videos --> finders-server/api/v1.UploadVideos (3 handlers)
+[GIN-debug] POST   /api/v1/community/create_community --> finders-server/api/v1.CreateCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/update_profile --> finders-server/api/v1.UpdateCommunityProfile (3 handlers)
+[GIN-debug] POST   /api/v1/community/collect --> finders-server/api/v1.CollectCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/uncollect --> finders-server/api/v1.UnCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/community/get_collect --> finders-server/api/v1.GetCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activities --> finders-server/api/v1.GetActivities (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_user_activities --> finders-server/api/v1.GetUserActivities (2 handlers)
+[GIN-debug] POST   /api/v1/activity/add_activity --> finders-server/api/v1.AddActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_info --> finders-server/api/v1.GetActivityInfo (2 handlers)
+[GIN-debug] POST   /api/v1/activity/collect  --> finders-server/api/v1.CollectActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/uncollect --> finders-server/api/v1.UnCollectActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_collect --> finders-server/api/v1.GetCollectActivities (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like --> finders-server/api/v1.GetActivityLike (3 handlers)
+[GIN-debug] POST   /api/v1/activity/like_activity --> finders-server/api/v1.LikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/dislike_activity --> finders-server/api/v1.DisLikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/comment  --> finders-server/api/v1.AddComment (3 handlers)
+[GIN-debug] POST   /api/v1/activity/reply    --> finders-server/api/v1.AddReply (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_comment --> finders-server/api/v1.GetActivityComments (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_comment_reply --> finders-server/api/v1.GetCommentReplies (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like_num --> finders-server/api/v1.GetActivityLikeNum (3 handlers)
+[GIN-debug] POST   /api/v1/moment/create_moment --> finders-server/api/v1.CreateMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_user_moments --> finders-server/api/v1.GetUserMoments (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_moment --> finders-server/api/v1.GetMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/like_moment --> finders-server/api/v1.LikeMoment (3 handlers)
+[Finders-Server][36;1m 2020/09/27 09:15:07  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 [0m
+[Finders-Server] 2020/09/27 09:15:35  ▶ [INFO] | status = 404 | exec = 130ns | clientIP = 61.136.26.9 | method = GET | URI = /favicon.ico |[0m
+fatal error: runtime: out of memory
+
+runtime stack:
+runtime.throw(0xe217c2, 0x16)
+	/usr/local/go/src/runtime/panic.go:1116 +0x72
+runtime.sysMap(0xc364000000, 0xe4000000, 0x26ee738)
+	/usr/local/go/src/runtime/mem_linux.go:169 +0xc6
+runtime.(*mheap).sysAlloc(0x26d2d20, 0xe0800000, 0x439a97, 0x26d2d28)
+	/usr/local/go/src/runtime/malloc.go:727 +0x1e5
+runtime.(*mheap).grow(0x26d2d20, 0x70394, 0x0)
+	/usr/local/go/src/runtime/mheap.go:1344 +0x85
+runtime.(*mheap).allocSpan(0x26d2d20, 0x70394, 0x7f9f3a900000, 0x26ee748, 0xfffffffffffffade)
+	/usr/local/go/src/runtime/mheap.go:1160 +0x6b6
+runtime.(*mheap).alloc.func1()
+	/usr/local/go/src/runtime/mheap.go:907 +0x65
+runtime.(*mheap).alloc(0x26d2d20, 0x70394, 0x7f9f6c9f0100, 0x43754a)
+	/usr/local/go/src/runtime/mheap.go:901 +0x85
+runtime.largeAlloc(0xe0728000, 0x460001, 0xc1a0e6a000)
+	/usr/local/go/src/runtime/malloc.go:1177 +0x92
+runtime.mallocgc.func1()
+	/usr/local/go/src/runtime/malloc.go:1071 +0x46
+runtime.systemstack(0x0)
+	/usr/local/go/src/runtime/asm_amd64.s:370 +0x66
+runtime.mstart()
+	/usr/local/go/src/runtime/proc.go:1116
+
+goroutine 52 [running]:
+runtime.systemstack_switch()
+	/usr/local/go/src/runtime/asm_amd64.s:330 fp=0xc000535790 sp=0xc000535788 pc=0x476bc0
+runtime.mallocgc(0xe0728000, 0xcf9440, 0x1, 0x1000)
+	/usr/local/go/src/runtime/malloc.go:1070 +0x938 fp=0xc000535830 sp=0xc000535790 pc=0x41baf8
+runtime.growslice(0xcf9440, 0xc1a0e6a000, 0xb38ec00, 0xb38ec00, 0xb38ec01, 0xf1c6a0, 0xc000020030, 0xb38ec00)
+	/usr/local/go/src/runtime/slice.go:230 +0x1e9 fp=0xc000535898 sp=0xc000535830 pc=0x45a4c9
+finders-server/initialize.Routers.func2(0xc0004fa000)
+	/home/finder/go/src/Finders-Server-master-1/initialize/router.go:47 +0x39b fp=0xc000535a10 sp=0xc000535898 pc=0xbe21fb
+github.com/gin-gonic/gin.(*Context).Next(0xc0004fa000)
+	/home/finder/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 +0x3b fp=0xc000535a30 sp=0xc000535a10 pc=0xb37afb
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc0001ac280, 0xc0004fa000)
+	/home/finder/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 +0x67a fp=0xc000535bb8 sp=0xc000535a30 pc=0xb41b1a
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc0001ac280, 0xf2e220, 0xc0000ce2a0, 0xc0000fa300)
+	/home/finder/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 +0x14d fp=0xc000535bf0 sp=0xc000535bb8 pc=0xb4120d
+net/http.serverHandler.ServeHTTP(0xc0000ce0e0, 0xf2e220, 0xc0000ce2a0, 0xc0000fa300)
+	/usr/local/go/src/net/http/server.go:2843 +0xa3 fp=0xc000535c20 sp=0xc000535bf0 pc=0x72e543
+net/http.(*conn).serve(0xc0001ca500, 0xf30ba0, 0xc00001f280)
+	/usr/local/go/src/net/http/server.go:1925 +0x8ad fp=0xc000535fc8 sp=0xc000535c20 pc=0x729c4d
+runtime.goexit()
+	/usr/local/go/src/runtime/asm_amd64.s:1374 +0x1 fp=0xc000535fd0 sp=0xc000535fc8 pc=0x4789a1
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2969 +0x36c
+
+goroutine 1 [IO wait]:
+internal/poll.runtime_pollWait(0x7f9f94d9eb30, 0x72, 0x0)
+	/usr/local/go/src/runtime/netpoll.go:220 +0x55
+internal/poll.(*pollDesc).wait(0xc00020a018, 0x72, 0x0, 0x0, 0xe144a4)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:87 +0x45
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:92
+internal/poll.(*FD).Accept(0xc00020a000, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)
+	/usr/local/go/src/internal/poll/fd_unix.go:394 +0x1fc
+net.(*netFD).accept(0xc00020a000, 0x3fa5c304ded6f5cb, 0x0, 0x0)
+	/usr/local/go/src/net/fd_unix.go:172 +0x45
+net.(*TCPListener).accept(0xc0002f9060, 0x5f6fe7b6, 0xc000537ca0, 0x49ca66)
+	/usr/local/go/src/net/tcpsock_posix.go:139 +0x32
+net.(*TCPListener).Accept(0xc0002f9060, 0xc000537cf0, 0x18, 0xc000000180, 0x72ea0c)
+	/usr/local/go/src/net/tcpsock.go:261 +0x65
+net/http.(*Server).Serve(0xc0000ce0e0, 0xf2df60, 0xc0002f9060, 0x0, 0x0)
+	/usr/local/go/src/net/http/server.go:2937 +0x266
+net/http.(*Server).ListenAndServe(0xc0000ce0e0, 0x5, 0xc000301590)
+	/usr/local/go/src/net/http/server.go:2866 +0xb7
+finders-server/core.RunServer()
+	/home/finder/go/src/Finders-Server-master-1/core/server.go:24 +0x2c8
+main.main()
+	/home/finder/go/src/Finders-Server-master-1/main.go:42 +0x1d2
+
+goroutine 20 [semacquire, 1 minutes]:
+sync.runtime_Semacquire(0xc000500e48)
+	/usr/local/go/src/runtime/sema.go:56 +0x45
+sync.(*WaitGroup).Wait(0xc000500e40)
+	/usr/local/go/src/sync/waitgroup.go:130 +0x65
+github.com/spf13/viper.(*Viper).WatchConfig.func1(0xc000482000, 0xc000500e30)
+	/home/finder/go/pkg/mod/github.com/spf13/viper@v1.7.0/viper.go:404 +0x336
+created by github.com/spf13/viper.(*Viper).WatchConfig
+	/home/finder/go/pkg/mod/github.com/spf13/viper@v1.7.0/viper.go:343 +0x79
+
+goroutine 21 [runnable]:
+syscall.Syscall6(0x106, 0xffffffffffffff9c, 0xc000402010, 0xc00021e038, 0x100, 0x0, 0x0, 0x0, 0xc00021e038, 0x0)
+	/usr/local/go/src/syscall/asm_linux_amd64.s:41 +0x5
+syscall.fstatat(0xffffffffffffff9c, 0xc000402000, 0xb, 0xc00021e038, 0x100, 0xc000402000, 0xb)
+	/usr/local/go/src/syscall/zsyscall_linux_amd64.go:1480 +0xc8
+syscall.Lstat(...)
+	/usr/local/go/src/syscall/syscall_linux_amd64.go:73
+os.lstatNolog(0xc000402000, 0xb, 0xc000402002, 0xc00060dc00, 0x414b00, 0x8)
+	/usr/local/go/src/os/stat_unix.go:42 +0x6e
+os.Lstat(0xc000402000, 0xb, 0x3, 0x3, 0xc000402000, 0xb)
+	/usr/local/go/src/os/stat.go:22 +0x4d
+github.com/fsnotify/fsnotify.(*Event).ignoreLinux(0xc00061de58, 0x2, 0x1)
+	/home/finder/go/pkg/mod/github.com/fsnotify/fsnotify@v1.4.9/inotify.go:312 +0x65
+github.com/fsnotify/fsnotify.(*Watcher).readEvents(0xc00051a050)
+	/home/finder/go/pkg/mod/github.com/fsnotify/fsnotify@v1.4.9/inotify.go:283 +0x56d
+created by github.com/fsnotify/fsnotify.NewWatcher
+	/home/finder/go/pkg/mod/github.com/fsnotify/fsnotify@v1.4.9/inotify.go:59 +0x1a8
+
+goroutine 22 [select]:
+github.com/spf13/viper.(*Viper).WatchConfig.func1.1(0xc00051a050, 0xc000500e40, 0xe1cc3c, 0x11, 0xe1cc3c, 0x11, 0xc00046aaf0, 0xc000482000)
+	/home/finder/go/pkg/mod/github.com/spf13/viper@v1.7.0/viper.go:365 +0xe6
+created by github.com/spf13/viper.(*Viper).WatchConfig.func1
+	/home/finder/go/pkg/mod/github.com/spf13/viper@v1.7.0/viper.go:363 +0x2e5
+
+goroutine 23 [select, 1 minutes]:
+database/sql.(*DB).connectionOpener(0xc00007f860, 0xf30ba0, 0xc000450300)
+	/usr/local/go/src/database/sql/sql.go:1126 +0xf5
+created by database/sql.OpenDB
+	/usr/local/go/src/database/sql/sql.go:740 +0x12a
+
+goroutine 24 [select, 1 minutes]:
+github.com/go-sql-driver/mysql.(*mysqlConn).startWatcher.func1(0xc0001d49c0, 0xc00011ad80, 0xc000467140)
+	/home/finder/go/pkg/mod/github.com/go-sql-driver/mysql@v1.5.0/connection.go:621 +0xcd
+created by github.com/go-sql-driver/mysql.(*mysqlConn).startWatcher
+	/home/finder/go/pkg/mod/github.com/go-sql-driver/mysql@v1.5.0/connection.go:618 +0xbe
+
+goroutine 25 [runnable]:
+bufio.(*Reader).ReadLine(0xc000539998, 0x0, 0x0, 0x0, 0x0, 0xf1c6a0, 0xc000020030)
+	/usr/local/go/src/bufio/bufio.go:388 +0x21a
+finders-server/initialize.Routers.func2(0xc0004fa2d0)
+	/home/finder/go/src/Finders-Server-master-1/initialize/router.go:43 +0x2d1
+github.com/gin-gonic/gin.(*Context).Next(0xc0004fa2d0)
+	/home/finder/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 +0x3b
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc0001ac280, 0xc0004fa2d0)
+	/home/finder/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 +0x67a
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc0001ac280, 0xf2e220, 0xc0004701c0, 0xc000118b00)
+	/home/finder/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 +0x14d
+net/http.serverHandler.ServeHTTP(0xc0000ce0e0, 0xf2e220, 0xc0004701c0, 0xc000118b00)
+	/usr/local/go/src/net/http/server.go:2843 +0xa3
+net/http.(*conn).serve(0xc00017e000, 0xf30ba0, 0xc000450340)
+	/usr/local/go/src/net/http/server.go:1925 +0x8ad
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2969 +0x36c
+
+goroutine 54 [IO wait]:
+internal/poll.runtime_pollWait(0x7f9f94d9e970, 0x72, 0xf1e160)
+	/usr/local/go/src/runtime/netpoll.go:220 +0x55
+internal/poll.(*pollDesc).wait(0xc00020a098, 0x72, 0xc0002e5a00, 0x1, 0x1)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:87 +0x45
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:92
+internal/poll.(*FD).Read(0xc00020a080, 0xc0002e5a81, 0x1, 0x1, 0x0, 0x0, 0x0)
+	/usr/local/go/src/internal/poll/fd_unix.go:159 +0x1b1
+net.(*netFD).Read(0xc00020a080, 0xc0002e5a81, 0x1, 0x1, 0xc00001f318, 0xc00050af68, 0x48049c)
+	/usr/local/go/src/net/fd_posix.go:55 +0x4f
+net.(*conn).Read(0xc00009e7f8, 0xc0002e5a81, 0x1, 0x1, 0x0, 0x0, 0x0)
+	/usr/local/go/src/net/net.go:182 +0x8e
+net/http.(*connReader).backgroundRead(0xc0002e5a70)
+	/usr/local/go/src/net/http/server.go:690 +0x58
+created by net/http.(*connReader).startBackgroundRead
+	/usr/local/go/src/net/http/server.go:686 +0xd5
+[Finders-Server][36;1m 2020/09/27 09:18:04  ▶ [DEBUG] Core init[0m
+[Finders-Server][36;1m 2020/09/27 09:18:04  ▶ [DEBUG] 初始化redis[0m
+[Finders-Server][36;1m 2020/09/27 09:18:04  ▶ [DEBUG] 连接数据库[0m
+[Finders-Server][36;1m 2020/09/27 09:18:04  ▶ [DEBUG] Register tables success[0m
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] Loaded HTML Templates (3): 
+	- 
+	- index.html
+	- log.html
+
+[GIN-debug] GET    /                         --> finders-server/initialize.Routers.func1 (1 handlers)
+[GIN-debug] GET    /log                      --> finders-server/initialize.Routers.func2 (1 handlers)
+[Finders-Server][36;1m 2020/09/27 09:18:04  ▶ [DEBUG] Register Logger middleware[0m
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (2 handlers)
+[Finders-Server][36;1m 2020/09/27 09:18:04  ▶ [DEBUG] Register swagger handler[0m
+[GIN-debug] POST   /api/v1/user/login        --> finders-server/api/v1.Login (2 handlers)
+[GIN-debug] POST   /api/v1/user/update_profile --> finders-server/api/v1.UpdateProfile (3 handlers)
+[GIN-debug] POST   /api/v1/user/follow       --> finders-server/api/v1.Follow (3 handlers)
+[GIN-debug] POST   /api/v1/user/unfollow     --> finders-server/api/v1.UnFollow (3 handlers)
+[GIN-debug] POST   /api/v1/user/add_denylist --> finders-server/api/v1.AddDenyList (3 handlers)
+[GIN-debug] POST   /api/v1/user/remove_denylist --> finders-server/api/v1.RemoveDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_denylist --> finders-server/api/v1.GetDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_followlist --> finders-server/api/v1.GetFollowList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_fans     --> finders-server/api/v1.GetFans (2 handlers)
+[GIN-debug] GET    /api/v1/user/get_follow   --> finders-server/api/v1.GetFollow (2 handlers)
+[GIN-debug] GET    /api/v1/user/check_follow --> finders-server/api/v1.CheckFollow (3 handlers)
+[GIN-debug] POST   /api/v1/admin/login       --> finders-server/api/v1.AdminLogin (2 handlers)
+[GIN-debug] POST   /api/v1/admin/update_profile --> finders-server/api/v1.UpdateAdminProfile (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_image --> finders-server/api/v1.UploadImage (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_images --> finders-server/api/v1.UploadImages (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_video --> finders-server/api/v1.UploadVideo (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_videos --> finders-server/api/v1.UploadVideos (3 handlers)
+[GIN-debug] POST   /api/v1/community/create_community --> finders-server/api/v1.CreateCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/update_profile --> finders-server/api/v1.UpdateCommunityProfile (3 handlers)
+[GIN-debug] POST   /api/v1/community/collect --> finders-server/api/v1.CollectCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/uncollect --> finders-server/api/v1.UnCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/community/get_collect --> finders-server/api/v1.GetCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activities --> finders-server/api/v1.GetActivities (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_user_activities --> finders-server/api/v1.GetUserActivities (2 handlers)
+[GIN-debug] POST   /api/v1/activity/add_activity --> finders-server/api/v1.AddActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_info --> finders-server/api/v1.GetActivityInfo (2 handlers)
+[GIN-debug] POST   /api/v1/activity/collect  --> finders-server/api/v1.CollectActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/uncollect --> finders-server/api/v1.UnCollectActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_collect --> finders-server/api/v1.GetCollectActivities (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like --> finders-server/api/v1.GetActivityLike (3 handlers)
+[GIN-debug] POST   /api/v1/activity/like_activity --> finders-server/api/v1.LikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/dislike_activity --> finders-server/api/v1.DisLikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/comment  --> finders-server/api/v1.AddComment (3 handlers)
+[GIN-debug] POST   /api/v1/activity/reply    --> finders-server/api/v1.AddReply (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_comment --> finders-server/api/v1.GetActivityComments (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_comment_reply --> finders-server/api/v1.GetCommentReplies (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like_num --> finders-server/api/v1.GetActivityLikeNum (3 handlers)
+[GIN-debug] POST   /api/v1/moment/create_moment --> finders-server/api/v1.CreateMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_user_moments --> finders-server/api/v1.GetUserMoments (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_moment --> finders-server/api/v1.GetMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/like_moment --> finders-server/api/v1.LikeMoment (3 handlers)
+[Finders-Server][36;1m 2020/09/27 09:18:04  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 [0m
+fatal error: runtime: out of memory
+
+runtime stack:
+runtime.throw(0xe217c2, 0x16)
+	/usr/local/go/src/runtime/panic.go:1116 +0x72
+runtime.sysMap(0xc2d4000000, 0x1b8000000, 0x26ee738)
+	/usr/local/go/src/runtime/mem_linux.go:169 +0xc6
+runtime.(*mheap).sysAlloc(0x26d2d20, 0x1b6800000, 0x439a97, 0x26d2d28)
+	/usr/local/go/src/runtime/malloc.go:727 +0x1e5
+runtime.(*mheap).grow(0x26d2d20, 0xdb2fe, 0x0)
+	/usr/local/go/src/runtime/mheap.go:1344 +0x85
+runtime.(*mheap).allocSpan(0x26d2d20, 0xdb2fe, 0x440000, 0x26ee748, 0xfffffffffffffade)
+	/usr/local/go/src/runtime/mheap.go:1160 +0x6b6
+runtime.(*mheap).alloc.func1()
+	/usr/local/go/src/runtime/mheap.go:907 +0x65
+runtime.(*mheap).alloc(0x26d2d20, 0xdb2fe, 0x100, 0x200)
+	/usr/local/go/src/runtime/mheap.go:901 +0x85
+runtime.largeAlloc(0x1b65fc000, 0x7fc3093b0001, 0x46ff9a)
+	/usr/local/go/src/runtime/malloc.go:1177 +0x92
+runtime.mallocgc.func1()
+	/usr/local/go/src/runtime/malloc.go:1071 +0x46
+runtime.systemstack(0x0)
+	/usr/local/go/src/runtime/asm_amd64.s:370 +0x66
+runtime.mstart()
+	/usr/local/go/src/runtime/proc.go:1116
+
+goroutine 50 [running]:
+runtime.systemstack_switch()
+	/usr/local/go/src/runtime/asm_amd64.s:330 fp=0xc00055d790 sp=0xc00055d788 pc=0x476bc0
+runtime.mallocgc(0x1b65fc000, 0xcf9440, 0x1, 0x1000)
+	/usr/local/go/src/runtime/malloc.go:1070 +0x938 fp=0xc00055d830 sp=0xc00055d790 pc=0x41baf8
+runtime.growslice(0xcf9440, 0xc11adf2000, 0x15eb3000, 0x15eb3000, 0x15eb3001, 0xf1c6a0, 0xc000020030, 0x15eb3000)
+	/usr/local/go/src/runtime/slice.go:230 +0x1e9 fp=0xc00055d898 sp=0xc00055d830 pc=0x45a4c9
+finders-server/initialize.Routers.func2(0xc00023d0e0)
+	/home/finder/go/src/Finders-Server-master-1/initialize/router.go:47 +0x39b fp=0xc00055da10 sp=0xc00055d898 pc=0xbe21fb
+github.com/gin-gonic/gin.(*Context).Next(0xc00023d0e0)
+	/home/finder/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/context.go:161 +0x3b fp=0xc00055da30 sp=0xc00055da10 pc=0xb37afb
+github.com/gin-gonic/gin.(*Engine).handleHTTPRequest(0xc0001ac280, 0xc00023d0e0)
+	/home/finder/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:409 +0x67a fp=0xc00055dbb8 sp=0xc00055da30 pc=0xb41b1a
+github.com/gin-gonic/gin.(*Engine).ServeHTTP(0xc0001ac280, 0xf2e220, 0xc0002fc1c0, 0xc0004aa000)
+	/home/finder/go/pkg/mod/github.com/gin-gonic/gin@v1.6.3/gin.go:367 +0x14d fp=0xc00055dbf0 sp=0xc00055dbb8 pc=0xb4120d
+net/http.serverHandler.ServeHTTP(0xc0002fc0e0, 0xf2e220, 0xc0002fc1c0, 0xc0004aa000)
+	/usr/local/go/src/net/http/server.go:2843 +0xa3 fp=0xc00055dc20 sp=0xc00055dbf0 pc=0x72e543
+net/http.(*conn).serve(0xc00022a820, 0xf30ba0, 0xc0004d2000)
+	/usr/local/go/src/net/http/server.go:1925 +0x8ad fp=0xc00055dfc8 sp=0xc00055dc20 pc=0x729c4d
+runtime.goexit()
+	/usr/local/go/src/runtime/asm_amd64.s:1374 +0x1 fp=0xc00055dfd0 sp=0xc00055dfc8 pc=0x4789a1
+created by net/http.(*Server).Serve
+	/usr/local/go/src/net/http/server.go:2969 +0x36c
+
+goroutine 1 [IO wait]:
+internal/poll.runtime_pollWait(0x7fc308a78060, 0x72, 0x0)
+	/usr/local/go/src/runtime/netpoll.go:220 +0x55
+internal/poll.(*pollDesc).wait(0xc0002d2d98, 0x72, 0x0, 0x0, 0xe144a4)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:87 +0x45
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:92
+internal/poll.(*FD).Accept(0xc0002d2d80, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0, 0x0)
+	/usr/local/go/src/internal/poll/fd_unix.go:394 +0x1fc
+net.(*netFD).accept(0xc0002d2d80, 0x229492ad656588ed, 0x0, 0x0)
+	/usr/local/go/src/net/fd_unix.go:172 +0x45
+net.(*TCPListener).accept(0xc0003ec220, 0x5f6fe84f, 0xc0004ffca0, 0x49ca66)
+	/usr/local/go/src/net/tcpsock_posix.go:139 +0x32
+net.(*TCPListener).Accept(0xc0003ec220, 0xc0004ffcf0, 0x18, 0xc000000180, 0x72ea0c)
+	/usr/local/go/src/net/tcpsock.go:261 +0x65
+net/http.(*Server).Serve(0xc0002fc0e0, 0xf2df60, 0xc0003ec220, 0x0, 0x0)
+	/usr/local/go/src/net/http/server.go:2937 +0x266
+net/http.(*Server).ListenAndServe(0xc0002fc0e0, 0x5, 0xc00033c180)
+	/usr/local/go/src/net/http/server.go:2866 +0xb7
+finders-server/core.RunServer()
+	/home/finder/go/src/Finders-Server-master-1/core/server.go:24 +0x2c8
+main.main()
+	/home/finder/go/src/Finders-Server-master-1/main.go:42 +0x1d2
+
+goroutine 9 [semacquire]:
+sync.runtime_Semacquire(0xc0003168f8)
+	/usr/local/go/src/runtime/sema.go:56 +0x45
+sync.(*WaitGroup).Wait(0xc0003168f0)
+	/usr/local/go/src/sync/waitgroup.go:130 +0x65
+github.com/spf13/viper.(*Viper).WatchConfig.func1(0xc000436000, 0xc0003168d0)
+	/home/finder/go/pkg/mod/github.com/spf13/viper@v1.7.0/viper.go:404 +0x336
+created by github.com/spf13/viper.(*Viper).WatchConfig
+	/home/finder/go/pkg/mod/github.com/spf13/viper@v1.7.0/viper.go:343 +0x79
+
+goroutine 10 [runnable]:
+syscall.Syscall6(0xe8, 0x7, 0xc000263b6c, 0x7, 0xffffffffffffffff, 0x0, 0x0, 0x1, 0x7, 0x0)
+	/usr/local/go/src/syscall/asm_linux_amd64.s:41 +0x5
+golang.org/x/sys/unix.EpollWait(0x7, 0xc000263b6c, 0x7, 0x7, 0xffffffffffffffff, 0xc000263c44, 0xc00007ed00, 0x0)
+	/home/finder/go/pkg/mod/golang.org/x/sys@v0.0.0-20200323222414-85ca7c5b95cd/unix/zsyscall_linux_amd64.go:76 +0x72
+github.com/fsnotify/fsnotify.(*fdPoller).wait(0xc0005fd160, 0xc000263c00, 0x2, 0x0)
+	/home/finder/go/pkg/mod/github.com/fsnotify/fsnotify@v1.4.9/inotify_poller.go:86 +0x91
+github.com/fsnotify/fsnotify.(*Watcher).readEvents(0xc0005268c0)
+	/home/finder/go/pkg/mod/github.com/fsnotify/fsnotify@v1.4.9/inotify.go:192 +0x206
+created by github.com/fsnotify/fsnotify.NewWatcher
+	/home/finder/go/pkg/mod/github.com/fsnotify/fsnotify@v1.4.9/inotify.go:59 +0x1a8
+
+goroutine 11 [runnable]:
+github.com/spf13/viper.(*Viper).WatchConfig.func1.1(0xc0005268c0, 0xc0003168f0, 0xe1cc3c, 0x11, 0xe1cc3c, 0x11, 0xc0004a4c90, 0xc000436000)
+	/home/finder/go/pkg/mod/github.com/spf13/viper@v1.7.0/viper.go:365 +0xe6
+created by github.com/spf13/viper.(*Viper).WatchConfig.func1
+	/home/finder/go/pkg/mod/github.com/spf13/viper@v1.7.0/viper.go:363 +0x2e5
+
+goroutine 12 [select]:
+database/sql.(*DB).connectionOpener(0xc00007fa00, 0xf30ba0, 0xc0005284c0)
+	/usr/local/go/src/database/sql/sql.go:1126 +0xf5
+created by database/sql.OpenDB
+	/usr/local/go/src/database/sql/sql.go:740 +0x12a
+
+goroutine 13 [select]:
+github.com/go-sql-driver/mysql.(*mysqlConn).startWatcher.func1(0xc00009aa20, 0xc00011ac60, 0xc0000734a0)
+	/home/finder/go/pkg/mod/github.com/go-sql-driver/mysql@v1.5.0/connection.go:621 +0xcd
+created by github.com/go-sql-driver/mysql.(*mysqlConn).startWatcher
+	/home/finder/go/pkg/mod/github.com/go-sql-driver/mysql@v1.5.0/connection.go:618 +0xbe
+
+goroutine 38 [IO wait]:
+internal/poll.runtime_pollWait(0x7fc308a77f80, 0x72, 0xf1e160)
+	/usr/local/go/src/runtime/netpoll.go:220 +0x55
+internal/poll.(*pollDesc).wait(0xc0004ca018, 0x72, 0xc000362100, 0x1, 0x1)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:87 +0x45
+internal/poll.(*pollDesc).waitRead(...)
+	/usr/local/go/src/internal/poll/fd_poll_runtime.go:92
+internal/poll.(*FD).Read(0xc0004ca000, 0xc000362101, 0x1, 0x1, 0x0, 0x0, 0x0)
+	/usr/local/go/src/internal/poll/fd_unix.go:159 +0x1b1
+net.(*netFD).Read(0xc0004ca000, 0xc000362101, 0x1, 0x1, 0x79cfb2, 0xc0000724e0, 0xc000039780)
+	/usr/local/go/src/net/fd_posix.go:55 +0x4f
+net.(*conn).Read(0xc0004ce000, 0xc000362101, 0x1, 0x1, 0x0, 0x0, 0x0)
+	/usr/local/go/src/net/net.go:182 +0x8e
+net/http.(*connReader).backgroundRead(0xc0003620f0)
+	/usr/local/go/src/net/http/server.go:690 +0x58
+created by net/http.(*connReader).startBackgroundRead
+	/usr/local/go/src/net/http/server.go:686 +0xd5
+[Finders-Server][36;1m 2020/09/27 09:30:24  ▶ [DEBUG] Core init[0m
+[Finders-Server][36;1m 2020/09/27 09:30:24  ▶ [DEBUG] 初始化redis[0m
+[Finders-Server][36;1m 2020/09/27 09:30:24  ▶ [DEBUG] 连接数据库[0m
+[Finders-Server][36;1m 2020/09/27 09:30:24  ▶ [DEBUG] Register tables success[0m
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] GET    /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] HEAD   /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (1 handlers)
+[GIN-debug] Loaded HTML Templates (3): 
+	- 
+	- index.html
+	- log.html
+
+[GIN-debug] GET    /                         --> finders-server/initialize.Routers.func1 (1 handlers)
+[GIN-debug] GET    /log                      --> finders-server/initialize.Routers.func2 (1 handlers)
+[Finders-Server][36;1m 2020/09/27 09:30:24  ▶ [DEBUG] Register Logger middleware[0m
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (2 handlers)
+[Finders-Server][36;1m 2020/09/27 09:30:24  ▶ [DEBUG] Register swagger handler[0m
+[GIN-debug] POST   /api/v1/user/login        --> finders-server/api/v1.Login (2 handlers)
+[GIN-debug] POST   /api/v1/user/update_profile --> finders-server/api/v1.UpdateProfile (3 handlers)
+[GIN-debug] POST   /api/v1/user/follow       --> finders-server/api/v1.Follow (3 handlers)
+[GIN-debug] POST   /api/v1/user/unfollow     --> finders-server/api/v1.UnFollow (3 handlers)
+[GIN-debug] POST   /api/v1/user/add_denylist --> finders-server/api/v1.AddDenyList (3 handlers)
+[GIN-debug] POST   /api/v1/user/remove_denylist --> finders-server/api/v1.RemoveDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_denylist --> finders-server/api/v1.GetDenyList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_followlist --> finders-server/api/v1.GetFollowList (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_fans     --> finders-server/api/v1.GetFans (2 handlers)
+[GIN-debug] GET    /api/v1/user/get_follow   --> finders-server/api/v1.GetFollow (2 handlers)
+[GIN-debug] GET    /api/v1/user/check_follow --> finders-server/api/v1.CheckFollow (3 handlers)
+[GIN-debug] POST   /api/v1/admin/login       --> finders-server/api/v1.AdminLogin (2 handlers)
+[GIN-debug] POST   /api/v1/admin/update_profile --> finders-server/api/v1.UpdateAdminProfile (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_image --> finders-server/api/v1.UploadImage (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_images --> finders-server/api/v1.UploadImages (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_video --> finders-server/api/v1.UploadVideo (3 handlers)
+[GIN-debug] POST   /api/v1/media/upload_videos --> finders-server/api/v1.UploadVideos (3 handlers)
+[GIN-debug] POST   /api/v1/community/create_community --> finders-server/api/v1.CreateCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/update_profile --> finders-server/api/v1.UpdateCommunityProfile (3 handlers)
+[GIN-debug] POST   /api/v1/community/collect --> finders-server/api/v1.CollectCommunity (3 handlers)
+[GIN-debug] POST   /api/v1/community/uncollect --> finders-server/api/v1.UnCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/community/get_collect --> finders-server/api/v1.GetCollectCommunity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activities --> finders-server/api/v1.GetActivities (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_user_activities --> finders-server/api/v1.GetUserActivities (2 handlers)
+[GIN-debug] POST   /api/v1/activity/add_activity --> finders-server/api/v1.AddActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_info --> finders-server/api/v1.GetActivityInfo (2 handlers)
+[GIN-debug] POST   /api/v1/activity/collect  --> finders-server/api/v1.CollectActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/uncollect --> finders-server/api/v1.UnCollectActivity (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_collect --> finders-server/api/v1.GetCollectActivities (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like --> finders-server/api/v1.GetActivityLike (3 handlers)
+[GIN-debug] POST   /api/v1/activity/like_activity --> finders-server/api/v1.LikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/dislike_activity --> finders-server/api/v1.DisLikeActivity (3 handlers)
+[GIN-debug] POST   /api/v1/activity/comment  --> finders-server/api/v1.AddComment (3 handlers)
+[GIN-debug] POST   /api/v1/activity/reply    --> finders-server/api/v1.AddReply (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_comment --> finders-server/api/v1.GetActivityComments (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_comment_reply --> finders-server/api/v1.GetCommentReplies (2 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like_num --> finders-server/api/v1.GetActivityLikeNum (3 handlers)
+[GIN-debug] POST   /api/v1/moment/create_moment --> finders-server/api/v1.CreateMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_user_moments --> finders-server/api/v1.GetUserMoments (3 handlers)
+[GIN-debug] GET    /api/v1/moment/get_moment --> finders-server/api/v1.GetMoment (3 handlers)
+[GIN-debug] GET    /api/v1/moment/like_moment --> finders-server/api/v1.LikeMoment (3 handlers)
+[Finders-Server][36;1m 2020/09/27 09:30:24  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 [0m
+[Finders-Server] 2020/09/27 10:38:33  ▶ [INFO] | status = 200 | exec = 1.302487ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/09/27 10:47:33  ▶ [INFO] | status = 200 | exec = 726.711µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/09/27 10:47:41  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin |[0m
+[Finders-Server] 2020/09/27 10:47:53  ▶ [INFO] | status = 200 | exec = 8.489087ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/09/27 10:48:10  ▶ [INFO] | status = 200 | exec = 703.327µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/09/27 10:53:00  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 111.33.78.6 | method = OPTIONS | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/09/27 10:53:02  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = OPTIONS | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/09/27 10:53:30  ▶ [INFO] | status = 404 | exec = 124ns | clientIP = 111.33.78.6 | method = GET | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/09/27 10:53:30  ▶ [INFO] | status = 404 | exec = 92ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |[0m
+[Finders-Server] 2020/09/27 12:02:23  ▶ [INFO] | status = 404 | exec = 123ns | clientIP = 111.33.78.6 | method = OPTIONS | URI = /admin/login |[0m
+[Finders-Server] 2020/09/27 12:02:43  ▶ [INFO] | status = 404 | exec = 131ns | clientIP = 111.33.78.6 | method = OPTIONS | URI = /api/vi/admin/login |[0m
+[Finders-Server] 2020/09/27 12:25:04  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |[0m
+[Finders-Server] 2020/09/27 12:29:29  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |[0m
+[Finders-Server] 2020/09/27 12:30:33  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |[0m
+[Finders-Server] 2020/09/27 12:30:57  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |[0m
+[Finders-Server] 2020/09/27 12:34:26  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |[0m
+[Finders-Server] 2020/09/27 12:36:20  ▶ [INFO] | status = 404 | exec = 109ns | clientIP = 111.33.78.6 | method = POST | URI = /admin/login |[0m
+[Finders-Server] 2020/09/27 12:57:46  ▶ [INFO] | status = 404 | exec = 97ns | clientIP = 111.33.78.6 | method = POST | URI = /admin/login |[0m
+[Finders-Server] 2020/09/27 12:58:39  ▶ [INFO] | status = 404 | exec = 119ns | clientIP = 111.33.78.6 | method = POST | URI = /admin/login |[0m
+[Finders-Server] 2020/09/27 13:00:31  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |[0m
+[Finders-Server] 2020/09/27 13:04:30  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi |[0m
+[Finders-Server] 2020/09/27 13:04:39  ▶ [INFO] | status = 200 | exec = 760.257µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/09/27 13:05:37  ▶ [INFO] | status = 404 | exec = 135ns | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login/api |[0m
+[Finders-Server] 2020/09/27 13:08:12  ▶ [INFO] | status = 404 | exec = 116ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |[0m
+[Finders-Server] 2020/09/27 13:13:44  ▶ [INFO] | status = 200 | exec = 695.798µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server][36;1m 2020/09/29 16:01:09  ▶ [DEBUG] Core init[0m
+[Finders-Server][36;1m 2020/09/29 16:01:09  ▶ [DEBUG] 初始化redis[0m
+[Finders-Server][36;1m 2020/09/29 16:01:09  ▶ [DEBUG] 连接数据库[0m
+[Finders-Server][36;1m 2020/09/29 16:01:09  ▶ [DEBUG] Register tables success[0m
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] HEAD   /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] GET    /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] HEAD   /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] GET    /upload/fake/*filepath    --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] HEAD   /upload/fake/*filepath    --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] Loaded HTML Templates (3): 
+	- 
+	- index.html
+	- log.html
+
+[GIN-debug] GET    /                         --> finders-server/initialize.Routers.func1 (2 handlers)
+[GIN-debug] GET    /log                      --> finders-server/initialize.Routers.func2 (2 handlers)
+[Finders-Server][36;1m 2020/09/29 16:01:09  ▶ [DEBUG] Register Logger middleware[0m
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (3 handlers)
+[Finders-Server][36;1m 2020/09/29 16:01:09  ▶ [DEBUG] Register swagger handler[0m
+[GIN-debug] POST   /api/v1/user/login        --> finders-server/api/v1.Login (3 handlers)
+[GIN-debug] POST   /api/v1/user/update_profile --> finders-server/api/v1.UpdateProfile (4 handlers)
+[GIN-debug] GET    /api/v1/user/user_info    --> finders-server/api/v1.GetUserInfo (4 handlers)
+[GIN-debug] POST   /api/v1/user/follow       --> finders-server/api/v1.Follow (4 handlers)
+[GIN-debug] POST   /api/v1/user/unfollow     --> finders-server/api/v1.UnFollow (4 handlers)
+[GIN-debug] POST   /api/v1/user/add_denylist --> finders-server/api/v1.AddDenyList (4 handlers)
+[GIN-debug] POST   /api/v1/user/remove_denylist --> finders-server/api/v1.RemoveDenyList (4 handlers)
+[GIN-debug] GET    /api/v1/user/get_denylist --> finders-server/api/v1.GetDenyList (4 handlers)
+[GIN-debug] GET    /api/v1/user/get_followlist --> finders-server/api/v1.GetFollowList (4 handlers)
+[GIN-debug] GET    /api/v1/user/get_fans     --> finders-server/api/v1.GetFans (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_follow   --> finders-server/api/v1.GetFollow (3 handlers)
+[GIN-debug] GET    /api/v1/user/check_follow --> finders-server/api/v1.CheckFollow (4 handlers)
+[GIN-debug] POST   /api/v1/admin/login       --> finders-server/api/v1.AdminLogin (3 handlers)
+[GIN-debug] POST   /api/v1/admin/update_profile --> finders-server/api/v1.UpdateAdminProfile (4 handlers)
+[GIN-debug] POST   /api/v1/media/upload_image --> finders-server/api/v1.UploadImage (4 handlers)
+[GIN-debug] POST   /api/v1/media/upload_images --> finders-server/api/v1.UploadImages (4 handlers)
+[GIN-debug] POST   /api/v1/media/upload_video --> finders-server/api/v1.UploadVideo (4 handlers)
+[GIN-debug] POST   /api/v1/media/upload_videos --> finders-server/api/v1.UploadVideos (4 handlers)
+[GIN-debug] POST   /api/v1/community/create_community --> finders-server/api/v1.CreateCommunity (4 handlers)
+[GIN-debug] POST   /api/v1/community/update_profile --> finders-server/api/v1.UpdateCommunityProfile (4 handlers)
+[GIN-debug] POST   /api/v1/community/collect --> finders-server/api/v1.CollectCommunity (4 handlers)
+[GIN-debug] POST   /api/v1/community/uncollect --> finders-server/api/v1.UnCollectCommunity (4 handlers)
+[GIN-debug] GET    /api/v1/community/get_collect --> finders-server/api/v1.GetCollectCommunity (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activities --> finders-server/api/v1.GetActivities (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_user_activities --> finders-server/api/v1.GetUserActivities (3 handlers)
+[GIN-debug] POST   /api/v1/activity/add_activity --> finders-server/api/v1.AddActivity (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_info --> finders-server/api/v1.GetActivityInfo (3 handlers)
+[GIN-debug] POST   /api/v1/activity/collect  --> finders-server/api/v1.CollectActivity (4 handlers)
+[GIN-debug] POST   /api/v1/activity/uncollect --> finders-server/api/v1.UnCollectActivity (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_collect --> finders-server/api/v1.GetCollectActivities (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like --> finders-server/api/v1.GetActivityLike (4 handlers)
+[GIN-debug] POST   /api/v1/activity/like_activity --> finders-server/api/v1.LikeActivity (4 handlers)
+[GIN-debug] POST   /api/v1/activity/dislike_activity --> finders-server/api/v1.DisLikeActivity (4 handlers)
+[GIN-debug] POST   /api/v1/activity/comment  --> finders-server/api/v1.AddComment (4 handlers)
+[GIN-debug] POST   /api/v1/activity/reply    --> finders-server/api/v1.AddReply (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_comment --> finders-server/api/v1.GetActivityComments (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_comment_reply --> finders-server/api/v1.GetCommentReplies (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like_num --> finders-server/api/v1.GetActivityLikeNum (4 handlers)
+[GIN-debug] POST   /api/v1/moment/create_moment --> finders-server/api/v1.CreateMoment (4 handlers)
+[GIN-debug] GET    /api/v1/moment/get_user_moments --> finders-server/api/v1.GetUserMoments (4 handlers)
+[GIN-debug] GET    /api/v1/moment/get_moment --> finders-server/api/v1.GetMoment (4 handlers)
+[GIN-debug] GET    /api/v1/moment/like_moment --> finders-server/api/v1.LikeMoment (4 handlers)
+[GIN-debug] GET    /api/v1/recommend/main    --> finders-server/api/v1.MainRecommend (3 handlers)
+[Finders-Server][36;1m 2020/09/29 16:01:09  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 [0m
+[Finders-Server] 2020/09/30 06:22:49  ▶ [INFO] | status = 200 | exec = 99ns | clientIP = 101.133.135.162 | method = OPTIONS | URI = / |[0m
+[Finders-Server] 2020/09/30 06:23:08  ▶ [INFO] | status = 404 | exec = 90ns | clientIP = 101.133.135.162 | method = GET | URI = /nice%20ports%2C/Tri%6Eity.txt%2ebak |[0m
+[Finders-Server] 2020/09/30 06:23:43  ▶ [INFO] | status = 404 | exec = 99ns | clientIP = 101.133.135.162 | method = POST | URI = /sdk |[0m
+[Finders-Server] 2020/09/30 06:23:43  ▶ [INFO] | status = 404 | exec = 111ns | clientIP = 101.133.135.162 | method = GET | URI = /nmaplowercheck1601418223 |[0m
+[Finders-Server] 2020/09/30 06:23:43  ▶ [INFO] | status = 404 | exec = 136ns | clientIP = 101.133.135.162 | method = GET | URI = /evox/about |[0m
+[Finders-Server] 2020/09/30 06:23:43  ▶ [INFO] | status = 404 | exec = 98ns | clientIP = 101.133.135.162 | method = GET | URI = /HNAP1 |[0m
+[Finders-Server] 2020/10/01 11:05:27  ▶ [INFO] | status = 404 | exec = 94ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |[0m
+[Finders-Server] 2020/10/01 11:18:25  ▶ [INFO] | status = 200 | exec = 222.243µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/10/01 11:20:58  ▶ [INFO] | status = 404 | exec = 94ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |[0m
+[mysql] 2020/10/01 11:22:11 packets.go:122: closing bad idle connection: EOF
+[mysql] 2020/10/01 11:22:11 connection.go:158: driver: bad connection
+[Finders-Server] 2020/10/01 11:22:11  ▶ [INFO] | status = 200 | exec = 4.060684ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/10/01 11:22:41  ▶ [INFO] | status = 200 | exec = 142.307µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/10/01 11:22:54  ▶ [INFO] | status = 200 | exec = 3.631069ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/10/01 11:24:13  ▶ [INFO] | status = 200 | exec = 127.273µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/10/01 11:30:15  ▶ [INFO] | status = 200 | exec = 739.04µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/10/01 11:30:37  ▶ [INFO] | status = 200 | exec = 3.156168ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |[0m
+[Finders-Server] 2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 91ns | clientIP = 47.116.131.196 | method = GET | URI = /explicit_not_exist_path |[0m
+[Finders-Server] 2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 98ns | clientIP = 47.116.131.196 | method = GET | URI = /index.html |[0m
+[Finders-Server] 2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 47.116.131.196 | method = GET | URI = /index.php |[0m
+[Finders-Server] 2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 99ns | clientIP = 47.116.131.196 | method = GET | URI = /index.jsp |[0m
+[Finders-Server] 2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 94ns | clientIP = 47.116.131.196 | method = GET | URI = /admin/ |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 107ns | clientIP = 47.116.131.196 | method = GET | URI = /favicon.ico |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 90ns | clientIP = 47.116.131.196 | method = GET | URI = /robots.txt |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 96ns | clientIP = 47.116.131.196 | method = GET | URI = /404.html |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 47.116.131.196 | method = GET | URI = /500.html |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 134ns | clientIP = 47.116.131.196 | method = GET | URI = /stylesheets/application.css |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 137ns | clientIP = 47.116.131.196 | method = GET | URI = /r/cms/www/red/img/prompt.jpg |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 98ns | clientIP = 47.116.131.196 | method = GET | URI = /r/cms/www/red/style/swiper.min.js |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 47.116.131.196 | method = GET | URI = /v2/keys |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 47.116.131.196 | method = GET | URI = /query |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 47.116.131.196 | method = GET | URI = /wcm/ |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 80ns | clientIP = 47.116.131.196 | method = GET | URI = /phpMyAdmin/ |[0m
+[Finders-Server] 2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 89ns | clientIP = 47.116.131.196 | method = GET | URI = /phpmyadmin/ |[0m
+[Finders-Server] 2020/10/07 07:04:46  ▶ [INFO] | status = 200 | exec = 100ns | clientIP = 101.133.224.19 | method = OPTIONS | URI = / |[0m
+[Finders-Server] 2020/10/07 07:05:13  ▶ [INFO] | status = 404 | exec = 92ns | clientIP = 101.133.224.19 | method = GET | URI = /nice%20ports%2C/Tri%6Eity.txt%2ebak |[0m
+[Finders-Server] 2020/10/07 07:10:35  ▶ [INFO] | status = 404 | exec = 95ns | clientIP = 101.133.224.19 | method = GET | URI = /nmaplowercheck1602025835 |[0m
+[Finders-Server] 2020/10/07 07:10:35  ▶ [INFO] | status = 404 | exec = 96ns | clientIP = 101.133.224.19 | method = GET | URI = /evox/about |[0m
+[Finders-Server] 2020/10/07 07:10:36  ▶ [INFO] | status = 404 | exec = 126ns | clientIP = 101.133.224.19 | method = GET | URI = /HNAP1 |[0m
+[Finders-Server] 2020/10/07 07:10:37  ▶ [INFO] | status = 404 | exec = 119ns | clientIP = 101.133.224.19 | method = POST | URI = /sdk |[0m
+[Finders-Server][36;1m 2020/10/07 10:02:50  ▶ [DEBUG] Core init[0m
+[Finders-Server][36;1m 2020/10/07 10:02:50  ▶ [DEBUG] 初始化redis[0m
+[Finders-Server][36;1m 2020/10/07 10:02:50  ▶ [DEBUG] 连接数据库[0m
+[Finders-Server][36;1m 2020/10/07 10:02:51  ▶ [DEBUG] Register tables success[0m
+[GIN-debug] [WARNING] Running in "debug" mode. Switch to "release" mode in production.
+ - using env:	export GIN_MODE=release
+ - using code:	gin.SetMode(gin.ReleaseMode)
+
+[GIN-debug] GET    /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] HEAD   /upload/images/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] GET    /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] HEAD   /upload/videos/*filepath  --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] GET    /upload/fake/*filepath    --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] HEAD   /upload/fake/*filepath    --> github.com/gin-gonic/gin.(*RouterGroup).createStaticHandler.func1 (2 handlers)
+[GIN-debug] Loaded HTML Templates (3): 
+	- 
+	- index.html
+	- log.html
+
+[GIN-debug] GET    /                         --> finders-server/initialize.Routers.func1 (2 handlers)
+[GIN-debug] GET    /log                      --> finders-server/initialize.Routers.func2 (2 handlers)
+[Finders-Server][36;1m 2020/10/07 10:02:51  ▶ [DEBUG] Register Logger middleware[0m
+[GIN-debug] GET    /swagger/*any             --> github.com/swaggo/gin-swagger.CustomWrapHandler.func1 (3 handlers)
+[Finders-Server][36;1m 2020/10/07 10:02:51  ▶ [DEBUG] Register swagger handler[0m
+[GIN-debug] POST   /api/v1/user/login        --> finders-server/api/v1.Login (3 handlers)
+[GIN-debug] POST   /api/v1/user/update_profile --> finders-server/api/v1.UpdateProfile (4 handlers)
+[GIN-debug] GET    /api/v1/user/user_info    --> finders-server/api/v1.GetUserInfo (4 handlers)
+[GIN-debug] POST   /api/v1/user/follow       --> finders-server/api/v1.Follow (4 handlers)
+[GIN-debug] POST   /api/v1/user/unfollow     --> finders-server/api/v1.UnFollow (4 handlers)
+[GIN-debug] POST   /api/v1/user/add_denylist --> finders-server/api/v1.AddDenyList (4 handlers)
+[GIN-debug] POST   /api/v1/user/remove_denylist --> finders-server/api/v1.RemoveDenyList (4 handlers)
+[GIN-debug] GET    /api/v1/user/get_denylist --> finders-server/api/v1.GetDenyList (4 handlers)
+[GIN-debug] GET    /api/v1/user/get_followlist --> finders-server/api/v1.GetFollowList (4 handlers)
+[GIN-debug] GET    /api/v1/user/get_fans     --> finders-server/api/v1.GetFans (3 handlers)
+[GIN-debug] GET    /api/v1/user/get_follow   --> finders-server/api/v1.GetFollow (3 handlers)
+[GIN-debug] GET    /api/v1/user/check_follow --> finders-server/api/v1.CheckFollow (4 handlers)
+[GIN-debug] POST   /api/v1/admin/login       --> finders-server/api/v1.AdminLogin (3 handlers)
+[GIN-debug] POST   /api/v1/admin/update_profile --> finders-server/api/v1.UpdateAdminProfile (4 handlers)
+[GIN-debug] POST   /api/v1/media/upload_image --> finders-server/api/v1.UploadImage (4 handlers)
+[GIN-debug] POST   /api/v1/media/upload_images --> finders-server/api/v1.UploadImages (4 handlers)
+[GIN-debug] POST   /api/v1/media/upload_video --> finders-server/api/v1.UploadVideo (4 handlers)
+[GIN-debug] POST   /api/v1/media/upload_videos --> finders-server/api/v1.UploadVideos (4 handlers)
+[GIN-debug] POST   /api/v1/community/create_community --> finders-server/api/v1.CreateCommunity (4 handlers)
+[GIN-debug] POST   /api/v1/community/update_profile --> finders-server/api/v1.UpdateCommunityProfile (4 handlers)
+[GIN-debug] POST   /api/v1/community/collect --> finders-server/api/v1.CollectCommunity (4 handlers)
+[GIN-debug] POST   /api/v1/community/uncollect --> finders-server/api/v1.UnCollectCommunity (4 handlers)
+[GIN-debug] GET    /api/v1/community/get_collect --> finders-server/api/v1.GetCollectCommunity (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activities --> finders-server/api/v1.GetActivities (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_user_activities --> finders-server/api/v1.GetUserActivities (3 handlers)
+[GIN-debug] POST   /api/v1/activity/add_activity --> finders-server/api/v1.AddActivity (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_info --> finders-server/api/v1.GetActivityInfo (3 handlers)
+[GIN-debug] POST   /api/v1/activity/collect  --> finders-server/api/v1.CollectActivity (4 handlers)
+[GIN-debug] POST   /api/v1/activity/uncollect --> finders-server/api/v1.UnCollectActivity (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_collect --> finders-server/api/v1.GetCollectActivities (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like --> finders-server/api/v1.GetActivityLike (4 handlers)
+[GIN-debug] POST   /api/v1/activity/like_activity --> finders-server/api/v1.LikeActivity (4 handlers)
+[GIN-debug] POST   /api/v1/activity/dislike_activity --> finders-server/api/v1.DisLikeActivity (4 handlers)
+[GIN-debug] POST   /api/v1/activity/comment  --> finders-server/api/v1.AddComment (4 handlers)
+[GIN-debug] POST   /api/v1/activity/reply    --> finders-server/api/v1.AddReply (4 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_comment --> finders-server/api/v1.GetActivityComments (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_comment_reply --> finders-server/api/v1.GetCommentReplies (3 handlers)
+[GIN-debug] GET    /api/v1/activity/get_activity_like_num --> finders-server/api/v1.GetActivityLikeNum (4 handlers)
+[GIN-debug] POST   /api/v1/moment/create_moment --> finders-server/api/v1.CreateMoment (4 handlers)
+[GIN-debug] GET    /api/v1/moment/get_user_moments --> finders-server/api/v1.GetUserMoments (4 handlers)
+[GIN-debug] GET    /api/v1/moment/get_moment --> finders-server/api/v1.GetMoment (4 handlers)
+[GIN-debug] GET    /api/v1/moment/like_moment --> finders-server/api/v1.LikeMoment (4 handlers)
+[GIN-debug] GET    /api/v1/recommend/main    --> finders-server/api/v1.MainRecommend (3 handlers)
+[GIN-debug] GET    /api/v1/recommend/user_info --> finders-server/api/v1.UserRecommend (3 handlers)
+[GIN-debug] GET    /api/v1/recommend/activity_info --> finders-server/api/v1.ActivityRecommend (3 handlers)
+[GIN-debug] GET    /api/v1/recommend/moment_info --> finders-server/api/v1.MomentRecommend (3 handlers)
+[Finders-Server][36;1m 2020/10/07 10:02:51  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 [0m

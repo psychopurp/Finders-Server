@@ -66,6 +66,7 @@ func Routers() *gin.Engine {
 	router.InitActivityRouter(APIGroup)
 	router.InitMomentRouter(APIGroup)
 	router.InitRecommendRouter(APIGroup)
+	router.InitQuestionBoxRouter(APIGroup)
 	return Router
 
 }

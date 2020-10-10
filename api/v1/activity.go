@@ -7,9 +7,8 @@ import (
 	"finders-server/model/requestForm"
 	"finders-server/model/responseForm"
 	"finders-server/pkg/e"
-	"finders-server/service/activityService"
-	"finders-server/service/collectionService"
-	"finders-server/service/commentService"
+	"finders-server/service"
+	"finders-server/st"
 	"finders-server/utils"
 	"github.com/gin-gonic/gin"
 	"github.com/unknwon/com"
@@ -28,14 +27,14 @@ func GetActivities(c *gin.Context) {
 	communityID = com.StrTo(c.Query("community_id")).MustInt()
 	// 获取需要的页
 	pageNum, page = utils.GetPage(c)
-	activityStruct := activityService.ActivityStruct{
+	activityStruct := service.ActivityStruct{
 		CommunityID: communityID,
 		PageNum:     pageNum,
 		PageSize:    global.CONFIG.AppSetting.PageSize,
 		Page:        page,
 	}
 	// 获取返回的表单 方法与community的类似
-	form, err = activityStruct.GetActivitiesPageResponse(activityService.GetActivitiesOnCommunity)
+	form, err = activityStruct.GetActivitiesPageResponse(service.GetActivitiesOnCommunity)
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetActivities1")
 		response.FailWithMsg(err.Error(), c)
@@ -61,7 +60,7 @@ func GetUserActivities(c *gin.Context) {
 	}
 	// 获取需要的页
 	pageNum, page = utils.GetPage(c)
-	activityStruct := activityService.ActivityStruct{
+	activityStruct := service.ActivityStruct{
 		UserID:      userID,
 		CommunityID: communityID,
 		PageNum:     pageNum,
@@ -69,7 +68,7 @@ func GetUserActivities(c *gin.Context) {
 		Page:        page,
 	}
 	// 获取返回的表单 方法与community的类似
-	form, err = activityStruct.GetActivitiesPageResponse(activityService.GetActivitiesOnUser)
+	form, err = activityStruct.GetActivitiesPageResponse(service.GetActivitiesOnUser)
 	if err != nil {
 		err = utils.GetErrorAndLog(e.MYSQL_ERROR, err, "GetActivities1")
 		response.FailWithMsg(err.Error(), c)
@@ -102,14 +101,14 @@ func AddActivity(c *gin.Context) {
 	userID = c.GetHeader("user_id")
 	// 若上传的media_type 不合法则直接返回错误
 	for _, mediaId := range form.MediaIDs {
-		mediaIDs = mediaId + ";"
+		mediaIDs = mediaId + ";" + mediaIDs
 	}
 	if len(mediaIDs) == 0 {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
 	mediaIDs = mediaIDs[:len(mediaIDs)-1]
-	activityStruct := activityService.ActivityStruct{
+	activityStruct := service.ActivityStruct{
 		ActivityInfo:  form.ActivityInfo,
 		MediaIDs:      mediaIDs,
 		UserID:        userID,
@@ -146,7 +145,7 @@ func GetActivityInfo(c *gin.Context) {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
-	activityStruct := activityService.ActivityStruct{
+	activityStruct := service.ActivityStruct{
 		ActivityID: activityID,
 	}
 	if !activityStruct.ExistByID() {
@@ -156,12 +155,14 @@ func GetActivityInfo(c *gin.Context) {
 	// 先添加一次阅读数 因为已经访问了一次页面
 	err = activityStruct.AddReadNum()
 	if err != nil {
+		st.DebugWithFuncName(err)
 		response.FailWithMsg(e.MYSQL_ERROR, c)
 		return
 	}
 	// 获取activity的数据表单
 	activityInfoForm, err = activityStruct.GetActivityInfoResponse()
 	if err != nil {
+		st.DebugWithFuncName(err)
 		response.FailWithMsg(e.MYSQL_ERROR, c)
 		return
 	}
@@ -189,7 +190,7 @@ func CollectActivity(c *gin.Context) {
 		return
 	}
 	userID = c.GetHeader("user_id")
-	collectionStruct := collectionService.CollectionStruct{
+	collectionStruct := service.CollectionStruct{
 		UserID:         userID,
 		Link:           form.ActivityID,
 		CollectionType: model.CollectionActivity,
@@ -235,7 +236,7 @@ func UnCollectActivity(c *gin.Context) {
 		return
 	}
 	userID = c.GetHeader("user_id")
-	collectionStruct := collectionService.CollectionStruct{
+	collectionStruct := service.CollectionStruct{
 		UserID:         userID,
 		Link:           form.ActivityID,
 		CollectionType: model.CollectionActivity,
@@ -270,7 +271,7 @@ func GetCollectActivities(c *gin.Context) {
 	)
 	pageNum, page = utils.GetPage(c)
 	userID = c.GetHeader("user_id")
-	collectionStruct := collectionService.CollectionStruct{
+	collectionStruct := service.CollectionStruct{
 		CollectionType: model.CollectionActivity,
 		UserID:         userID,
 		PageNum:        pageNum,
@@ -296,7 +297,7 @@ func GetActivityLike(c *gin.Context) {
 	)
 	userID = c.GetHeader("user_id")
 	pageNum, page = utils.GetPage(c)
-	activityStruct := activityService.ActivityStruct{
+	activityStruct := service.ActivityStruct{
 		UserID:   userID,
 		PageNum:  pageNum,
 		PageSize: global.CONFIG.AppSetting.PageSize,
@@ -332,7 +333,7 @@ func LikeActivity(c *gin.Context) {
 		return
 	}
 	userID = c.GetHeader("user_id")
-	activityStruct := activityService.ActivityStruct{
+	activityStruct := service.ActivityStruct{
 		ActivityID: form.ActivityID,
 		UserID:     userID,
 	}
@@ -370,7 +371,7 @@ func DisLikeActivity(c *gin.Context) {
 		return
 	}
 	userID = c.GetHeader("user_id")
-	activityStruct := activityService.ActivityStruct{
+	activityStruct := service.ActivityStruct{
 		ActivityID: form.ActivityID,
 		UserID:     userID,
 	}
@@ -409,7 +410,7 @@ func AddComment(c *gin.Context) {
 		return
 	}
 	userID = c.GetHeader("user_id")
-	commentStruct := commentService.CommentStruct{
+	commentStruct := service.CommentStruct{
 		ItemID:   form.ItemID,
 		Content:  form.Content,
 		FromUID:  userID,
@@ -458,7 +459,7 @@ func AddReply(c *gin.Context) {
 		return
 	}
 	userID = c.GetHeader("user_id")
-	commentStruct := commentService.CommentStruct{
+	commentStruct := service.CommentStruct{
 		ItemID:   form.ItemID,
 		Content:  form.Content,
 		FromUID:  userID,
@@ -493,7 +494,7 @@ func GetActivityComments(c *gin.Context) {
 		return
 	}
 	pageNum, page = utils.GetPage(c)
-	commentStruct := commentService.CommentStruct{
+	commentStruct := service.CommentStruct{
 		ItemID:   activityID,
 		ItemType: model.CommentOnActivity,
 		PageNum:  pageNum,
@@ -523,7 +524,7 @@ func GetCommentReplies(c *gin.Context) {
 		return
 	}
 	pageNum, page = utils.GetPage(c)
-	commentStruct := commentService.CommentStruct{
+	commentStruct := service.CommentStruct{
 		ItemID:   commentID,
 		ItemType: model.CommentOnComment,
 		PageNum:  pageNum,
@@ -550,7 +551,7 @@ func GetActivityLikeNum(c *gin.Context) {
 	)
 	activityID = c.Query("activity_id")
 	userID = c.GetHeader("user_id")
-	activityStruct := activityService.ActivityStruct{
+	activityStruct := service.ActivityStruct{
 		ActivityID: activityID,
 	}
 	likeNum, err = activityStruct.GetActivityLikeNum()

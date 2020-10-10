@@ -1,0 +1,391 @@
+[Finders-Server]2020/09/23  2020/09/23 23:42:01  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/23  2020/09/23 23:42:01  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/23  2020/09/23 23:42:01  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/23  2020/09/23 23:42:01  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/23  2020/09/23 23:42:01  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/23  2020/09/23 23:42:01  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/23  2020/09/23 23:42:01  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/24  2020/09/24 18:22:40  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/24  2020/09/24 18:22:40  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/24  2020/09/24 18:22:40  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/24  2020/09/24 18:22:40  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/24  2020/09/24 18:22:40  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/24  2020/09/24 18:22:40  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/24  2020/09/24 18:22:40  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/24  2020/09/24 18:23:16  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 61.136.26.3 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/09/24  2020/09/24 18:33:10  ▶ [INFO] | status = 404 | exec = 97ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/09/24  2020/09/24 18:34:07  ▶ [INFO] | status = 404 | exec = 113ns | clientIP = 111.33.78.6 | method = GET | URI = /api/v1/ |
+[Finders-Server]2020/09/24  2020/09/24 18:34:19  ▶ [INFO] | status = 404 | exec = 83ns | clientIP = 111.33.78.6 | method = GET | URI = /user/login |
+[Finders-Server]2020/09/24  2020/09/24 18:34:33  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = GET | URI = /user/update_profile |
+[Finders-Server]2020/09/24  2020/09/24 18:34:46  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = GET | URI = /admin |
+[Finders-Server]2020/09/24  2020/09/24 18:34:48  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = GET | URI = /admin |
+[Finders-Server]2020/09/24  2020/09/24 18:35:30  ▶ [INFO] | status = 404 | exec = 97ns | clientIP = 111.33.78.6 | method = GET | URI = /admin |
+[Finders-Server]2020/09/26  2020/09/26 13:15:37  ▶ [INFO] | status = 404 | exec = 90ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/09/26  2020/09/26 16:45:08  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/09/26  2020/09/26 16:46:11  ▶ [INFO] | status = 404 | exec = 115ns | clientIP = 111.33.78.6 | method = GET | URI = /user/get_denylist |
+[Finders-Server]2020/09/26  2020/09/26 16:46:31  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 111.33.78.6 | method = GET | URI = /user/get_denylist |
+[Finders-Server]2020/09/26  2020/09/26 16:47:05  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = GET | URI = /user/get_denylist |
+[Finders-Server]2020/09/26  2020/09/26 16:49:28  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |
+[Finders-Server]2020/09/26  2020/09/26 16:49:50  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = GET | URI = /user/login |
+[Finders-Server]2020/09/26  2020/09/26 16:50:38  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = GET | URI = /user/login |
+[Finders-Server]2020/09/26  2020/09/26 16:51:32  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |
+[Finders-Server]2020/09/26  2020/09/26 16:53:19  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |
+[Finders-Server]2020/09/26  2020/09/26 16:54:08  ▶ [INFO] | status = 404 | exec = 95ns | clientIP = 111.33.78.6 | method = GET | URI = /admin/login |
+[Finders-Server]2020/09/26  2020/09/26 16:55:00  ▶ [INFO] | status = 404 | exec = 159ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login?userName%20%7C%20phone=111&password%20%7C%20code=111 |
+[Finders-Server]2020/09/26  2020/09/26 17:01:29  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:01:42  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:04:28  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = POST | URI = /user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:06:08  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 61.136.26.26 | method = POST | URI = /user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:06:41  ▶ [INFO] | status = 200 | exec = 6.878076ms | clientIP = 61.136.26.26 | method = POST | URI = /api/v1/user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:10:31  ▶ [INFO] | status = 404 | exec = 96ns | clientIP = 111.33.78.6 | method = POST | URI = /api/v1//user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:11:02  ▶ [DEBUG] invalid character '-' in numeric literal
+[Finders-Server]2020/09/26  2020/09/26 17:11:02  ▶ [INFO] | status = 200 | exec = 229.798µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:11:17  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = GET | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/26  2020/09/26 17:12:14  ▶ [DEBUG] invalid character '-' in numeric literal
+[Finders-Server]2020/09/26  2020/09/26 17:12:14  ▶ [INFO] | status = 200 | exec = 101.261µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:13:34  ▶ [DEBUG] invalid character '-' in numeric literal
+[Finders-Server]2020/09/26  2020/09/26 17:13:34  ▶ [INFO] | status = 200 | exec = 103.438µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:16:36  ▶ [INFO] | status = 200 | exec = 5.470601ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |
+[Finders-Server]2020/09/26  2020/09/26 17:23:39  ▶ [INFO] | status = 200 | exec = 37.434µs | clientIP = 111.33.78.6 | method = GET | URI = /api/v1/user/get_denylist |
+[Finders-Server]2020/09/26  2020/09/26 17:24:45  ▶ [INFO] | status = 200 | exec = 3.980954ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/user/login |
+[Finders-Server]2020/09/27  2020/09/27 09:15:07  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/27  2020/09/27 09:15:07  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/27  2020/09/27 09:15:07  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/27  2020/09/27 09:15:07  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/27  2020/09/27 09:15:07  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/27  2020/09/27 09:15:07  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/27  2020/09/27 09:15:07  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/27  2020/09/27 09:15:35  ▶ [INFO] | status = 404 | exec = 130ns | clientIP = 61.136.26.9 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/09/27  2020/09/27 09:18:04  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/27  2020/09/27 09:18:04  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/27  2020/09/27 09:18:04  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/27  2020/09/27 09:18:04  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/27  2020/09/27 09:18:04  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/27  2020/09/27 09:18:04  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/27  2020/09/27 09:18:04  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/27  2020/09/27 09:19:00  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/27  2020/09/27 09:19:00  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/27  2020/09/27 09:19:00  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/27  2020/09/27 09:19:00  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/27  2020/09/27 09:19:00  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/27  2020/09/27 09:19:00  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/27  2020/09/27 09:19:00  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/27  2020/09/27 09:21:29  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/27  2020/09/27 09:21:29  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/27  2020/09/27 09:21:29  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/27  2020/09/27 09:21:29  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/27  2020/09/27 09:21:29  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/27  2020/09/27 09:21:29  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/27  2020/09/27 09:21:29  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/27  2020/09/27 09:22:14  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/27  2020/09/27 09:22:14  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/27  2020/09/27 09:22:14  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/27  2020/09/27 09:22:14  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/27  2020/09/27 09:22:14  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/27  2020/09/27 09:22:14  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/27  2020/09/27 09:22:14  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/27  2020/09/27 09:24:04  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/27  2020/09/27 09:24:04  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/27  2020/09/27 09:24:04  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/27  2020/09/27 09:24:04  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/27  2020/09/27 09:24:04  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/27  2020/09/27 09:24:04  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/27  2020/09/27 09:24:04  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/27  2020/09/27 09:24:07  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 61.136.26.9 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/09/27  2020/09/27 09:30:24  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/27  2020/09/27 09:30:24  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/27  2020/09/27 09:30:24  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/27  2020/09/27 09:30:24  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/27  2020/09/27 09:30:24  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/27  2020/09/27 09:30:24  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/27  2020/09/27 09:30:24  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/27  2020/09/27 10:38:33  ▶ [INFO] | status = 200 | exec = 1.302487ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 10:47:33  ▶ [INFO] | status = 200 | exec = 726.711µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 10:47:41  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin |
+[Finders-Server]2020/09/27  2020/09/27 10:47:53  ▶ [INFO] | status = 200 | exec = 8.489087ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 10:48:10  ▶ [INFO] | status = 200 | exec = 703.327µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 10:53:00  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 111.33.78.6 | method = OPTIONS | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 10:53:02  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = OPTIONS | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 10:53:30  ▶ [INFO] | status = 404 | exec = 124ns | clientIP = 111.33.78.6 | method = GET | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 10:53:30  ▶ [INFO] | status = 404 | exec = 92ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/09/27  2020/09/27 12:02:23  ▶ [INFO] | status = 404 | exec = 123ns | clientIP = 111.33.78.6 | method = OPTIONS | URI = /admin/login |
+[Finders-Server]2020/09/27  2020/09/27 12:02:43  ▶ [INFO] | status = 404 | exec = 131ns | clientIP = 111.33.78.6 | method = OPTIONS | URI = /api/vi/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 12:25:04  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 12:29:29  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 12:30:33  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 12:30:57  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 12:34:26  ▶ [INFO] | status = 404 | exec = 85ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 12:36:20  ▶ [INFO] | status = 404 | exec = 109ns | clientIP = 111.33.78.6 | method = POST | URI = /admin/login |
+[Finders-Server]2020/09/27  2020/09/27 12:57:46  ▶ [INFO] | status = 404 | exec = 97ns | clientIP = 111.33.78.6 | method = POST | URI = /admin/login |
+[Finders-Server]2020/09/27  2020/09/27 12:58:39  ▶ [INFO] | status = 404 | exec = 119ns | clientIP = 111.33.78.6 | method = POST | URI = /admin/login |
+[Finders-Server]2020/09/27  2020/09/27 13:00:31  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 13:04:30  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi |
+[Finders-Server]2020/09/27  2020/09/27 13:04:39  ▶ [INFO] | status = 200 | exec = 760.257µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 13:05:37  ▶ [INFO] | status = 404 | exec = 135ns | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login/api |
+[Finders-Server]2020/09/27  2020/09/27 13:08:12  ▶ [INFO] | status = 404 | exec = 116ns | clientIP = 111.33.78.6 | method = POST | URI = /api/vi/admin/login |
+[Finders-Server]2020/09/27  2020/09/27 13:13:44  ▶ [INFO] | status = 200 | exec = 695.798µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/09/29  2020/09/29 10:39:41  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 10:39:41  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 10:39:41  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 10:39:41  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 10:39:41  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/29  2020/09/29 10:39:41  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/29  2020/09/29 10:39:41  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/29  2020/09/29 10:40:03  ▶ [INFO] | status = 404 | exec = 105ns | clientIP = 61.136.26.91 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 10:42:31  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 10:42:31  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 10:42:31  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 10:42:31  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 10:43:56  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 10:43:56  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 10:43:56  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 10:43:56  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 10:43:56  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/29  2020/09/29 10:43:56  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/29  2020/09/29 10:43:56  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/29  2020/09/29 10:44:01  ▶ [INFO] | status = 200 | exec = 2.843464ms | clientIP = 61.136.26.91 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 11:13:33  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:13:33  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:13:33  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:13:33  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 11:13:33  ▶ [DEBUG] sql: transaction has already been committed or rolled back
+[Finders-Server]2020/09/29  2020/09/29 11:16:14  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:16:14  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:16:14  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:16:14  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 11:18:27  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:18:27  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:18:27  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:18:27  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 11:19:14  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:19:14  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:19:14  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:19:14  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 11:20:32  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:20:32  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:20:32  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:20:32  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 11:21:01  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:21:01  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:21:01  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:21:01  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 11:21:21  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:21:21  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:21:21  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:21:21  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 11:21:58  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:21:58  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:21:58  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:21:59  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 11:23:44  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:23:44  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:23:44  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:23:44  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 11:24:21  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 11:24:21  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 11:24:21  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 11:24:21  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:27:05  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:27:05  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:27:05  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:27:05  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:30:35  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:30:35  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:30:35  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:30:35  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:33:06  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:33:06  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:33:06  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:33:07  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:38:17  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:38:17  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:38:17  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:38:17  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:38:32  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:38:32  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:38:32  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:38:32  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:48:26  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:48:26  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:48:26  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:48:26  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:50:14  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:50:14  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:50:14  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:50:14  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:50:49  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:50:49  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:50:49  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:50:49  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:51:06  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:51:06  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:51:06  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:51:06  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 12:51:55  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 12:51:55  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 12:51:55  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 12:51:55  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 13:29:41  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 13:29:41  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 13:29:41  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 13:29:41  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 13:30:04  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 13:30:04  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 13:30:04  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 13:30:04  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 13:30:04  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/29  2020/09/29 13:30:04  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/29  2020/09/29 13:30:04  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/29  2020/09/29 15:39:58  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 15:39:58  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 15:39:58  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 15:39:58  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 15:42:16  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 15:42:16  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 15:42:16  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 15:42:16  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 15:43:43  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 15:43:43  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 15:43:43  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 15:43:43  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 15:44:47  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 15:44:47  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 15:44:47  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 15:44:47  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 15:44:47  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/29  2020/09/29 15:44:47  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/29  2020/09/29 15:44:47  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/29  2020/09/29 15:45:04  ▶ [INFO] | status = 200 | exec = 2.125888ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 15:45:34  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 15:45:34  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 15:45:34  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 15:45:34  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 15:45:34  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/29  2020/09/29 15:45:34  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/29  2020/09/29 15:45:34  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/29  2020/09/29 15:47:16  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 15:47:16  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 15:47:16  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 15:47:16  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 15:47:16  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/29  2020/09/29 15:47:16  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/29  2020/09/29 15:47:16  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/29  2020/09/29 15:48:03  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 15:48:03  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 15:48:03  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 15:48:03  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 15:48:03  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/29  2020/09/29 15:48:03  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/29  2020/09/29 15:48:03  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/29  2020/09/29 15:50:53  ▶ [INFO] | status = 200 | exec = 2.446746ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 15:50:55  ▶ [INFO] | status = 200 | exec = 1.661256ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 15:50:55  ▶ [INFO] | status = 200 | exec = 1.87128ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 15:51:01  ▶ [INFO] | status = 200 | exec = 1.873899ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 15:59:59  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 15:59:59  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 15:59:59  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 15:59:59  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 15:59:59  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/29  2020/09/29 15:59:59  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/29  2020/09/29 15:59:59  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/29  2020/09/29 16:00:01  ▶ [INFO] | status = 200 | exec = 2.263841ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 16:00:02  ▶ [INFO] | status = 200 | exec = 1.805981ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 16:00:03  ▶ [INFO] | status = 200 | exec = 1.826966ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 16:00:05  ▶ [INFO] | status = 200 | exec = 2.083673ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 16:00:05  ▶ [INFO] | status = 200 | exec = 1.854721ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 16:00:06  ▶ [INFO] | status = 200 | exec = 1.916224ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 16:00:07  ▶ [INFO] | status = 200 | exec = 1.877367ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 16:00:07  ▶ [INFO] | status = 200 | exec = 1.876972ms | clientIP = 61.136.26.10 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/09/29  2020/09/29 16:01:09  ▶ [DEBUG] Core init
+[Finders-Server]2020/09/29  2020/09/29 16:01:09  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/09/29  2020/09/29 16:01:09  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/09/29  2020/09/29 16:01:09  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/09/29  2020/09/29 16:01:09  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/09/29  2020/09/29 16:01:09  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/09/29  2020/09/29 16:01:09  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/09/30  2020/09/30 06:22:49  ▶ [INFO] | status = 200 | exec = 99ns | clientIP = 101.133.135.162 | method = OPTIONS | URI = / |
+[Finders-Server]2020/09/30  2020/09/30 06:23:08  ▶ [INFO] | status = 404 | exec = 90ns | clientIP = 101.133.135.162 | method = GET | URI = /nice%20ports%2C/Tri%6Eity.txt%2ebak |
+[Finders-Server]2020/09/30  2020/09/30 06:23:43  ▶ [INFO] | status = 404 | exec = 99ns | clientIP = 101.133.135.162 | method = POST | URI = /sdk |
+[Finders-Server]2020/09/30  2020/09/30 06:23:43  ▶ [INFO] | status = 404 | exec = 111ns | clientIP = 101.133.135.162 | method = GET | URI = /nmaplowercheck1601418223 |
+[Finders-Server]2020/09/30  2020/09/30 06:23:43  ▶ [INFO] | status = 404 | exec = 136ns | clientIP = 101.133.135.162 | method = GET | URI = /evox/about |
+[Finders-Server]2020/09/30  2020/09/30 06:23:43  ▶ [INFO] | status = 404 | exec = 98ns | clientIP = 101.133.135.162 | method = GET | URI = /HNAP1 |
+[Finders-Server]2020/10/01  2020/10/01 11:05:27  ▶ [INFO] | status = 404 | exec = 94ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/10/01  2020/10/01 11:18:25  ▶ [INFO] | status = 200 | exec = 222.243µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/10/01  2020/10/01 11:20:58  ▶ [INFO] | status = 404 | exec = 94ns | clientIP = 111.33.78.6 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/10/01  2020/10/01 11:22:11  ▶ [INFO] | status = 200 | exec = 4.060684ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/10/01  2020/10/01 11:22:41  ▶ [INFO] | status = 200 | exec = 142.307µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/10/01  2020/10/01 11:22:54  ▶ [INFO] | status = 200 | exec = 3.631069ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/10/01  2020/10/01 11:24:13  ▶ [INFO] | status = 200 | exec = 127.273µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/10/01  2020/10/01 11:30:15  ▶ [INFO] | status = 200 | exec = 739.04µs | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/10/01  2020/10/01 11:30:37  ▶ [INFO] | status = 200 | exec = 3.156168ms | clientIP = 111.33.78.6 | method = POST | URI = /api/v1/admin/login |
+[Finders-Server]2020/10/02  2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 91ns | clientIP = 47.116.131.196 | method = GET | URI = /explicit_not_exist_path |
+[Finders-Server]2020/10/02  2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 98ns | clientIP = 47.116.131.196 | method = GET | URI = /index.html |
+[Finders-Server]2020/10/02  2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 47.116.131.196 | method = GET | URI = /index.php |
+[Finders-Server]2020/10/02  2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 99ns | clientIP = 47.116.131.196 | method = GET | URI = /index.jsp |
+[Finders-Server]2020/10/02  2020/10/02 15:31:41  ▶ [INFO] | status = 404 | exec = 94ns | clientIP = 47.116.131.196 | method = GET | URI = /admin/ |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 107ns | clientIP = 47.116.131.196 | method = GET | URI = /favicon.ico |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 90ns | clientIP = 47.116.131.196 | method = GET | URI = /robots.txt |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 96ns | clientIP = 47.116.131.196 | method = GET | URI = /404.html |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 86ns | clientIP = 47.116.131.196 | method = GET | URI = /500.html |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 134ns | clientIP = 47.116.131.196 | method = GET | URI = /stylesheets/application.css |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 137ns | clientIP = 47.116.131.196 | method = GET | URI = /r/cms/www/red/img/prompt.jpg |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 98ns | clientIP = 47.116.131.196 | method = GET | URI = /r/cms/www/red/style/swiper.min.js |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 47.116.131.196 | method = GET | URI = /v2/keys |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 88ns | clientIP = 47.116.131.196 | method = GET | URI = /query |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 87ns | clientIP = 47.116.131.196 | method = GET | URI = /wcm/ |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 80ns | clientIP = 47.116.131.196 | method = GET | URI = /phpMyAdmin/ |
+[Finders-Server]2020/10/02  2020/10/02 15:31:42  ▶ [INFO] | status = 404 | exec = 89ns | clientIP = 47.116.131.196 | method = GET | URI = /phpmyadmin/ |
+[Finders-Server]2020/10/07  2020/10/07 07:04:46  ▶ [INFO] | status = 200 | exec = 100ns | clientIP = 101.133.224.19 | method = OPTIONS | URI = / |
+[Finders-Server]2020/10/07  2020/10/07 07:05:13  ▶ [INFO] | status = 404 | exec = 92ns | clientIP = 101.133.224.19 | method = GET | URI = /nice%20ports%2C/Tri%6Eity.txt%2ebak |
+[Finders-Server]2020/10/07  2020/10/07 07:10:35  ▶ [INFO] | status = 404 | exec = 95ns | clientIP = 101.133.224.19 | method = GET | URI = /nmaplowercheck1602025835 |
+[Finders-Server]2020/10/07  2020/10/07 07:10:35  ▶ [INFO] | status = 404 | exec = 96ns | clientIP = 101.133.224.19 | method = GET | URI = /evox/about |
+[Finders-Server]2020/10/07  2020/10/07 07:10:36  ▶ [INFO] | status = 404 | exec = 126ns | clientIP = 101.133.224.19 | method = GET | URI = /HNAP1 |
+[Finders-Server]2020/10/07  2020/10/07 07:10:37  ▶ [INFO] | status = 404 | exec = 119ns | clientIP = 101.133.224.19 | method = POST | URI = /sdk |
+[Finders-Server]2020/10/07  2020/10/07 09:46:25  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/07  2020/10/07 09:46:25  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/07  2020/10/07 09:46:25  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/10/07  2020/10/07 09:46:25  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/10/07  2020/10/07 09:46:25  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/10/07  2020/10/07 09:46:25  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/10/07  2020/10/07 09:46:25  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/10/07  2020/10/07 09:46:25  ▶ [ERROR] listen tcp :8660: bind: address already in use
+[Finders-Server]2020/10/07  2020/10/07 09:46:40  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/07  2020/10/07 09:46:40  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/07  2020/10/07 09:46:40  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/10/07  2020/10/07 09:46:40  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/10/07  2020/10/07 09:46:40  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/10/07  2020/10/07 09:46:40  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/10/07  2020/10/07 09:46:40  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/10/07  2020/10/07 09:47:57  ▶ [INFO] | status = 200 | exec = 1.260504ms | clientIP = 61.136.26.82 | method = GET | URI = /api/v1/recommend/user_info?userId=047c1d49-ed74-4294-8364-78e171f3891f |
+[Finders-Server]2020/10/07  2020/10/07 09:48:25  ▶ [INFO] | status = 200 | exec = 3.504867ms | clientIP = 61.136.26.82 | method = GET | URI = /api/v1/recommend/activity_info?activity_id=1 |
+[Finders-Server]2020/10/07  2020/10/07 09:48:42  ▶ [INFO] | status = 200 | exec = 4.507896ms | clientIP = 61.136.26.82 | method = GET | URI = /api/v1/recommend/activity_info?activity_id=3 |
+[Finders-Server]2020/10/07  2020/10/07 09:49:29  ▶ [INFO] | status = 200 | exec = 2.378499ms | clientIP = 61.136.26.82 | method = GET | URI = /api/v1/recommend/moment_info?moment_id=1 |
+[Finders-Server]2020/10/07  2020/10/07 09:49:57  ▶ [INFO] | status = 200 | exec = 1.968369ms | clientIP = 61.136.26.82 | method = GET | URI = /api/v1/recommend/main |
+[Finders-Server]2020/10/07  2020/10/07 10:02:50  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/07  2020/10/07 10:02:50  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/07  2020/10/07 10:02:50  ▶ [DEBUG] 连接数据库
+[Finders-Server]2020/10/07  2020/10/07 10:02:51  ▶ [DEBUG] Register tables success
+[Finders-Server]2020/10/07  2020/10/07 10:02:51  ▶ [DEBUG] Register Logger middleware
+[Finders-Server]2020/10/07  2020/10/07 10:02:51  ▶ [DEBUG] Register swagger handler
+[Finders-Server]2020/10/07  2020/10/07 10:02:51  ▶ [DEBUG] Finders Serve run success on http://123.56.104.212:8660 
+[Finders-Server]2020/10/08  2020/10/08 11:16:25  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/08  2020/10/08 11:16:25  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/08  2020/10/08 11:16:25  ▶ [CRITIC] MySQl连接异常 ERROR: Error 1045: Access denied for user 'root'@'localhost' (using password: YES)
+[Finders-Server]2020/10/10  2020/10/10 10:32:25  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/10  2020/10/10 10:32:25  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/10  2020/10/10 10:32:25  ▶ [CRITIC] MySQl连接异常 ERROR: Error 1045: Access denied for user 'root'@'localhost' (using password: YES)
+[Finders-Server]2020/10/10  2020/10/10 10:32:53  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/10  2020/10/10 10:32:53  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/10  2020/10/10 10:32:53  ▶ [CRITIC] MySQl连接异常 ERROR: Error 1045: Access denied for user 'root'@'localhost' (using password: YES)
+[Finders-Server]2020/10/10  2020/10/10 10:33:54  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/10  2020/10/10 10:33:54  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/10  2020/10/10 10:33:54  ▶ [CRITIC] MySQl连接异常 ERROR: Error 1045: Access denied for user 'root'@'localhost' (using password: YES)
+[Finders-Server]2020/10/10  2020/10/10 10:34:38  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/10  2020/10/10 10:34:38  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/10  2020/10/10 10:34:38  ▶ [CRITIC] MySQl连接异常 ERROR: Error 1045: Access denied for user 'root'@'localhost' (using password: YES)
+[Finders-Server]2020/10/10  2020/10/10 10:35:15  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/10  2020/10/10 10:35:15  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/10  2020/10/10 10:35:15  ▶ [CRITIC] MySQl连接异常 ERROR: Error 1045: Access denied for user 'root'@'localhost' (using password: YES)
+[Finders-Server]2020/10/10  2020/10/10 10:35:58  ▶ [DEBUG] Core init
+[Finders-Server]2020/10/10  2020/10/10 10:35:58  ▶ [DEBUG] 初始化redis
+[Finders-Server]2020/10/10  2020/10/10 10:35:58  ▶ [CRITIC] MySQl连接异常 ERROR: Error 1045: Access denied for user 'root'@'localhost' (using password: YES)

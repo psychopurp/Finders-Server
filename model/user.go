@@ -184,7 +184,7 @@ func UpdateUserByUser(userID string, user User) (err error) {
 	err = db.Model(&User{}).Where("user_id = ?", userID).Updates(user).Error
 	return
 }
-func GetUsers() (users []*User, err error) {
+func GetUsers()(users []*User, err error){
 	db := global.DB
 	err = db.Model(&User{}).Find(&users).Error
 	return

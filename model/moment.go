@@ -82,7 +82,7 @@ func GetMomentsWithPaginator(pageNum, pageSize int, userID string) (moments []*M
 	return
 }
 
-func GetMoments() (moments []*Moment, err error) {
+func GetMoments()(moments []*Moment, err error){
 	db := global.DB
 	err = db.Model(&Moment{}).Find(&moments).Error
 	return

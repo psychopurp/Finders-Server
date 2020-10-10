@@ -45,7 +45,7 @@ func (a *AffairService) Commit() (err error) {
 	return a.tx.Commit().Error
 }
 
-func (a *AffairService) GetTX() *gorm.DB {
+func (a *AffairService) GetTX() *gorm.DB{
 	return a.tx
 }
 

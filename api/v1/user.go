@@ -6,7 +6,7 @@ import (
 	"finders-server/model/requestForm"
 	"finders-server/model/responseForm"
 	"finders-server/pkg/e"
-	"finders-server/service/userService"
+	"finders-server/service"
 	"finders-server/utils"
 	"finders-server/utils/reg"
 	"github.com/gin-gonic/gin"
@@ -41,7 +41,7 @@ func Login(c *gin.Context) {
 	if form.Check(c) {
 		return
 	}
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		Phone:    form.Phone,
 		UserName: form.UserName,
 		Password: form.Password,
@@ -108,7 +108,7 @@ func UpdateProfile(c *gin.Context) {
 		return
 	}
 	userID = c.GetHeader("user_id")
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: uuid.FromStringOrNil(userID),
 	}
 	err = userStruct.BindUpdateForm(form)
@@ -130,7 +130,7 @@ func GetUserInfo(c *gin.Context) {
 		form   responseForm.SimpleUserInfo
 	)
 	userID = c.Query("userId")
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: uuid.FromStringOrNil(userID),
 	}
 	user, err = userStruct.GetUserByUserID()
@@ -169,7 +169,7 @@ func Follow(c *gin.Context) {
 	if form.Check(c) {
 		return
 	}
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: uuid.FromStringOrNil(userID),
 	}
 	_, err = userStruct.AddRelation(form.UserID, model.FOLLOW)
@@ -201,7 +201,7 @@ func UnFollow(c *gin.Context) {
 	if form.Check(c) {
 		return
 	}
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: uuid.FromStringOrNil(userID),
 	}
 	_, err = userStruct.DeleteRelation(form.UserID, model.FOLLOW)
@@ -233,7 +233,7 @@ func AddDenyList(c *gin.Context) {
 	if form.Check(c) {
 		return
 	}
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: uuid.FromStringOrNil(userID),
 	}
 	_, err = userStruct.AddRelation(form.UserID, model.DENY)
@@ -262,7 +262,7 @@ func RemoveDenyList(c *gin.Context) {
 	if utils.FailOnError(e.INFO_ERROR, err, c) {
 		return
 	}
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: uuid.FromStringOrNil(userID),
 	}
 	_, err = userStruct.DeleteRelation(form.UserID, model.DENY)
@@ -286,12 +286,12 @@ func GetDenyList(c *gin.Context) {
 		simpleUserInfos []responseForm.SimpleUserInfo
 	)
 	userID = c.GetHeader("user_id")
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: uuid.FromStringOrNil(userID),
 	}
 
 	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(fromUser.UserID, model.DENY, userService.FROM)
-	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.DENY, userService.FROM)
+	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.DENY, service.FROM)
 	if utils.FailOnError("", err, c) {
 		return
 	}
@@ -305,12 +305,12 @@ func GetFollowList(c *gin.Context) {
 		simpleUserInfos []responseForm.SimpleUserInfo
 	)
 	userID = c.GetHeader("user_id")
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: uuid.FromStringOrNil(userID),
 	}
 
 	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(fromUser.UserID, model.DENY, userService.FROM)
-	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, userService.FROM)
+	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, service.FROM)
 	if utils.FailOnError("", err, c) {
 		return
 	}
@@ -338,11 +338,11 @@ func GetFans(c *gin.Context) {
 		return
 	}
 	userUUID = uuid.FromStringOrNil(userID)
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: userUUID,
 	}
 	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(userUUID, model.FOLLOW, userService.TO)
-	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, userService.TO)
+	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, service.TO)
 	if utils.FailOnError("", err, c) {
 		return
 	}
@@ -370,11 +370,11 @@ func GetFollow(c *gin.Context) {
 		return
 	}
 	userUUID = uuid.FromStringOrNil(userID)
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: userUUID,
 	}
 	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(userUUID, model.FOLLOW, userService.FROM)
-	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, userService.FROM)
+	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, service.FROM)
 	if utils.FailOnError("", err, c) {
 		return
 	}
@@ -394,7 +394,7 @@ func CheckFollow(c *gin.Context) {
 		return
 	}
 	myUUID = uuid.FromStringOrNil(myID)
-	userStruct := userService.UserStruct{
+	userStruct := service.UserStruct{
 		UserID: myUUID,
 	}
 	flag := userStruct.CheckExistRelation(userID, model.FOLLOW)

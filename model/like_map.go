@@ -65,6 +65,7 @@ func (a *LikeMap) Validate(action Action) error {
 const (
 	LikeActivity = baseIndex + iota
 	LikeMoment
+	LikeQuestionBox
 )
 
 func ExistLikeMap(objectID, userID string, objectType int) bool {

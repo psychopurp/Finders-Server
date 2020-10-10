@@ -4,7 +4,7 @@ import (
 	"finders-server/global/response"
 	"finders-server/model/requestForm"
 	"finders-server/pkg/e"
-	"finders-server/service/adminService"
+	"finders-server/service"
 	"finders-server/utils"
 	"finders-server/utils/reg"
 	"github.com/gin-gonic/gin"
@@ -25,7 +25,7 @@ func AdminLogin(c *gin.Context) {
 	if form.Check(c) {
 		return
 	}
-	adminStruct := adminService.AdminStruct{
+	adminStruct := service.AdminStruct{
 		AdminName:     form.UserName,
 		AdminPassword: form.Password,
 		AdminPhone:    form.Phone,
@@ -82,7 +82,7 @@ func UpdateAdminProfile(c *gin.Context) {
 		return
 	}
 	adminID := c.GetHeader("admin_id")
-	adminStruct := adminService.AdminStruct{
+	adminStruct := service.AdminStruct{
 		AdminID: adminID,
 	}
 	err = adminStruct.BindUpdateForm(form)

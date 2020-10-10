@@ -7,8 +7,7 @@ import (
 	"finders-server/model/requestForm"
 	"finders-server/model/responseForm"
 	"finders-server/pkg/e"
-	"finders-server/service/baseService"
-	"finders-server/service/momentService"
+	"finders-server/service"
 	"finders-server/utils"
 	"github.com/gin-gonic/gin"
 )
@@ -37,7 +36,7 @@ func CreateMoment(c *gin.Context) {
 		return
 	}
 	mediaIDs = mediaIDs[:len(mediaIDs)-1]
-	momentStruct := momentService.MomentStruct{
+	momentStruct := service.MomentStruct{
 		MomentInfo: form.MomentInfo,
 		MediaIDs:   mediaIDs,
 		Location:   form.Location,
@@ -72,16 +71,16 @@ func GetUserMoments(c *gin.Context) {
 		return
 	}
 	pageNum, page = utils.GetPage(c)
-	momentStruct := momentService.MomentStruct{
+	momentStruct := service.MomentStruct{
 		UserID: userID,
-		Base: baseService.Base{
+		Base: service.Base{
 			PageNum:  pageNum,
 			PageSize: global.CONFIG.AppSetting.PageSize,
 			Page:     page,
 			Affair:   nil,
 		},
 	}
-	base := baseService.Base{}
+	base := service.Base{}
 	if base.AffairInit(c) {
 		return
 	}
@@ -108,7 +107,7 @@ func GetMoment(c *gin.Context) {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
-	momentStruct := momentService.MomentStruct{
+	momentStruct := service.MomentStruct{
 		MomentID: momentID,
 	}
 	form, err = momentStruct.GetMomentResponseForm()
@@ -132,7 +131,7 @@ func LikeMoment(c *gin.Context) {
 	if form.Check(c) {
 		return
 	}
-	momentStruct := momentService.MomentStruct{
+	momentStruct := service.MomentStruct{
 		MomentID: form.MomentID,
 		UserID:   userID,
 	}

@@ -89,7 +89,10 @@ func getLogFormatter(c config.LogConfig, stdOutWriter bool) oplogging.Formatter 
 
 }
 
-func getFileBackend(c config.LogConfig) oplogging.LeveledBackend {
+
+
+
+func  getFileBackend(c config.LogConfig) oplogging.LeveledBackend {
 	//判断是否存在该文件夹
 	if err := os.MkdirAll(logDir, 0777); err != nil {
 		panic(err)
@@ -109,7 +112,8 @@ func getFileBackend(c config.LogConfig) oplogging.LeveledBackend {
 	return backend
 }
 
-func getLogBackend(c config.LogConfig, out io.Writer, level int) oplogging.LeveledBackend {
+
+func  getLogBackend(c config.LogConfig, out io.Writer, level int) oplogging.LeveledBackend {
 	pattern := defaultFormatter
 	pattern = strings.Replace(pattern, "%{color:bold}", "", -1)
 	pattern = strings.Replace(pattern, "%{color:reset}", "", -1)

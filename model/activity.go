@@ -129,7 +129,7 @@ func GetActivityByID(activityID string) (activity Activity, err error) {
 	return
 }
 
-func GetActivities() (activities []*Activity, err error) {
+func GetActivities()(activities []*Activity, err error){
 	db := global.DB
 	err = db.Model(&Activity{}).Find(&activities).Error
 	return

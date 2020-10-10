@@ -47,7 +47,14 @@ func (t *TagMap) Validate(action Action) error {
 
 const (
 	TagActivityType = baseIndex + iota
+	TagQuestionBoxType
 )
+
+func (a *AffairService) AddTagMap(tagMap *TagMap) (err error) {
+	db := a.tx
+	err = db.Model(&TagMap{}).Create(tagMap).Error
+	return
+}
 
 func GetTagsIDOnTagMap(itemID string, itemType int) (tagIDs []int, err error) {
 	db := global.DB

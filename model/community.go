@@ -45,6 +45,7 @@ type Community struct {
 	CommunityDescription string `gorm:"column:community_description;type:TEXT;size:65535;" json:"community_description"` //[ 4] community_description                          TEXT[65535]          null: true   primary: false  auto: false
 	CommunityStatus      int    `gorm:"column:community_status;type:INT;" json:"community_status"`                       //[ 5] community_status                               INT                  null: false  primary: false  auto: false
 	Background           string `gorm:"column:background;type:varchar(200);" json:"background"`                          //[ 7] background                                     VARCHAR[200]         null: true   primary: false  auto: false
+	CommunityAvatar      string `gorm:"column:community_avatar;type:varchar(200);" json:"background"`                    //[ 7] background                                     VARCHAR[200]         null: true   primary: false  auto: false
 	TimeModel
 }
 
@@ -99,17 +100,12 @@ func GetCommunityStatusByString(status string) (int, bool) {
 	return value, ok
 }
 
-func AddCommunityByMap(data map[string]interface{}) (community Community, err error) {
+func AddCommunityByMap(data *Community) (community Community, err error) {
 	db := global.DB
-	community = Community{
-		CommunityCreator:     data["community_creator"].(string),
-		CommunityName:        data["community_name"].(string),
-		CommunityDescription: data["community_description"].(string),
-		CommunityStatus:      CommunityWaitForCheck,
-		Background:           data["background"].(string),
-	}
-	err = db.Create(&community).Error
-	return
+
+	data.CommunityStatus = CommunityWaitForCheck
+	err = db.Create(&data).Error
+	return *data, err
 }
 
 func ExistCommunityByMap(data map[string]interface{}) bool {

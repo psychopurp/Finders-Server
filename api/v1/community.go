@@ -7,8 +7,7 @@ import (
 	"finders-server/model/requestForm"
 	"finders-server/model/responseForm"
 	"finders-server/pkg/e"
-	"finders-server/service/collectionService"
-	"finders-server/service/communityService"
+	"finders-server/service"
 	"finders-server/utils"
 	"github.com/gin-gonic/gin"
 	"gopkg.in/go-playground/validator.v9"
@@ -40,11 +39,12 @@ func CreateCommunity(c *gin.Context) {
 	// 经过了jwt中间件将user_id 存在了header里 将user_id取出
 	userID := c.GetHeader("user_id")
 	// 构建结构体 传入数据 通过  service结构体提供的函数来完成操作
-	communityStruct := communityService.CommunityStruct{
+	communityStruct := service.CommunityStruct{
 		CommunityCreator:     userID,
 		CommunityName:        form.CommunityName,
 		CommunityDescription: form.CommunityName,
 		Background:           form.Background,
+		CommunityAvatar:      form.CommunityAvatar,
 	}
 	// 若重复操作则直接返回
 	if communityStruct.Exist() {
@@ -96,11 +96,12 @@ func UpdateCommunityProfile(c *gin.Context) {
 		return
 	}
 	// 创建结构体
-	communityStruct := communityService.CommunityStruct{
+	communityStruct := service.CommunityStruct{
 		CommunityID:          form.CommunityID,
 		CommunityName:        form.CommunityName,
 		CommunityDescription: form.CommunityDescription,
 		Background:           form.Background,
+		CommunityAvatar:      form.CommunityAvatar,
 	}
 	// 检查是否存在 若不存在则错误
 	ok, err = communityStruct.ExistByID()
@@ -144,7 +145,7 @@ func CollectCommunity(c *gin.Context) {
 	}
 	// 获取中间件设置的user_id
 	userID := c.GetHeader("user_id")
-	collectionStruct := collectionService.CollectionStruct{
+	collectionStruct := service.CollectionStruct{
 		UserID:         userID,
 		Link:           strconv.Itoa(form.CommunityID),
 		CollectionType: model.CollectionCommunity,
@@ -181,7 +182,7 @@ func UnCollectCommunity(c *gin.Context) {
 		return
 	}
 	userID := c.GetHeader("user_id")
-	collectionStruct := collectionService.CollectionStruct{
+	collectionStruct := service.CollectionStruct{
 		UserID: userID,
 		Link:   strconv.Itoa(form.CommunityID),
 	}
@@ -213,7 +214,7 @@ func GetCollectCommunity(c *gin.Context) {
 	if tmpID != "" {
 		userID = tmpID
 	}
-	collectionStruct := collectionService.CollectionStruct{
+	collectionStruct := service.CollectionStruct{
 		CollectionType: model.CollectionCommunity,
 		UserID:         userID,
 		PageNum:        pageNum,
