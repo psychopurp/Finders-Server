@@ -76,3 +76,15 @@ func ExistQuestionBoxByInfo(info string) bool {
 	}
 	return true
 }
+
+func (a *AffairService) AddLikeNum(questionBoxID int) (err error) {
+	db := a.tx
+	var questionBox QuestionBox
+	err = db.Debug().Model(&QuestionBox{}).Where("question_box_id = ?", questionBoxID).First(&questionBox).Error
+	if err != nil {
+		return
+	}
+	questionBox.LikeNum += 1
+	err = db.Model(&questionBox).Update("like_num", questionBox.LikeNum).Error
+	return
+}

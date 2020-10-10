@@ -4,7 +4,7 @@ import (
 	"finders-server/global/response"
 	"finders-server/model"
 	"finders-server/pkg/e"
-	"finders-server/utils/st"
+	"finders-server/st"
 	"github.com/gin-gonic/gin"
 )
 
@@ -62,7 +62,7 @@ func (b *Base) AffairRollback() {
 func (b *Base) AffairFinished(context *gin.Context) bool {
 	err := b.Affair.Commit()
 	if err != nil {
-		st.Debug(err)
+		st.DebugWithFuncName(err)
 		response.FailWithMsg(e.MYSQL_ERROR, context)
 		return true
 	}

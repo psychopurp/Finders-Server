@@ -3,6 +3,7 @@ package service
 import (
 	"finders-server/model"
 	"finders-server/pkg/e"
+	"finders-server/st"
 	"fmt"
 	"strconv"
 )
@@ -41,10 +42,19 @@ func (q *QuestionBoxStruct) CheckExistQuestionInfo() bool {
 	return model.ExistQuestionBoxByInfo(q.QuestionBoxInfo)
 }
 
-
-func (q *QuestionBoxStruct)AddLike()(err error){
-	if model.ExistLikeMap(strconv.Itoa(q.QuestionBoxID), q.UserID, model.LikeQuestionBox){
+func (q *QuestionBoxStruct) AddLike() (err error) {
+	if model.ExistLikeMap(strconv.Itoa(q.QuestionBoxID), q.UserID, model.LikeQuestionBox) {
 		return fmt.Errorf(e.REPEAT_SUBMIT)
 	}
-	return nil
+	err = q.Affair.AddLikeMap(strconv.Itoa(q.QuestionBoxID), q.UserID, model.LikeQuestionBox)
+	if err != nil {
+		st.DebugWithFuncName(err)
+		return
+	}
+	err = q.Affair.AddLikeNum(q.QuestionBoxID)
+	if err != nil {
+		st.DebugWithFuncName(err)
+		return
+	}
+	return
 }

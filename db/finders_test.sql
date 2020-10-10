@@ -217,9 +217,9 @@ CREATE TABLE `relations` (
                              `relation_group` varchar(20) NOT NULL COMMENT '关系组名',
                              `from_uid` varchar(50) NOT NULL COMMENT '用户ID',
                              `to_uid` varchar(50) NOT NULL COMMENT '被关注用户ID',
-                             `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '关系建立时间',
-                             `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '关系更新时间',
-                             `deleted_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
+                                   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                   `deleted_at` datetime DEFAULT NULL COMMENT '删除时间',
                              PRIMARY KEY (`relation_id`),
                              UNIQUE KEY `unique_user_user` (`from_uid`,`to_uid`) USING BTREE
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;
@@ -232,9 +232,9 @@ CREATE TABLE `tag_map` (
                            `item_id` varchar(100) NOT NULL,
                            `item_type` int DEFAULT NULL,
                            `tag_id` int NOT NULL,
-                           `created_at` datetime DEFAULT NULL,
-                           `updated_at` datetime DEFAULT NULL,
-                           `deleted_at` datetime DEFAULT NULL,
+                                   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                   `deleted_at` datetime DEFAULT NULL COMMENT '删除时间',
                            PRIMARY KEY (`item_id`,`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -246,9 +246,9 @@ CREATE TABLE `tags` (
                         `tag_id` int NOT NULL AUTO_INCREMENT COMMENT '标签的id',
                         `tag_name` varchar(50) DEFAULT NULL,
                         `tag_type` int DEFAULT NULL,
-                        `created_at` datetime DEFAULT NULL,
-                        `updated_at` datetime DEFAULT NULL,
-                        `deleted_at` datetime DEFAULT NULL,
+                                   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                   `deleted_at` datetime DEFAULT NULL COMMENT '删除时间',
                         PRIMARY KEY (`tag_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -273,12 +273,15 @@ CREATE TABLE `user_infos` (
                               `profession` varchar(60) DEFAULT NULL,
                               `school` varchar(30) DEFAULT NULL,
                               `constellation` varchar(40) DEFAULT NULL,
-                              `created_at` datetime DEFAULT NULL,
-                              `updated_at` datetime DEFAULT NULL,
+
+
                               `credit` int DEFAULT NULL,
                               `user_tag` text,
-                              `deleted_at` datetime DEFAULT NULL,
+
                               `age` int DEFAULT NULL,
+                                   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                   `deleted_at` datetime DEFAULT NULL COMMENT '删除时间',
                               PRIMARY KEY (`user_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
@@ -291,12 +294,14 @@ CREATE TABLE `users` (
                          `phone` varchar(30) DEFAULT NULL,
                          `password` varchar(100) DEFAULT NULL,
                          `nickname` varchar(30) DEFAULT NULL,
-                         `created_at` datetime DEFAULT NULL,
+
                          `status` int DEFAULT NULL,
-                         `deleted_at` datetime DEFAULT NULL,
+
                          `avatar` varchar(100) DEFAULT NULL,
                          `username` varchar(50) DEFAULT NULL,
-                         `updated_at` datetime DEFAULT NULL,
+                                                            `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                   `deleted_at` datetime DEFAULT NULL COMMENT '删除时间',
                          PRIMARY KEY (`user_id`),
                          UNIQUE KEY `unique_phone` (`phone`),
                          UNIQUE KEY `unique_username` (`username`)
@@ -334,9 +339,9 @@ CREATE TABLE `question_box` (
                              `reply_num` int DEFAULT 0 COMMENT '回复次数',
                              `like_num` int DEFAULT 0 COMMENT '喜欢的次数',
                              `tag_names` varchar(5000) NOT NULL COMMENT '关联内容的标签，使用;分割',
-                             `created_at` datetime NOT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '关系建立时间',
-                             `updated_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '关系更新时间',
-                             `deleted_at` datetime DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP COMMENT '删除时间',
+                                   `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP COMMENT '创建时间',
+                                   `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP COMMENT '更新时间',
+                                   `deleted_at` datetime DEFAULT NULL COMMENT '删除时间',
                              PRIMARY KEY (`question_box_id`)
 
 ) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4;

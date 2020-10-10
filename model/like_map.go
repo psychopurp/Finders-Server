@@ -35,12 +35,10 @@ CREATE TABLE `activity_likes` (
 
 // ActivityLike struct is a row record of the activity_likes table in the employees database
 type LikeMap struct {
-	ID int `gorm:"column:id;type:INT;primary_key" json:"id"` //[ 2] id                                             INT                  null: false  primary: true   auto: false
-	//ActivityID string `gorm:"column:activity_id;type:varchar(50);" json:"activity_id"` //[ 0] activity_id                                    VARCHAR[30]          null: false  primary: false  auto: false
-	ObjectID   string `gorm:"column:activity_id;type:varchar(50);" json:"object_id"` //[ 0] activity_id                                    VARCHAR[30]          null: false  primary: false  auto: false
+	ID         int    `gorm:"column:id;type:INT;primary_key" json:"id"`            //[ 2] id                                             INT                  null: false  primary: true   auto: false
+	ObjectID   string `gorm:"column:object_id;type:varchar(50);" json:"object_id"` //[ 0] activity_id                                    VARCHAR[30]          null: false  primary: false  auto: false
 	ObjectType int    `gorm:"column:object_type;type:int;" json:"object_type"`
 	UserID     string `gorm:"column:user_id;type:varchar(50);" json:"user_id"` //[ 1] user_id                                        VARCHAR[30]          null: false  primary: false  auto: false
-	//CreatedAt  time.Time `gorm:"column:created_at;type:DATETIME;" json:"created_at"`          //[ 3] created_at                                     DATETIME             null: false  primary: false  auto: false
 	TimeModel
 }
 
@@ -83,6 +81,17 @@ func AddLikeMap(objectID, userID string, objectType int) (likeMap LikeMap, err e
 		UserID:     userID,
 	}
 	err = db.Create(&likeMap).Error
+	return
+}
+
+func (a *AffairService) AddLikeMap(objectID, userID string, objectType int) (err error) {
+	db := a.tx
+	likeMap := &LikeMap{
+		ObjectID:   objectID,
+		ObjectType: objectType,
+		UserID:     userID,
+	}
+	err = db.Model(&LikeMap{}).Create(likeMap).Error
 	return
 }
 

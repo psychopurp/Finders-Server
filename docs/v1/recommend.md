@@ -36,6 +36,9 @@ return:
 ```json
 url: /recommend/user_info
 method: GET
+queryparam:{
+    userId: str,
+}
 data:
 {
 }
