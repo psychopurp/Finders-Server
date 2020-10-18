@@ -2,11 +2,13 @@ package initialize
 
 import (
 	"finders-server/global"
+	"finders-server/st"
 	"github.com/gomodule/redigo/redis"
 	"time"
 )
 
 func Redis() error {
+	st.Debug("address", global.CONFIG.Redis.Addr)
 	global.RedisConn = &redis.Pool{
 		MaxIdle:     global.CONFIG.Redis.MaxIdle,
 		MaxActive:   global.CONFIG.Redis.MaxActive,

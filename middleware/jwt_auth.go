@@ -3,7 +3,9 @@ package middleware
 import (
 	"finders-server/global/response"
 	"finders-server/model"
+	"finders-server/pkg/cache"
 	"finders-server/pkg/e"
+	"finders-server/st"
 	"finders-server/utils"
 	"fmt"
 	"github.com/gin-gonic/gin"
@@ -44,7 +46,15 @@ func JWT() gin.HandlerFunc {
 			c.Abort()
 			return
 		}
-		user, err = model.GetUserByUserID(jwtClaims.UserID)
+		cacheSrv := cache.NewUserCacheService()
+		user, err = cacheSrv.GetUserByUserId(jwtClaims.UserID)
+		if err != nil {
+			user, err = model.GetUserByUserID(jwtClaims.UserID)
+			err = cacheSrv.SetUserByUserId(user)
+			if err != nil {
+				st.Debug("jwt set cache error", err)
+			}
+		}
 		if err != nil {
 			response.FailWithMsg(e.MYSQL_ERROR, c)
 			c.Abort()

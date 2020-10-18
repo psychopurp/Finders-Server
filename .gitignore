@@ -1,2 +1,5 @@
 db.yml
 .idea
+/runtime
+/log
+configServer.yaml

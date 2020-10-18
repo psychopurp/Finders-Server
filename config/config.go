@@ -8,7 +8,7 @@ type Server struct {
 
 	System     SystemConfig `mapstructure:"system" yaml:"system"`
 	MySQL      MySQLConfig  `mapstructure:"mysql" yaml:"mysql"`
-	Redis      RedisConfig  `mapstructure:"gredis" yaml:"gredis"`
+	Redis      RedisConfig  `mapstructure:"redis" yaml:"redis"`
 	Log        LogConfig    `mapstructure:"log" yaml:"log"`
 	SQLite     SQLiteConfig `mapstructure:"sqlite" yaml:"sqlite"`
 	JWT        JWTConfig    `yaml:"jwt"`
