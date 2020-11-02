@@ -65,7 +65,7 @@ func GetUserMoments(c *gin.Context) {
 		userID        string
 		pageNum, page int
 	)
-	userID = c.Query("userId")
+	userID = c.Query("user_id")
 	if userID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return

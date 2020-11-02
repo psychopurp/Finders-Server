@@ -13,6 +13,6 @@ func InitCommunityRouter(Router *gin.RouterGroup) {
 		CommunityRouter.POST("update_profile", middleware.JWT(), v1.UpdateCommunityProfile)
 		CommunityRouter.POST("collect", middleware.JWT(), v1.CollectCommunity)
 		CommunityRouter.POST("uncollect", middleware.JWT(), v1.UnCollectCommunity)
-		CommunityRouter.GET("get_collect", middleware.JWT(), v1.GetCollectCommunity)
+		CommunityRouter.GET("get_collect", middleware.JWT(), v1.GetCollectCommunity) // 查看收藏的圈子列表
 	}
 }

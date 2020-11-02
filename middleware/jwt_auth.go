@@ -3,8 +3,8 @@ package middleware
 import (
 	"finders-server/global/response"
 	"finders-server/model"
-	"finders-server/pkg/cache"
 	"finders-server/pkg/e"
+	"finders-server/service/cache"
 	"finders-server/st"
 	"finders-server/utils"
 	"fmt"

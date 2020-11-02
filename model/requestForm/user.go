@@ -71,7 +71,7 @@ func (u *UserUpdateForm) Check(c *gin.Context) bool {
 }
 
 type ToUserForm struct {
-	UserID string `json:"userID" validate:"omitempty,gte=1,lte=50"`
+	UserID string `json:"user_id" validate:"omitempty,gte=1,lte=50"`
 }
 
 func (f *ToUserForm) Check(c *gin.Context) bool {

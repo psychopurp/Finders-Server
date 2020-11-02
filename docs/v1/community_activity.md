@@ -87,7 +87,7 @@ return:
 
 默认page为1，第一页
 
-# 改动
+改动
 
 ```json
 url: /activity/get_activities
@@ -235,7 +235,7 @@ header:{
     token:str
 }
 queryparam:{
-    userID: str // 获取自己的就不要填 获取别人的就要填
+    user_id: str // 获取自己的就不要填 获取别人的就要填
     page: str
 }
 data:
@@ -696,7 +696,7 @@ return:
 url: /moment/get_user_moments
 method: GET
 queryparam:{
-    userId: str
+    user_id: str
     page: str
 }
 data:

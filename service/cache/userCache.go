@@ -3,7 +3,7 @@ package cache
 import (
 	"encoding/json"
 	"finders-server/model"
-	"finders-server/service/gredis"
+	gredis2 "finders-server/pkg/gredis"
 	"finders-server/st"
 	"fmt"
 	"strings"
@@ -27,14 +27,9 @@ func (s *UserCacheService)GetUserByUserId(userId string)(user model.User, err er
 	var(
 		data []byte
 	)
-	keyBase := s.GetUserCacheKey()
-	keys := []string{
-		keyBase,
-		userId,
-	}
-	key := strings.Join(keys, SEP)
-	if gredis.Exists(key){
-		data, err = gredis.Get(key)
+	key := getCacheKey(s.GetUserCacheKey(), userId)
+	if gredis2.Exists(key){
+		data, err = gredis2.Get(key)
 		if err != nil {
 			st.Debug("user cache error", err)
 			return
@@ -53,6 +48,6 @@ func (s *UserCacheService)SetUserByUserId(user model.User)(err error){
 		user.UserID.String(),
 	}
 	key := strings.Join(keys, SEP)
-	err = gredis.Set(key, user, 3600)
+	err = gredis2.Set(key, user, 3600)
 	return
 }

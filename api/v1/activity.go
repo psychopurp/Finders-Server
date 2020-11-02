@@ -15,6 +15,7 @@ import (
 	"gopkg.in/go-playground/validator.v9"
 )
 
+// 获取一个圈子的帖子
 func GetActivities(c *gin.Context) {
 	var (
 		err         error
@@ -43,17 +44,19 @@ func GetActivities(c *gin.Context) {
 	response.OkWithData(form, c)
 }
 
+// 获取用户发布的帖子
 func GetUserActivities(c *gin.Context) {
 	var (
 		err         error
-		communityID int
+		//communityID int
 		pageNum     int
 		page        int
 		form        responseForm.ActivitiesResponseForm
 	)
 	// 获取社区id
 	//communityID = com.StrTo(c.Query("community_id")).MustInt()
-	userID := c.Query("userID")
+	//userID := c.Query("userID")
+	userID := c.Query("user_id")
 	if userID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
@@ -62,7 +65,7 @@ func GetUserActivities(c *gin.Context) {
 	pageNum, page = utils.GetPage(c)
 	activityStruct := service.ActivityStruct{
 		UserID:      userID,
-		CommunityID: communityID,
+		//CommunityID: communityID,
 		PageNum:     pageNum,
 		PageSize:    global.CONFIG.AppSetting.PageSize,
 		Page:        page,
@@ -85,7 +88,7 @@ func AddActivity(c *gin.Context) {
 		activity model.Activity
 		mediaIDs string
 	)
-	err = c.BindJSON(&form)
+	err = c.ShouldBind(&form)
 	if err != nil {
 		err = utils.GetErrorAndLog(e.INFO_ERROR, err, "AddActivity1")
 		response.FailWithMsg(err.Error(), c)

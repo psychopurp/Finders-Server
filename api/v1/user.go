@@ -7,6 +7,7 @@ import (
 	"finders-server/model/responseForm"
 	"finders-server/pkg/e"
 	"finders-server/service"
+	"finders-server/service/cache"
 	"finders-server/utils"
 	"finders-server/utils/reg"
 	"github.com/gin-gonic/gin"
@@ -17,6 +18,29 @@ import (
 用户相关接口
 */
 
+func GetPhoneCode(c *gin.Context) {
+	type PhoneCodeForm struct {
+		Phone string `json:"phone"`
+	}
+	var (
+		err  error
+		form PhoneCodeForm
+		code string
+	)
+	err = c.ShouldBind(&form)
+	if err != nil || form.Phone == "" {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	cacheSrv := cache.NewPhoneCacheService()
+	code, err = cacheSrv.GetPhoneCode(form.Phone)
+	if err != nil {
+		response.FailWithMsg(err.Error(), c)
+		return
+	}
+	response.OkWithData(code, c)
+}
+
 // @Summary 登录或注册
 // @Description 登录或注册
 // @Tags 登录或注册
@@ -25,8 +49,7 @@ import (
 // @Param data body userService.loginByUserNameOrPhone true "手机号 可选择手机号和验证码登录 或用户名和密码"
 // @Success 200 {string} string "success: {"code": 0, data:"", "msg": "", token: "token"}; failure: {"code": -1, data:"", "msg": "error msg", token: ""}"
 // @Router /v1/user/login [post]
-
-func Login(c *gin.Context) {
+func LoginAndRegister(c *gin.Context) {
 	var (
 		err   error
 		token string
@@ -63,6 +86,11 @@ func Login(c *gin.Context) {
 		// 检验手机号码正确性
 		if !reg.Phone(form.Phone) {
 			response.FailWithMsg(e.INFO_ERROR, c)
+			return
+		}
+		cacheSrv := cache.NewPhoneCacheService()
+		if !cacheSrv.ValidatePhoneCode(form.Phone, form.Code) {
+			response.FailWithMsg(e.PHONE_CODE_ERROR, c)
 			return
 		}
 		// 检测是否存在用户已经使用该手机号注册 假设目前已经通过短信验证
@@ -129,7 +157,7 @@ func GetUserInfo(c *gin.Context) {
 		user   model.User
 		form   responseForm.SimpleUserInfo
 	)
-	userID = c.Query("userId")
+	userID = c.Query("user_id")
 	userStruct := service.UserStruct{
 		UserID: uuid.FromStringOrNil(userID),
 	}
@@ -332,7 +360,7 @@ func GetFans(c *gin.Context) {
 		userUUID        uuid.UUID
 		simpleUserInfos []responseForm.SimpleUserInfo
 	)
-	userID = c.Query("userId")
+	userID = c.Query("user_id")
 	if userID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
@@ -388,7 +416,7 @@ func CheckFollow(c *gin.Context) {
 		myUUID uuid.UUID
 	)
 	myID = c.GetHeader("user_id")
-	userID = c.Query("userId")
+	userID = c.Query("user_id")
 	if userID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return

@@ -68,7 +68,7 @@ header:{
 }
 data:
 {
-    userId: str
+    user_id: str
 }
 return:
 {
@@ -90,7 +90,7 @@ header:{
 }
 queryparam:
 {
-    userId: str
+    user_id: str
 }
 return:
 {
@@ -157,7 +157,7 @@ return:
 url: /user/get_fans  |  /user/get_follow
 method: GET
 queryparam:{
-    userId: str
+    user_id: str
 }
 return:
 {

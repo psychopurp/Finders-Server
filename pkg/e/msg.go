@@ -23,6 +23,7 @@ const (
 	PERMISSION_DENY                      = "no permission"
 	REPEAT_SUBMIT                        = "repeat submit"
 	INFO_NOT_EXIST                       = "info not exist or id error"
+	PHONE_CODE_ERROR                     = "phone code error"
 )
 
 var msgFlags = map[int]string{

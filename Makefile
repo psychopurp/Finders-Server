@@ -26,3 +26,7 @@ product:build
 
 out:
 	echo "${RUNTIME_ROOT}  ${RUNTIME_CONF_ROOT} ${RUNTIME_LOG_ROOT}"
+
+app:
+	go build main.go
+	nohup ./main &

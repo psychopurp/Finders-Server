@@ -13,6 +13,7 @@ type Server struct {
 	SQLite     SQLiteConfig `mapstructure:"sqlite" yaml:"sqlite"`
 	JWT        JWTConfig    `yaml:"jwt"`
 	AppSetting AppConfig    `mapstructure:"appconfig" yaml:"appconfig"`
+	SMSConfig  SMSConfig    `mapstructure:"sms" yaml:"sms"`
 }
 type SystemConfig struct {
 	Env  string
@@ -69,4 +70,11 @@ type AppConfig struct {
 	VideoAllowExts  []string `mapstructure:"videoallowexts" yaml:"videoallowexts"`
 	RuntimeRootPath string   `mapstructure:"runtimerootpath" yaml:"runtimerootpath"`
 	PageSize        int      `mapstructure:"pagesize" yaml:"pagesize"`
+}
+
+type SMSConfig struct {
+	AccessKey string `mapstructure:"accesskey" yaml:"accesskey"`
+	Secret    string `mapstructure:"secret" yaml:"secret"`
+	SignName  string `mapstructure:"signname" yaml:"signname"`
+	TemplateCode  string `mapstructure:"templatecode" yaml:"templatecode"`
 }
