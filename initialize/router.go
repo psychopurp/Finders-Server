@@ -7,7 +7,6 @@ package initialize
 import (
 	_ "finders-server/docs"
 	"finders-server/global"
-	"finders-server/global/response"
 	"finders-server/middleware"
 	"finders-server/router"
 	"finders-server/service/upload"
@@ -24,9 +23,10 @@ func Routers() *gin.Engine {
 	//加载静态资源
 	Router.StaticFS("upload/images", http.Dir(upload.GetImageFullPath()))
 	Router.StaticFS("upload/videos", http.Dir(upload.GetVideoFullPath()))
-	Router.LoadHTMLGlob("resource/*.html")
+	// Router.LoadHTMLGlob("resource/*.html")
 	Router.GET("", func(c *gin.Context) {
-		c.HTML(200, "index.html", nil)
+		c.Header("Content-Type", "text/html;charset=utf-8")
+		c.String(200, "<h1>Hello World</h1>")
 	})
 
 	Router.Use(middleware.Logger())
@@ -45,16 +45,4 @@ func Routers() *gin.Engine {
 	router.InitActivityRouter(APIGroup)
 	return Router
 
-}
-
-// @获取指定ID记录
-// @Description get record by ID
-// @Accept  json
-// @Produce json
-// @Param   some_id     path    int     true        "userId"
-// @Success 200 {string} string "{"code": 0 ,"data":{} ,"msg":""}"
-// @Router /hello [get]
-func record(c *gin.Context) {
-	// response.Result(response.SUCCESS, []string{"elyar", "ablimit"}, "it is ok", c)
-	response.OK(c)
 }

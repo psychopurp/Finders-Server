@@ -28,5 +28,5 @@ yarn-error.log*
 output
 *_product.yaml
 docker-compose.yml
-
+log/
 site
