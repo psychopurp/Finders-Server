@@ -145,6 +145,18 @@ func GetRelations(fromUID uuid.UUID, relationType int) (relations []Relation, er
 	return
 }
 
+func GetRelationTotalByData(data map[string]interface{}) (cnt int, err error) {
+	db := global.DB
+	if data["relation_type"] != "" && relationGroupByIndex[data["relation_type"].(int)] == "" {
+		return 0, errors.New(e.TYPE_ERROR)
+	}
+	if data["relation_group"] != "" {
+		delete(data, "relation_group")
+	}
+	err = db.Model(&Relation{}).Where(data).Count(&cnt).Error
+	return
+}
+
 func GetRelationsByData(data map[string]interface{}) (relations []Relation, err error) {
 	db := global.DB
 	if data["relation_type"] != "" && relationGroupByIndex[data["relation_type"].(int)] == "" {
@@ -154,6 +166,12 @@ func GetRelationsByData(data map[string]interface{}) (relations []Relation, err 
 		delete(data, "relation_group")
 	}
 	err = db.Model(&Relation{}).Where(data).Find(&relations).Error
+	return
+}
+
+func GetRelationsWithPageByData(data map[string]interface{}, pageNum, pageSize int) (relations []*Relation, err error) {
+	db := global.DB
+	err = db.Model(&Relation{}).Where(data).Offset(pageNum).Limit(pageSize).Find(&relations).Error
 	return
 }
 

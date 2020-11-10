@@ -1,6 +1,7 @@
 package v1
 
 import (
+	"finders-server/global"
 	"finders-server/global/response"
 	"finders-server/model"
 	"finders-server/model/requestForm"
@@ -19,26 +20,142 @@ import (
 */
 
 func GetPhoneCode(c *gin.Context) {
-	type PhoneCodeForm struct {
-		Phone string `json:"phone"`
-	}
 	var (
-		err  error
-		form PhoneCodeForm
-		code string
+		err   error
+		phone string
+		//code string
 	)
-	err = c.ShouldBind(&form)
-	if err != nil || form.Phone == "" {
+	phone = c.Query("phone")
+	if phone == "" {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	// 检验手机号码正确性
+	if !reg.Phone(phone) {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
 	cacheSrv := cache.NewPhoneCacheService()
-	code, err = cacheSrv.GetPhoneCode(form.Phone)
+	_, err = cacheSrv.GetPhoneCode(phone)
 	if err != nil {
 		response.FailWithMsg(err.Error(), c)
 		return
 	}
-	response.OkWithData(code, c)
+	//code = code
+	//response.OkWithData(code, c)
+	response.OkWithData("", c)
+}
+
+func Login(c *gin.Context) {
+	var (
+		err   error
+		form  requestForm.LoginByUserNameOrPhone
+		ok    bool
+		exist bool
+		token string
+	)
+	err = c.ShouldBind(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
+		return
+	}
+	if form.Check(c) {
+		return
+	}
+	userStruct := service.UserStruct{
+		Phone:    form.Phone,
+		UserName: form.UserName,
+		Password: form.Password,
+	}
+	if form.UserName != "" {
+		ok = true
+		// 查看用户名和密码是否正确
+		_, exist = userStruct.ExistUserByUserNameAndPassword()
+		// 若存在则返回用户数据
+		if !exist {
+			response.FailWithMsg(e.USERNAME_NOT_EXIST_OR_PASSWORD_WRONG, c)
+			return
+		}
+	}
+	// 若收到的json中电话号码不为空
+	if form.Phone != "" {
+		ok = true
+		// 检验手机号码正确性
+		if !reg.Phone(form.Phone) {
+			response.FailWithMsg(e.INFO_ERROR, c)
+			return
+		}
+		cacheSrv := cache.NewPhoneCacheService()
+		if !cacheSrv.ValidatePhoneCode(form.Phone, form.Code) {
+			response.FailWithMsg(e.PHONE_CODE_ERROR, c)
+			return
+		}
+		// 检测是否存在用户已经使用该手机号注册
+		_, exist = userStruct.ExistUserByPhone()
+		if !exist {
+			response.FailWithMsg(e.PHONE_CODE_ERROR, c)
+		}
+	}
+	if !ok {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	token, err = userStruct.GetAuth()
+	if utils.FailOnError("", err, c) {
+		return
+	}
+	response.OKWithToken(token, c)
+}
+
+func Register(c *gin.Context) {
+	var (
+		err   error
+		form  requestForm.LoginByUserNameOrPhone
+		exist bool
+		token string
+	)
+
+	err = c.ShouldBind(&form)
+	if utils.FailOnError(e.INFO_ERROR, err, c) {
+		return
+	}
+	if form.Check(c) {
+		return
+	}
+	userStruct := service.UserStruct{
+		Phone: form.Phone,
+	}
+	// 若收到的json中电话号码不为空
+	if form.Phone != "" {
+		// 检验手机号码正确性
+		if !reg.Phone(form.Phone) {
+			response.FailWithMsg(e.INFO_ERROR, c)
+			return
+		}
+		cacheSrv := cache.NewPhoneCacheService()
+		if !cacheSrv.ValidatePhoneCode(form.Phone, form.Code) {
+			response.FailWithMsg(e.PHONE_CODE_ERROR, c)
+			return
+		}
+		// 检测是否存在用户已经使用该手机号注册 假设目前已经通过短信验证
+		_, exist = userStruct.ExistUserByPhone()
+		if !exist {
+			_, err = userStruct.Register()
+			if utils.FailOnError(e.MYSQL_ERROR, err, c) {
+				return
+			}
+		} else {
+			response.FailWithMsg(e.PHONE_HAS_BEEN_REGISTER, c)
+			return
+		}
+	} else {
+		response.FailWithMsg(e.INFO_ERROR, c)
+		return
+	}
+	token, err = userStruct.GetAuth()
+	if utils.FailOnError("", err, c) {
+		return
+	}
+	response.OKWithToken(token, c)
 }
 
 // @Summary 登录或注册
@@ -112,6 +229,31 @@ func LoginAndRegister(c *gin.Context) {
 	}
 	response.OKWithToken(token, c)
 
+}
+
+func BackTest(c *gin.Context) {
+	var (
+		err   error
+		token string
+	)
+	type TMP struct {
+		UserID string `json:"user_id"`
+		Key    string `json:"key"`
+	}
+	var tmp TMP
+	err = c.ShouldBind(&tmp)
+	if err != nil || tmp.Key != "miolyn" {
+		response.Fail(c)
+		return
+	}
+	userStruct := service.UserStruct{
+		UserID: uuid.FromStringOrNil(tmp.UserID),
+	}
+	token, err = userStruct.GetAuth()
+	if utils.FailOnError("", err, c) {
+		return
+	}
+	response.OKWithToken(token, c)
 }
 
 // @Summary 更新用户信息
@@ -309,40 +451,51 @@ func RemoveDenyList(c *gin.Context) {
 // @Router /v1/user/get_denylist [get]
 func GetDenyList(c *gin.Context) {
 	var (
-		err             error
-		userID          string
-		simpleUserInfos []responseForm.SimpleUserInfo
+		err     error
+		userID  string
+		pageNum int
+		page    int
+		form    responseForm.SimpleUserInfoWithPage
 	)
 	userID = c.GetHeader("user_id")
+	pageNum, page = utils.GetPage(c)
 	userStruct := service.UserStruct{
-		UserID: uuid.FromStringOrNil(userID),
+		UserID:   uuid.FromStringOrNil(userID),
+		PageNum:  pageNum,
+		Page:     page,
+		PageSize: global.CONFIG.AppSetting.PageSize,
 	}
 
 	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(fromUser.UserID, model.DENY, userService.FROM)
-	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.DENY, service.FROM)
+	form, err = userStruct.GetSimpleUserInfoListWitPageByUserID(model.DENY, service.FROM)
 	if utils.FailOnError("", err, c) {
 		return
 	}
-	response.OkWithData(simpleUserInfos, c)
+	response.OkWithData(form, c)
 }
 
 func GetFollowList(c *gin.Context) {
 	var (
-		err             error
-		userID          string
-		simpleUserInfos []responseForm.SimpleUserInfo
+		err     error
+		userID  string
+		page    int
+		pageNum int
+		form    responseForm.SimpleUserInfoWithPage
 	)
 	userID = c.GetHeader("user_id")
+	pageNum, page = utils.GetPage(c)
 	userStruct := service.UserStruct{
-		UserID: uuid.FromStringOrNil(userID),
+		UserID:   uuid.FromStringOrNil(userID),
+		PageNum:  pageNum,
+		Page:     page,
+		PageSize: global.CONFIG.AppSetting.PageSize,
 	}
 
-	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(fromUser.UserID, model.DENY, userService.FROM)
-	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, service.FROM)
+	form, err = userStruct.GetSimpleUserInfoListWitPageByUserID(model.FOLLOW, service.FROM)
 	if utils.FailOnError("", err, c) {
 		return
 	}
-	response.OkWithData(simpleUserInfos, c)
+	response.OkWithData(form, c)
 }
 
 // @Summary 获取一个用户的粉丝列表
@@ -355,26 +508,31 @@ func GetFollowList(c *gin.Context) {
 // @Router /v1/user/get_fans [get]
 func GetFans(c *gin.Context) {
 	var (
-		err             error
-		userID          string
-		userUUID        uuid.UUID
-		simpleUserInfos []responseForm.SimpleUserInfo
+		err           error
+		userID        string
+		userUUID      uuid.UUID
+		page, pageNum int
+		form          responseForm.SimpleUserInfoWithPage
 	)
 	userID = c.Query("user_id")
+	pageNum, page = utils.GetPage(c)
 	if userID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
 	userUUID = uuid.FromStringOrNil(userID)
 	userStruct := service.UserStruct{
-		UserID: userUUID,
+		UserID:   userUUID,
+		Page:     page,
+		PageNum:  pageNum,
+		PageSize: global.CONFIG.AppSetting.PageSize,
 	}
 	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(userUUID, model.FOLLOW, userService.TO)
-	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, service.TO)
+	form, err = userStruct.GetSimpleUserInfoListWitPageByUserID(model.FOLLOW, service.TO)
 	if utils.FailOnError("", err, c) {
 		return
 	}
-	response.OkWithData(simpleUserInfos, c)
+	response.OkWithData(form, c)
 }
 
 // @Summary 获取一个用户的关注列表
@@ -387,26 +545,31 @@ func GetFans(c *gin.Context) {
 // @Router /v1/user/get_follow [get]
 func GetFollow(c *gin.Context) {
 	var (
-		err             error
-		userID          string
-		userUUID        uuid.UUID
-		simpleUserInfos []responseForm.SimpleUserInfo
+		err           error
+		userID        string
+		userUUID      uuid.UUID
+		pageNum, page int
+		form          responseForm.SimpleUserInfoWithPage
 	)
 	userID = c.Query("userId")
+	pageNum, page = utils.GetPage(c)
 	if userID == "" {
 		response.FailWithMsg(e.INFO_ERROR, c)
 		return
 	}
 	userUUID = uuid.FromStringOrNil(userID)
 	userStruct := service.UserStruct{
-		UserID: userUUID,
+		UserID:   userUUID,
+		Page:     page,
+		PageNum:  pageNum,
+		PageSize: global.CONFIG.AppSetting.PageSize,
 	}
 	//simpleUserInfos, err = userService.GetSimpleUserInfoListByUserID(userUUID, model.FOLLOW, userService.FROM)
-	simpleUserInfos, err = userStruct.GetSimpleUserInfoListByUserID(model.FOLLOW, service.FROM)
+	form, err = userStruct.GetSimpleUserInfoListWitPageByUserID(model.FOLLOW, service.FROM)
 	if utils.FailOnError("", err, c) {
 		return
 	}
-	response.OkWithData(simpleUserInfos, c)
+	response.OkWithData(form, c)
 }
 
 func CheckFollow(c *gin.Context) {

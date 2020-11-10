@@ -24,6 +24,7 @@ const (
 	REPEAT_SUBMIT                        = "repeat submit"
 	INFO_NOT_EXIST                       = "info not exist or id error"
 	PHONE_CODE_ERROR                     = "phone code error"
+	PHONE_HAS_BEEN_REGISTER              = "phone has been registered"
 )
 
 var msgFlags = map[int]string{
@@ -49,6 +50,7 @@ var msgFlags = map[int]string{
 	PermissionDeny:                  PERMISSION_DENY,
 	RepeatSubmit:                    REPEAT_SUBMIT,
 	InfoNotExist:                    INFO_NOT_EXIST,
+	PhoneHasBeenRegister:            PHONE_HAS_BEEN_REGISTER,
 }
 
 // 获取错误代码对应的中文意思

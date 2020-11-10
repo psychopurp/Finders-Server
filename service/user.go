@@ -8,6 +8,7 @@ import (
 	"finders-server/pkg/e"
 	"finders-server/utils"
 	uuid "github.com/satori/go.uuid"
+	"math"
 	"time"
 )
 
@@ -24,6 +25,10 @@ type UserStruct struct {
 	Avatar   string
 	UserInfo UserInfoStruct
 	UserName string
+
+	PageNum  int
+	PageSize int
+	Page     int
 }
 
 type UserInfoStruct struct {
@@ -54,6 +59,10 @@ func (u *UserStruct) ExistUserByUserNameAndPassword() (user model.User, isExist 
 		u.UserName = user.UserName
 	}
 	return
+}
+
+func (u *UserStruct) GetUserByUserName() (user model.User, err error) {
+	return model.GetUserByUserName(u.UserName)
 }
 
 func (u *UserStruct) ExistUserByPhone() (user model.User, isExist bool) {
@@ -235,13 +244,18 @@ const (
 	TO   = 2
 )
 
-func (u *UserStruct) GetSimpleUserInfoListByUserID(relationType int, loc int) (simpleUserInfo []responseForm.SimpleUserInfo, err error) {
+func (u *UserStruct) GetRelationsWithPageByData(data map[string]interface{}) (relations []*model.Relation, err error) {
+	return model.GetRelationsWithPageByData(data, u.PageNum, u.PageSize)
+}
+
+func (u *UserStruct) GetSimpleUserInfoListWitPageByUserID(relationType, loc int) (form responseForm.SimpleUserInfoWithPage, err error) {
 	var (
-		isExist   bool
-		relations []model.Relation
-		users     []model.User
+		relations []*model.Relation
+		users     []*model.User
+		totalCNT  int
 		//userInfo  model.UserInfo
 	)
+	form.Page = u.Page
 	data := make(map[string]interface{})
 	data["relation_type"] = relationType
 	// 根据粉丝列表还是关注列表选择 userID是属于from还是to
@@ -250,17 +264,17 @@ func (u *UserStruct) GetSimpleUserInfoListByUserID(relationType int, loc int) (s
 	} else {
 		data["to_uid"] = u.UserID.String()
 	}
-	isExist, err = model.ExistRelationByData(data)
+	totalCNT, err = model.GetRelationTotalByData(data)
+	form.TotalCNT = totalCNT
+	if form.TotalCNT == 0 {
+		return
+	}
+	relations, err = u.GetRelationsWithPageByData(data)
 	if err != nil {
 		return
 	}
-	if !isExist {
-		return
-	}
-	relations, err = model.GetRelationsByData(data)
-	if err != nil {
-		return
-	}
+	form.CNT = len(relations)
+	form.TotalPage = int(math.Ceil(float64(totalCNT) / float64(u.PageSize)))
 	var userIDs []string
 	for _, relation := range relations {
 		if loc == FROM {
@@ -271,18 +285,69 @@ func (u *UserStruct) GetSimpleUserInfoListByUserID(relationType int, loc int) (s
 	}
 	users, err = model.GetUsersByUserIDs(userIDs)
 	for _, user := range users {
-		//userInfo, err = model.GetUserInfoByUserID(user.UserID.String())
 		if err != nil {
-			return simpleUserInfo, errors.New(e.MYSQL_ERROR)
+			return form, errors.New(e.MYSQL_ERROR)
 		}
-		simpleUserInfo = append(simpleUserInfo, responseForm.SimpleUserInfo{
-			UserId:   user.UserID.String(),
-			Avatar:   user.Avatar,
-			NickName: user.Nickname,
-			//Introduction: userInfo.Introduction,
+		form.SimpleUserInfos = append(form.SimpleUserInfos, responseForm.SimpleUserInfo{
+			UserId:       user.UserID.String(),
+			Avatar:       user.Avatar,
+			NickName:     user.Nickname,
 			Introduction: user.UserInfo.Introduction,
 			Signature:    user.UserInfo.Signature,
 		})
 	}
 	return
+
 }
+
+//func (u *UserStruct) GetSimpleUserInfoListByUserID(relationType int, loc int) (simpleUserInfo []responseForm.SimpleUserInfo, err error) {
+//	var (
+//		isExist   bool
+//		relations []model.Relation
+//		users     []model.User
+//		//userInfo  model.UserInfo
+//	)
+//	data := make(map[string]interface{})
+//	data["relation_type"] = relationType
+//	// 根据粉丝列表还是关注列表选择 userID是属于from还是to
+//	if loc == FROM {
+//		data["from_uid"] = u.UserID.String()
+//	} else {
+//		data["to_uid"] = u.UserID.String()
+//	}
+//	isExist, err = model.ExistRelationByData(data)
+//	if err != nil {
+//		return
+//	}
+//	if !isExist {
+//		return
+//	}
+//	relations, err = model.GetRelationsByData(data)
+//	if err != nil {
+//		return
+//	}
+//	var userIDs []string
+//	for _, relation := range relations {
+//		if loc == FROM {
+//			userIDs = append(userIDs, relation.ToUID.String())
+//		} else {
+//			userIDs = append(userIDs, relation.FromUID.String())
+//		}
+//	}
+//	users, err = model.GetUsersByUserIDs(userIDs)
+//	for _, user := range users {
+//		//userInfo, err = model.GetUserInfoByUserID(user.UserID.String())
+//		if err != nil {
+//			return simpleUserInfo, errors.New(e.MYSQL_ERROR)
+//		}
+//		simpleUserInfo = append(simpleUserInfo, responseForm.SimpleUserInfo{
+//			UserId:   user.UserID.String(),
+//			Avatar:   user.Avatar,
+//			NickName: user.Nickname,
+//			//Introduction: userInfo.Introduction,
+//			Introduction: user.UserInfo.Introduction,
+//			Signature:    user.UserInfo.Signature,
+//		})
+//	}
+//	return
+//}

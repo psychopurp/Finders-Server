@@ -36,4 +36,6 @@ const (
 	OperatingError
 	NotLogin
 	ServerError
+
+	PhoneHasBeenRegister
 )

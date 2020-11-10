@@ -45,7 +45,7 @@ func CreateMoment(c *gin.Context) {
 	if momentStruct.AffairInit(c) {
 		return
 	}
-	momentStruct.AffairBegin()()
+	defer momentStruct.AffairBegin()()
 	moment, err = momentStruct.Add()
 	if momentStruct.AffairRollbackIfError(err, c) {
 		return
@@ -84,7 +84,7 @@ func GetUserMoments(c *gin.Context) {
 	if base.AffairInit(c) {
 		return
 	}
-	base.AffairBegin()()
+	defer base.AffairBegin()()
 	momentStruct.AffairInitWithAffair(base.Affair)
 	form, err = momentStruct.GetUserMomentsResponseForm()
 	if base.AffairRollbackIfError(err, c) {

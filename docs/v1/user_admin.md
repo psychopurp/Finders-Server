@@ -15,6 +15,30 @@
 > - 添加和移除黑名单
 > - 查看黑名单列表
 
+#### 获取手机验证码
+
+```json
+// 使用用户名+密码或者手机号+验证码等方式登陆
+// 如果手机号不存在则注册
+url: /user/code
+method: GET
+data:
+{
+}
+return:
+    {
+        "code": "int",
+        "msg": "str",
+        "data": {
+
+        }
+    }
+```
+
+
+
+
+
 #### 用户登陆和注册
 
 ```js
@@ -114,7 +138,7 @@ header:{
 }
 data:
 {
-    userId: str
+    user_id: str
 }
 return:
 {
@@ -127,7 +151,7 @@ return:
 #### 查看黑名单列表
 
 ```js
-url: /user/get_denylist
+url: /user/get_denylist | /user/get_follow_list
 method: GET
 header:{
     token:str
@@ -135,19 +159,22 @@ header:{
 queryparam:{}
 return:
 {
-    code: int
-    msg: str
-    data: [
-        {
-            userId: str,
-            avatar: str,
-            nickName: str,
-            introduction: str
-        },
-        {
-            //...
-        }
-    ]
+    "code": "int",
+    "msg": "str",
+    "data": {
+        "total_cnt": "int",
+        "total_page": "int",
+        "cnt": "int",
+        "page": "int",
+        "simple_user_infos": [
+            {
+                "user_id": "str",
+                "avatar": "str",
+                "nickname": "str",
+                "introduction": "str"
+            }
+    	]
+    }
 }
 ```
 
@@ -161,20 +188,22 @@ queryparam:{
 }
 return:
 {
-    code: int
-    msg: str
-    data: [
-        {
-            userId: str,
-            avatar: str,
-            nickName: str,
-            introduction: str，
-            signature: str,
-        },
-        {
-            //...
-        }
-    ]
+    "code": "int",
+    "msg": "str",
+    "data": {
+        "total_cnt": "int",
+        "total_page": "int",
+        "cnt": "int",
+        "page": "int",
+        "simple_user_infos": [
+            {
+                "user_id": "str",
+                "avatar": "str",
+                "nickname": "str",
+                "introduction": "str"
+            }
+    	]
+    }
 }
 ```
 

@@ -165,7 +165,7 @@ func GetUserByUserID(userID string) (user User, err error) {
 	return
 }
 
-func GetUsersByUserIDs(userIDs []string) (users []User, err error) {
+func GetUsersByUserIDs(userIDs []string) (users []*User, err error) {
 	db := global.DB
 	//err = db.Where("user_id IN (?)", userIDs).Find(&users).Error
 	err = db.Preload("UserInfo").Where("user_id IN (?)", userIDs).Find(&users).Error
@@ -184,7 +184,7 @@ func UpdateUserByUser(userID string, user User) (err error) {
 	err = db.Model(&User{}).Where("user_id = ?", userID).Updates(user).Error
 	return
 }
-func GetUsers()(users []*User, err error){
+func GetUsers() (users []*User, err error) {
 	db := global.DB
 	err = db.Model(&User{}).Find(&users).Error
 	return

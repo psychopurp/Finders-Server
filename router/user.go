@@ -11,8 +11,9 @@ func InitUserRouter(Router *gin.RouterGroup) {
 
 	UserRouter := Router.Group("user")
 	{
-		UserRouter.POST("code", v1.GetPhoneCode)                                // 获取短信验证码
+		UserRouter.GET("code", v1.GetPhoneCode)                                 // 获取短信验证码
 		UserRouter.POST("login", v1.LoginAndRegister)                           // 登陆
+		UserRouter.POST("test", v1.BackTest)                                    // 直接登陆
 		UserRouter.POST("update_profile", middleware.JWT(), v1.UpdateProfile)   // 用户信息更新
 		UserRouter.GET("user_info", middleware.JWT(), v1.GetUserInfo)           // 获取用户信息
 		UserRouter.POST("follow", middleware.JWT(), v1.Follow)                  // 关注用户

@@ -43,7 +43,7 @@ func CreateQuestionBox(c *gin.Context) {
 		response.FailWithMsg(e.REPEAT_SUBMIT, c)
 		return
 	}
-	base.AffairBegin()()
+	defer base.AffairBegin()()
 	tagStruct := service.TagStruct{}
 	tagStruct.AffairInitWithAffair(base.Affair)
 	tagIDs, err = tagStruct.AddQuestionBoxTagByName(form.TagNames)
@@ -86,7 +86,7 @@ func LikeQuestionBox(c *gin.Context) {
 	if base.AffairInit(c) {
 		return
 	}
-	base.AffairBegin()()
+	defer base.AffairBegin()()
 	questionBoxStruct := service.QuestionBoxStruct{
 		QuestionBoxID: form.QuestionBoxID,
 		UserID:        userID,
